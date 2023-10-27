@@ -3,6 +3,8 @@ import path from 'node:path'
 import { CommitController } from '../controllers/CommitController'
 import { StatusController } from '../controllers/StatusController'
 import { createIPCHandlers } from './utils'
+import { generateMenu } from './menu'
+
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -28,6 +30,8 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
   })
+
+  Menu.setApplicationMenu(generateMenu(win))
 
   createIPCHandlers(CommitController)
   createIPCHandlers(StatusController)

@@ -23,3 +23,30 @@ export function createIPCHandlers(functions: IController) {
     }
   }
 }
+
+export function openFolderDialog(win: BrowserWindow) {
+  dialog
+    .showOpenDialog(win, {
+      properties: ['openDirectory'],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const selectedDirectory = result.filePaths[0]
+
+        const gitPath = join(selectedDirectory, '.git')
+        if (existsSync(gitPath)) {
+          // .git directory exists
+          console.log('Selected Directory has a .git directory:', gitPath)
+        } else {
+          // .git directory does not exist
+          console.log(
+            'Selected Directory does not have a .git directory:',
+            selectedDirectory,
+          )
+        }
+      }
+    })
+    .catch((err) => {
+      console.error('Error opening folder dialog:', err)
+    })
+}
