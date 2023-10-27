@@ -7,6 +7,31 @@ TODO
 ## Funkce
 TODO
 
+## Instalace (dev)
+
+1. Nejprve si zkopírujte tento repozitář na svůj počítač.
+
+```bash
+git clone https://github.com/mifka01/ITU23.git
+```
+2. Nainstalujte závislosti projektu
+```bash
+cd ITU23 && npm install
+```
+3. Spusťte aplikaci.
+```bash
+npm run dev
+```
+
+## Distribuce
+
+Pro vytvoření distribučního balíčku aplikace můžete použít příkaz:
+```bash
+npm run build
+```
+Výsledný build aplikace se bude nacházet v `/releases`
+
+
 ## Autoři
 | Jméno            | Login    | Github                                |
 | ---------------- | -------- | --------------------------------------|
@@ -15,4 +40,5 @@ TODO
 | Michal Zapletal  | xzaple41 | [@Kheneon](https://github.com/Kheneon)|
 
 ## Licence
-Tento program je poskytován pod licencí [MIT License](https://github.com/mifka01/ITU23/blob/main/LICENSE)
+
+Tento projekt je licencován pod MIT licencí. Podrobnosti najdete v souboru [LICENSE](LICENSE)
