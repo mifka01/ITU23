@@ -25,13 +25,24 @@
             "@/*": [
                 "src/*"
             ],
-            "Components/*": [
-                "./src/Components/*"
+            "components/*": [
+                "./src/components/*"
+            ],
+            "models/*": [
+                "./src/models/*"
+            ],
+            "interfaces/*": [
+                "./src/interfaces/*"
+            ],
+            "controllers/*": [
+                "./src/controllers/*"
+            ],
+            "utils": [
+                "./src/electron/utils"
             ]
         },
         "include": [
-            "src",
-            "electron"
+            "src"
         ],
         "references": [
             {
