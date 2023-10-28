@@ -15,4 +15,8 @@ export const git = {
   status(data: string) {
     return ipcRenderer.invoke('status', data)
   },
+
+  cwd() {
+    return ipcRenderer.invoke('cwd')
+  },
 }

@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu } from 'electron'
 import path from 'node:path'
 import { CommitController } from '../controllers/CommitController'
 import { StatusController } from '../controllers/StatusController'
+import { GitController } from '../controllers/GitController'
 import { createIPCHandlers } from './utils'
 import { generateMenu } from './menu'
 
@@ -34,6 +35,7 @@ function createWindow() {
   Menu.setApplicationMenu(generateMenu(win))
 
   createIPCHandlers(CommitController)
+  createIPCHandlers(GitController)
   createIPCHandlers(StatusController)
 
   if (VITE_DEV_SERVER_URL) {

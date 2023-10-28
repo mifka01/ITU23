@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react'
 
 // Icons:
-import { Plus, Minus, RefreshCw } from 'lucide-react'
+import { FilePlus, FileMinus, RefreshCw, Pencil } from 'lucide-react'
 
 // use window.git to invoke handlers
 // available invokes can be found in src/api/git.ts
@@ -12,29 +12,42 @@ import { Plus, Minus, RefreshCw } from 'lucide-react'
 function App() {
   const [notAdded, setNotAdded] = useState<any[]>([])
   const [deleted, setDeleted] = useState<any[]>([])
+  const [modified, setModified] = useState<any[]>([])
+  const [currentDir, setCurrentDir] = useState<any[]>([])
+
+  // Temporary so my eyes don't hurt
+  document.body.classList.add('bg-dark')
+  document.body.classList.add('text-white')
 
   const fetchData = async () => {
     try {
       const response = await window.git.status()
       const notAddedFiles = response.not_added.map((file: string) => ({
         type: 'success',
-        icon: Plus,
+        icon: FilePlus,
         text: file,
       }))
 
       const deletedFiles = response.deleted.map((file: string) => ({
         type: 'danger',
-        icon: Minus,
+        icon: FileMinus,
         text: file,
       }))
 
+      const modifiedFiles = response.modified.map((file: string) => ({
+        type: 'warning',
+        icon: Pencil,
+        text: file,
+      }))
+
+      const cwd = await window.git.cwd()
+      setCurrentDir(cwd)
       setNotAdded(notAddedFiles)
       setDeleted(deletedFiles)
+      setModified(modifiedFiles)
 
-      console.log('Success `git status` data fetched')
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
+      console.log('Success data fetched')
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -46,16 +59,17 @@ function App() {
   return (
     <>
       <div className='mx-3 mt-3'>
+        <h1>cwd: {currentDir}</h1>
         <div className='col-md-6'>
-          <h1>
+          <h2>
             git status
             <button onClick={fetchData} className='btn btn-sm mx-2'>
-              <RefreshCw />
+              <RefreshCw color='white' />
             </button>
-          </h1>
+          </h2>
         </div>
 
-        <ul className='list-group'>
+        <ul className='list-group col-md-4'>
           {notAdded.map((item, index) => (
             <li
               key={index}
@@ -67,6 +81,16 @@ function App() {
           ))}
 
           {deleted.map((item, index) => (
+            <li
+              key={index}
+              className={`list-group-item list-group-item-${item.type}`}
+            >
+              <item.icon color='black' size={15} />
+              {item.text}
+            </li>
+          ))}
+
+          {modified.map((item, index) => (
             <li
               key={index}
               className={`list-group-item list-group-item-${item.type}`}
