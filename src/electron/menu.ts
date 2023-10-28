@@ -3,7 +3,8 @@
 // @author Radim Mifka (xmifka00)
 // @date October 2023
 import { app, BrowserWindow, Menu } from 'electron'
-import { setCWD } from './utils'
+import { openFolderDialog } from './utils'
+import { git } from '../models/Git'
 
 export const generateMenu = (win: BrowserWindow) => {
   return Menu.buildFromTemplate([
@@ -19,7 +20,15 @@ export const generateMenu = (win: BrowserWindow) => {
         {
           label: 'Open',
           click: () => {
-            setCWD(win)
+
+            openFolderDialog(win)
+              .then((selectedDirectory: string) => {
+                git.setCWD(selectedDirectory)
+                win.reload()
+              })
+              .catch((err) => {
+                console.error('Error opening folder dialog:', err)
+              })
           },
         },
         { type: 'separator' },

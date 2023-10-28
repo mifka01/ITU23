@@ -3,6 +3,7 @@ import path from 'node:path'
 import { CommitController } from '../controllers/CommitController'
 import { StatusController } from '../controllers/StatusController'
 import { GitController } from '../controllers/GitController'
+import { RepositoryController } from '../controllers/RepositoryController'
 import { createIPCHandlers } from './utils'
 import { generateMenu } from './menu'
 
@@ -37,6 +38,7 @@ function createWindow() {
   createIPCHandlers(CommitController)
   createIPCHandlers(GitController)
   createIPCHandlers(StatusController)
+  createIPCHandlers(RepositoryController)
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
