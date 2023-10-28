@@ -4,7 +4,7 @@
 import { simpleGit, SimpleGit, SimpleGitOptions } from 'simple-git'
 
 const options: Partial<SimpleGitOptions> = {
-  baseDir: process.cwd(),
+  baseDir: '',
   binary: 'git',
   maxConcurrentProcesses: 6,
   trimmed: false,
