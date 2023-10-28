@@ -8,15 +8,17 @@
 import { ipcRenderer } from 'electron'
 
 export const git = {
-  commit(data: string) {
-    return ipcRenderer.invoke('commit', data)
+  prefix: 'git',
+
+  commit: (data: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:commit`, data)
   },
 
-  status(data: string) {
-    return ipcRenderer.invoke('status', data)
+  status: (data: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:status`, data)
   },
 
-  cwd() {
-    return ipcRenderer.invoke('cwd')
+  cwd: (): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:cwd`)
   },
 }
