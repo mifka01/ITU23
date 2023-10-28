@@ -3,7 +3,7 @@
 // @author Radim Mifka (xmifka00)
 // @date October 2023
 import { app, BrowserWindow, Menu } from 'electron'
-import { openFolderDialog } from './utils'
+import { setCWD } from './utils'
 
 export const generateMenu = (win: BrowserWindow) => {
   return Menu.buildFromTemplate([
@@ -19,7 +19,7 @@ export const generateMenu = (win: BrowserWindow) => {
         {
           label: 'Open',
           click: () => {
-            openFolderDialog(win)
+            setCWD(win)
           },
         },
         { type: 'separator' },

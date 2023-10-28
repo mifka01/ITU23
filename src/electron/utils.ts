@@ -4,8 +4,7 @@
 // @date October 2023
 import { ipcMain, IpcMainInvokeEvent, BrowserWindow, dialog } from 'electron'
 import { IController } from 'interfaces/IController'
-import { existsSync } from 'fs'
-import { join } from 'path'
+import { git } from '../models/Git'
 
 /**
  * @brief Create IPC handlers for the given functions.
@@ -24,27 +23,31 @@ export function createIPCHandlers(functions: IController) {
   }
 }
 
-export function openFolderDialog(win: BrowserWindow) {
-  dialog
-    .showOpenDialog(win, {
-      properties: ['openDirectory'],
-    })
-    .then((result) => {
-      if (!result.canceled && result.filePaths.length > 0) {
-        const selectedDirectory = result.filePaths[0]
-
-        const gitPath = join(selectedDirectory, '.git')
-        if (existsSync(gitPath)) {
-          // .git directory exists
-          console.log('Selected Directory has a .git directory:', gitPath)
+export function openFolderDialog(win: BrowserWindow): Promise<string> {
+  return new Promise((resolve, reject) => {
+    dialog
+      .showOpenDialog(win, {
+        properties: ['openDirectory'],
+      })
+      .then((result) => {
+        if (!result.canceled && result.filePaths.length > 0) {
+          const selectedDirectory = result.filePaths[0]
+          resolve(selectedDirectory)
         } else {
-          // .git directory does not exist
-          console.log(
-            'Selected Directory does not have a .git directory:',
-            selectedDirectory,
-          )
+          reject(new Error('No folder selected or dialog canceled.'))
         }
-      }
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+export function setCWD(win: BrowserWindow) {
+  openFolderDialog(win)
+    .then((selectedDirectory: string) => {
+      git.setCWD(selectedDirectory)
+      win.reload()
     })
     .catch((err) => {
       console.error('Error opening folder dialog:', err)

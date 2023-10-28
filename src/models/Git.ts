@@ -12,9 +12,20 @@ const options: Partial<SimpleGitOptions> = {
 
 export class Git {
   private git: SimpleGit
+  private options: Partial<SimpleGitOptions>
 
   constructor(options: Partial<SimpleGitOptions>) {
     this.git = simpleGit(options)
+    this.options = options
+  }
+
+  setCWD(directoryPath: string) {
+    this.options.baseDir = directoryPath
+    this.git = simpleGit(this.options)
+  }
+
+  async getCWD() {
+    return this.options.baseDir
   }
 
   clone(repositoryUrl: string, destination: string) {
