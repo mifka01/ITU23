@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 
 // Icons:
 import { FilePlus, FileMinus, RefreshCw, Pencil } from 'lucide-react'
+import RepositorySelector from 'components/RepositorySelector'
 
 // use window.git to invoke handlers
 // available invokes can be found in src/api/git.ts
@@ -58,49 +59,60 @@ function App() {
   // this is overkill and serves just as backend testing component
   return (
     <>
-      <div className='mx-3 mt-3'>
-        <h1>cwd: {currentDir}</h1>
-        <div className='col-md-6'>
-          <h2>
-            git status
-            <button onClick={fetchData} className='btn btn-sm mx-2'>
-              <RefreshCw color='white' />
-            </button>
-          </h2>
+      {currentDir.length === 0 ? (
+        <div className='d-flex justify-content-center align-items-center vh-100'>
+          <RepositorySelector afterSelect={fetchData} />
         </div>
+      ) : (
+        <div className='mx-3 mt-3'>
+          <div className='row'>
+            <h1>cwd: {currentDir}</h1>
+            <div className='col-md-6'>
+              <h2>
+                git status
+                <button onClick={fetchData} className='btn btn-sm mx-2'>
+                  <RefreshCw color='white' />
+                </button>
+              </h2>
+            </div>
 
-        <ul className='list-group col-md-4'>
-          {notAdded.map((item, index) => (
-            <li
-              key={index}
-              className={`list-group-item list-group-item-${item.type}`}
-            >
-              <item.icon color='black' size={15} />
-              {item.text}
-            </li>
-          ))}
+            <div className='col-md-6 d-flex justify-content-end'>
+              <RepositorySelector afterSelect={fetchData} />
+            </div>
+          </div>
+          <ul className='list-group col-md-4'>
+            {notAdded.map((item, index) => (
+              <li
+                key={index}
+                className={`list-group-item list-group-item-${item.type}`}
+              >
+                <item.icon color='black' size={15} />
+                {item.text}
+              </li>
+            ))}
 
-          {deleted.map((item, index) => (
-            <li
-              key={index}
-              className={`list-group-item list-group-item-${item.type}`}
-            >
-              <item.icon color='black' size={15} />
-              {item.text}
-            </li>
-          ))}
+            {deleted.map((item, index) => (
+              <li
+                key={index}
+                className={`list-group-item list-group-item-${item.type}`}
+              >
+                <item.icon color='black' size={15} />
+                {item.text}
+              </li>
+            ))}
 
-          {modified.map((item, index) => (
-            <li
-              key={index}
-              className={`list-group-item list-group-item-${item.type}`}
-            >
-              <item.icon color='black' size={15} />
-              {item.text}
-            </li>
-          ))}
-        </ul>
-      </div>
+            {modified.map((item, index) => (
+              <li
+                key={index}
+                className={`list-group-item list-group-item-${item.type}`}
+              >
+                <item.icon color='black' size={15} />
+                {item.text}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   )
 }
