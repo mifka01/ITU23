@@ -1,3 +1,3 @@
-import PushButton from './PushButton.tsx'
+import PushButton from './PushButton'
 
 export default PushButton

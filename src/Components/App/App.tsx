@@ -64,7 +64,7 @@ function App() {
         <div className="container-fluid">
           <div className="row">
             <div className="col">
-              <PushButton/>
+              <PushButton afterSelect={fetchData}/>
             </div>
           </div>
           <div className='d-flex justify-content-center align-items-center vh-100'>
