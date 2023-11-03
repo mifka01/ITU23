@@ -1,0 +1,14 @@
+@import '../node_modules/bootstrap/scss/functions';
+@import '../node_modules/bootstrap/scss/variables';
+
+$custom-colors: (
+  'ecru': #dcc48e,
+  'beige': #eaefd3,
+  'ashgray': #b3c0a4,
+  'davygray': #505168,
+  'darkpurple': #27233a,
+);
+
+$theme-colors: map_merge($theme-colors, $custom-colors);
+
+@import '../node_modules/bootstrap/scss/bootstrap';

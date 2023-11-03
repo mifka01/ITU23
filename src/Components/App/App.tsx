@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 // Icons:
 import { FilePlus, FileMinus, RefreshCw, Pencil } from 'lucide-react'
 import RepositorySelector from 'components/RepositorySelector'
+import Menu from 'components/Menu'
 
 // use window.git to invoke handlers
 // available invokes can be found in src/api/git.ts
@@ -60,8 +61,12 @@ function App() {
   return (
     <>
       {currentDir.length === 0 ? (
-        <div className='d-flex justify-content-center align-items-center vh-100'>
-          <RepositorySelector afterSelect={fetchData} />
+        <div className='container-fluid'>
+          <Menu />
+
+          <div className='d-flex justify-content-center align-items-center vh-100'>
+            <RepositorySelector afterSelect={fetchData} />
+          </div>
         </div>
       ) : (
         <div className='mx-3 mt-3'>

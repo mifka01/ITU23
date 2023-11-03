@@ -36,6 +36,10 @@ export class Git {
     return this.git.pull()
   }
 
+  push() {
+    return this.git.push()
+  }
+
   async status() {
     return this.git.status()
   }

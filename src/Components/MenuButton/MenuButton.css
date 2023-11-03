@@ -1,0 +1,14 @@
+/* 
+* TODO:
+* Add media queries so its responsive
+* 
+* */
+
+.btn-square {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: 75px !important;
+  height: 75px !important;
+  text-align: center;
+  padding: 0px;
+}
