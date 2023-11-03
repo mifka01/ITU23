@@ -18,6 +18,10 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:status`, data)
   },
 
+  push: (data: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:push`, data)
+  },
+
   cwd: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:cwd`)
   },
