@@ -1,123 +1,53 @@
-// !IMPORTANT
-// JUST FOR TESTING ALL OF THIS SHOULD BE DIVIDED INTO SEPARATE COMPOMENTS
-//
-import { useState, useEffect } from 'react'
-
-// Icons:
-import { FilePlus, FileMinus, RefreshCw, Pencil } from 'lucide-react'
-import RepositorySelector from 'components/RepositorySelector'
 import Menu from 'components/Menu'
 
-// use window.git to invoke handlers
-// available invokes can be found in src/api/git.ts
-
 function App() {
-  const [notAdded, setNotAdded] = useState<any[]>([])
-  const [deleted, setDeleted] = useState<any[]>([])
-  const [modified, setModified] = useState<any[]>([])
-  const [currentDir, setCurrentDir] = useState<any[]>([])
-
-  // Temporary so my eyes don't hurt
-  document.body.classList.add('bg-dark')
+  // dunno about this
+  document.body.classList.add('bg-darkpurple')
   document.body.classList.add('text-white')
 
-  const fetchData = async () => {
-    try {
-      const response = await window.git.status()
-      const notAddedFiles = response.not_added.map((file: string) => ({
-        type: 'success',
-        icon: FilePlus,
-        text: file,
-      }))
-
-      const deletedFiles = response.deleted.map((file: string) => ({
-        type: 'danger',
-        icon: FileMinus,
-        text: file,
-      }))
-
-      const modifiedFiles = response.modified.map((file: string) => ({
-        type: 'warning',
-        icon: Pencil,
-        text: file,
-      }))
-
-      const cwd = await window.git.cwd()
-      setCurrentDir(cwd)
-      setNotAdded(notAddedFiles)
-      setDeleted(deletedFiles)
-      setModified(modifiedFiles)
-
-      console.log('Success data fetched')
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    fetchData() // Fetch data when the component mounts
-  }, [])
-
-  // Components should be simple and single-purpose
-  // this is overkill and serves just as backend testing component
   return (
     <>
-      {currentDir.length === 0 ? (
-        <div className='container-fluid'>
+      <div className='container-fluid min-vh-100 d-flex flex-column'>
+        <div className='row'>
           <Menu />
-
-          <div className='d-flex justify-content-center align-items-center vh-100'>
-            <RepositorySelector afterSelect={fetchData} />
-          </div>
         </div>
-      ) : (
-        <div className='mx-3 mt-3'>
-          <div className='row'>
-            <h1>cwd: {currentDir}</h1>
-            <div className='col-md-6'>
-              <h2>
-                git status
-                <button onClick={fetchData} className='btn btn-sm mx-2'>
-                  <RefreshCw color='white' />
-                </button>
-              </h2>
+        <div className='row text-center flex-grow-1'>
+          <div className='d-flex flex-column col-2'>
+            <div className='row h-50 border border-1 border-davygray'>
+              <div>STATUS</div>
             </div>
-
-            <div className='col-md-6 d-flex justify-content-end'>
-              <RepositorySelector afterSelect={fetchData} />
+            <div className='row h-50 border border-1 border-top-0 border-davygray'>
+              <div>REPO</div>
             </div>
           </div>
-          <ul className='list-group col-md-4'>
-            {notAdded.map((item, index) => (
-              <li
-                key={index}
-                className={`list-group-item list-group-item-${item.type}`}
-              >
-                <item.icon color='black' size={15} />
-                {item.text}
-              </li>
-            ))}
-
-            {deleted.map((item, index) => (
-              <li
-                key={index}
-                className={`list-group-item list-group-item-${item.type}`}
-              >
-                <item.icon color='black' size={15} />
-                {item.text}
-              </li>
-            ))}
-
-            {modified.map((item, index) => (
-              <li
-                key={index}
-                className={`list-group-item list-group-item-${item.type}`}
-              >
-                <item.icon color='black' size={15} />
-                {item.text}
-              </li>
-            ))}
-          </ul>
+          <div className='col-8 d-flex flex-column bg-gunmetal'>
+            <div className='row h-75 border border-1 border-start-0 border-davygray'>
+              <div>
+                <div className='row border bg-darkpurple border-0 border-bottom border-davygray text-start'>
+                  <div>HEADER</div>
+                </div>
+                <div>DIFF</div>
+              </div>
+            </div>
+            <div className='row h-25 border border-1 border-top-0 border-start-0 border-davygray'>
+              <div>
+                <div className='row border bg-darkpurple border-0 border-bottom border-davygray text-start'>
+                  <div>HEADER</div>
+                </div>
+                <div>LOG</div>
+              </div>
+            </div>
+          </div>
+          <div className='d-flex flex-column col-2'>
+            <div className='row h-50 border border-1 border-start-0 border-davygray'>
+              <div>HISTORY</div>
+            </div>
+            <div className='row h-50 border border-1 border-top-0 border-start-0 border-davygray'>
+              <div>STASH</div>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
     </>
   )
 }
