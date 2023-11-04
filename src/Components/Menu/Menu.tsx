@@ -1,15 +1,21 @@
 import MenuButton from 'components/MenuButton'
 import { ArrowUpFromLine, ArrowDownToLine } from 'lucide-react'
+import { SetStateAction } from 'react';
 
-function Menu() {
+
+
+interface Props {
+ 
+  setConsoleContent?: SetStateAction
+
+}
+function Menu({ setConsoleContent }: Props) {
   const handlePush = async () => {
-    try {
-      // TODO
+   
       const response = await window.git.push()
+      const resposnedata = await window.consolelog.get()
+      console.log(resposnedata)
       return response
-    } catch (error) {
-      console.log('Error while pushing')
-    }
   }
 
   const buttons = [

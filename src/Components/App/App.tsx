@@ -1,15 +1,18 @@
 import Menu from 'components/Menu'
+import ConsoleLog from 'components/ConsoleLog'
+import { useState } from 'react';
 
 function App() {
   // dunno about this
   document.body.classList.add('bg-darkpurple')
   document.body.classList.add('text-white')
+  let [consoleContent, setConsoleContent] = useState()
 
   return (
     <>
       <div className='container-fluid min-vh-100 d-flex flex-column'>
         <div className='row'>
-          <Menu />
+          <Menu consoleLog={setConsoleContent}/>
         </div>
         <div className='row text-center flex-grow-1'>
           <div className='d-flex flex-column col-2'>
@@ -34,7 +37,7 @@ function App() {
                 <div className='row border bg-darkpurple border-0 border-bottom border-davygray text-start'>
                   <div>HEADER</div>
                 </div>
-                <div>LOG</div>
+                <div><ConsoleLog/></div>
               </div>
             </div>
           </div>
