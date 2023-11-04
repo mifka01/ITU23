@@ -4,6 +4,7 @@ import { CommitController } from '../controllers/CommitController'
 import { StatusController } from '../controllers/StatusController'
 import { GitController } from '../controllers/GitController'
 import { RepositoryController } from '../controllers/RepositoryController'
+import { PushController } from '../controllers/PushController'
 import { createIPCHandlers } from './utils'
 import { generateMenu } from './menu'
 
@@ -39,6 +40,7 @@ function createWindow() {
   createIPCHandlers(GitController)
   createIPCHandlers(StatusController)
   createIPCHandlers(RepositoryController)
+  createIPCHandlers(PushController)
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
