@@ -3,8 +3,6 @@
 // @author Radim Mifka (xmifka00)
 // @date October 2023
 
-// TODO
-// rename?
 import { ipcRenderer } from 'electron'
 
 export const git = {
@@ -24,6 +22,14 @@ export const git = {
 
   pull: (data: string): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:pull`, data)
+  },
+
+  add: (file: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:add`, file)
+  },
+
+  unstage: (file: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:unstage`, file)
   },
 
   cwd: (): Promise<any> => {

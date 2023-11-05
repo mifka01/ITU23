@@ -13,7 +13,7 @@ function Button({ children, className, onClick }: Props) {
   }
 
   return (
-    <button className={`btn ${className}`} onClick={handleClick}>
+    <button className={`btn m-0 p-0 ${className}`} onClick={handleClick}>
       {children}
     </button>
   )

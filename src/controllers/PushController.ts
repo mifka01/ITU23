@@ -5,7 +5,6 @@ import { git } from '../models/Git'
 import { log } from '../models/Log'
 
 export const PushController: IController = {
-  // TODO
   prefix: 'git',
 
   functions: {
