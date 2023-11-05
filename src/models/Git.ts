@@ -43,6 +43,13 @@ export class Git {
   async status() {
     return this.git.status()
   }
+
+  async add(file: string) {
+    return this.git.add(file)
+  }
+  async unstage(file: string) {
+    return this.git.reset([file])
+  }
 }
 
 export const git: Git = new Git(options)
