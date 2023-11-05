@@ -11,9 +11,15 @@ function Menu({ setResfreshLog }: Props) {
     if (setResfreshLog) setResfreshLog(true)
     return response
   }
+  const handlePull = async () => {
+    const response = await window.git.pull()
+    if (setResfreshLog) setResfreshLog(true)
+    return response
+  }
+
   const buttons = [
     { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush },
-    { Icon: ArrowDownToLine, text: 'pull', onClick: handlePush },
+    { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull },
   ]
 
   return (
