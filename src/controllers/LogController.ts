@@ -1,4 +1,5 @@
-// controllers/CommitController.js
+// controllers/LogController.ts
+//
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { log } from '../models/Log'
