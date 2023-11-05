@@ -5,7 +5,7 @@ export class Log {
 
   private getCurrentTime(): string {
     const now = new Date()
-    const timeFormatter = new Intl.DateTimeFormat('en-US', {
+    const timeFormatter = new Intl.DateTimeFormat('cs-CZ', {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',

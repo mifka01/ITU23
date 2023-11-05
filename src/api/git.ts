@@ -5,28 +5,28 @@
 
 // TODO
 // rename?
-import { ipcRenderer } from "electron";
+import { ipcRenderer } from 'electron'
 
 export const git = {
-  prefix: "git",
+  prefix: 'git',
 
   commit: (data: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:commit`, data);
+    return ipcRenderer.invoke(`${git.prefix}:commit`, data)
   },
 
   status: (data: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:status`, data);
+    return ipcRenderer.invoke(`${git.prefix}:status`, data)
   },
 
   push: (data: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:push`, data);
+    return ipcRenderer.invoke(`${git.prefix}:push`, data)
   },
 
   pull: (data: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:pull`, data);
+    return ipcRenderer.invoke(`${git.prefix}:pull`, data)
   },
 
   cwd: (): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:cwd`);
+    return ipcRenderer.invoke(`${git.prefix}:cwd`)
   },
-};
+}
