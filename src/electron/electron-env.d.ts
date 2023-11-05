@@ -25,5 +25,5 @@ declare namespace NodeJS {
 interface Window {
   git: import('app/api/git').git
   repository: import('app/api/repository').repository
-  consolelog: import('app/api/consolelog').consolelog
+  log: import('app/api/log').log
 }

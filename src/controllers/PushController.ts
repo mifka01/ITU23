@@ -2,7 +2,7 @@
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { git } from '../models/Git'
-import { consoleLog } from '../models/ConsoleLog'
+import { log } from '../models/Log'
 
 export const PushController: IController = {
   // TODO
@@ -11,12 +11,12 @@ export const PushController: IController = {
   functions: {
     async push(_: IpcMainInvokeEvent) {
       try {
-        let statusResponse = await git.push()
-        statusResponse = JSON.parse(JSON.stringify(statusResponse))
-        consoleLog.appendLog(JSON.stringify(statusResponse))
+        let response = await git.push()
+        log.append('COMMAND', `Pushed to:${response.repo}`)
+        response = JSON.parse(JSON.stringify(response))
         return true
-      } catch (error) {
-        consoleLog.appendLog(<string>error)
+      } catch (error: any) {
+        log.append('ERROR', error)
         return false
       }
     },

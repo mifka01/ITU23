@@ -1,12 +1,12 @@
 import { contextBridge } from 'electron'
 import { git } from '../api/git'
 import { repository } from '../api/repository'
-import { consolelog } from '../api/consolelog'
+import { log } from '../api/log'
 
 // --------- Expose API to the Renderer process ---------
 contextBridge.exposeInMainWorld('git', withPrototype(git))
 contextBridge.exposeInMainWorld('repository', withPrototype(repository))
-contextBridge.exposeInMainWorld('consolelog', withPrototype(consolelog))
+contextBridge.exposeInMainWorld('log', withPrototype(log))
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 function withPrototype(obj: Record<string, any>) {

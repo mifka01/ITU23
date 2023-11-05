@@ -5,7 +5,7 @@ import { StatusController } from '../controllers/StatusController'
 import { GitController } from '../controllers/GitController'
 import { RepositoryController } from '../controllers/RepositoryController'
 import { PushController } from '../controllers/PushController'
-import { ConsoleLogController } from '../controllers/ConsoleLogController'
+import { LogController } from '../controllers/LogController'
 import { createIPCHandlers } from './utils'
 import { generateMenu } from './menu'
 
@@ -42,7 +42,7 @@ function createWindow() {
   createIPCHandlers(StatusController)
   createIPCHandlers(RepositoryController)
   createIPCHandlers(PushController)
-  createIPCHandlers(ConsoleLogController)
+  createIPCHandlers(LogController)
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
