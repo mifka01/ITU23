@@ -13,3 +13,17 @@ $custom-colors: (
 $theme-colors: map_merge($theme-colors, $custom-colors);
 
 @import '../node_modules/bootstrap/scss/bootstrap';
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: map-get($custom-colors, 'gunmetal');
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: map-get($custom-colors, 'davygray');
+  border-radius: 100px;
+}

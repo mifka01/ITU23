@@ -1,20 +1,25 @@
 import MenuButton from 'components/MenuButton'
 import { ArrowUpFromLine, ArrowDownToLine } from 'lucide-react'
+import { SetStateAction } from 'react'
 
-function Menu() {
+interface Props {
+  setResfreshLog?: React.Dispatch<React.SetStateAction<boolean>>
+}
+function Menu({ setResfreshLog }: Props) {
   const handlePush = async () => {
-    try {
-      // TODO
-      const response = await window.git.push()
-      return response
-    } catch (error) {
-      console.log('Error while pushing')
-    }
+    const response = await window.git.push()
+    if (setResfreshLog) setResfreshLog(true)
+    return response
+  }
+  const handlePull = async () => {
+    const response = await window.git.pull()
+    if (setResfreshLog) setResfreshLog(true)
+    return response
   }
 
   const buttons = [
     { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush },
-    { Icon: ArrowDownToLine, text: 'pull', onClick: handlePush },
+    { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull },
   ]
 
   return (
