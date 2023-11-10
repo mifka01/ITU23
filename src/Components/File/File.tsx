@@ -1,24 +1,24 @@
 // @file File component
-// @brief
+// @brief Component for file in staging area
 // @author Radim Mifka (xmifka00)
-// @date October 2023
+// @date November 2023
+
 import { useState } from 'react'
 import { Plus, Minus } from 'lucide-react'
 import Button from 'components/Button'
 
-interface Props {
-  afterClick: (...args: any[]) => any
+interface FileProps {
+  afterClick: () => void
   staged: boolean
   full_path: string
   status: string
-  index: string
 }
 
-function File({ afterClick, staged, full_path, status, index }: Props) {
+function File({ afterClick, staged, full_path, status }: FileProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const name = full_path.split('/').pop()
-  const path = full_path.slice(0, full_path.lastIndexOf('/'))
+  // const path = full_path.slice(0, full_path.lastIndexOf('/'))
 
   let status_color = 'text-success'
 
@@ -31,7 +31,7 @@ function File({ afterClick, staged, full_path, status, index }: Props) {
       status_color = 'text-warning'
       break
     case 'D':
-      status_color = 'text-error'
+      status_color = 'text-danger'
       break
     default:
       status_color = 'text-success'
@@ -61,7 +61,6 @@ function File({ afterClick, staged, full_path, status, index }: Props) {
   return (
     <>
       <div
-        key={index}
         className={`row small ${background_color}`}
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
