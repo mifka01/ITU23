@@ -1,13 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react'
+// @file components/Log.ts
+// @brief Component for command log
+// @author Miroslav Bálek (xbalek02)
+// @date November 2023
 
-interface Props {
-  resfreshLog?: boolean
-  setResfreshLog?: React.Dispatch<React.SetStateAction<boolean>>
+import {
+  useState,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+  ComponentProps,
+} from 'react'
+
+import LogMessage from 'components/LogMessage'
+
+interface LogProps {
+  setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  refreshLog?: boolean
 }
 
-function Log({ resfreshLog, setResfreshLog }: Props) {
-  const [logs, setLogs] = useState<any[]>([])
-
+function Log({ refreshLog, setRefreshLog }: LogProps) {
+  const [messages, setMessages] = useState<ComponentProps<typeof LogMessage>[]>(
+    [],
+  )
   // scroll to bottom
   const Bottom = () => {
     const bottom = useRef<HTMLDivElement>(null)
@@ -20,29 +35,30 @@ function Log({ resfreshLog, setResfreshLog }: Props) {
   }
 
   const fetch = async () => {
-    if (resfreshLog) {
+    if (refreshLog && setRefreshLog) {
       const response = await window.log.get()
-      const logs = response.map((item: any, index: number) => (
-        <div
-          key={index}
-          className={`line ${item.type === 'COMMAND' ? 'text-success' : 'text-danger'
-            }`}
-        >
-          {`${item.time}: ${item.text}`}
-        </div>
-      ))
-      setLogs(logs)
-      if (setResfreshLog) setResfreshLog(false)
+      setMessages(response)
+      setRefreshLog(false)
+      console.log(messages)
     }
   }
 
   useEffect(() => {
     fetch()
-  }, [resfreshLog])
+  }, [refreshLog == true])
 
   return (
     <>
-      <div className='text-start'>{logs}</div>
+      <div className='text-start'>
+        {messages.map((message, index) => (
+          <LogMessage
+            key={index}
+            type={message.type}
+            time={message.time}
+            text={message.text}
+          />
+        ))}
+      </div>
       <Bottom />
     </>
   )
