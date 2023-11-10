@@ -1,4 +1,4 @@
-// @file File component
+// @file components/file.tsx
 // @brief Component for file in staging area
 // @author Radim Mifka (xmifka00)
 // @date November 2023

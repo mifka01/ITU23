@@ -1,4 +1,4 @@
-// @file Log.ts
+// @file components/Log.ts
 // @brief Model for managing logging
 // @author Miroslav Bálek (xbalek02)
 // @date October 2023

@@ -1,3 +1,8 @@
+// @file components/Menu.tsx
+// @brief Menu component
+// @author Michal Zapletal (xzaple41)
+// @date October 2023
+
 import MenuButton from 'components/MenuButton'
 import { ArrowUpFromLine, ArrowDownToLine } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'

@@ -1,3 +1,8 @@
+// @file components/MenuButton.tsx
+// @brief Menu Button component
+// @author Michal Zapletal (xzaple41)
+// @date October 2023
+
 import Button from 'components/Button'
 import { ComponentType, ComponentPropsWithoutRef } from 'react'
 import { LucideProps } from 'lucide-react'

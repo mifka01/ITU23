@@ -1,3 +1,8 @@
+// @file components/Button.tsx
+// @brief Basic Button component
+// @author Michal Zapletal (xzaple41)
+// @date October 2023
+
 import { ComponentPropsWithoutRef } from 'react'
 
 function Button({
