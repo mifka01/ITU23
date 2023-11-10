@@ -59,6 +59,16 @@ export class Git {
   async unstage(file: string): Promise<string> {
     return this.git.reset([file])
   }
+
+  async discard(file: string) {
+    await this.unstage(file)
+    return this.git.checkout('HEAD', ['-f', '--', file])
+  }
+
+  async rm(file: string) {
+    await this.unstage(file)
+    return this.git.clean('f', ['--', file])
+  }
 }
 
 export const git: Git = new Git(options)

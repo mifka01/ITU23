@@ -32,6 +32,14 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:unstage`, file)
   },
 
+  discard: (file: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:discard`, file)
+  },
+
+  rm: (file: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:rm`, file)
+  },
+
   cwd: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:cwd`)
   },
