@@ -1,19 +1,24 @@
+// @file components/Menu.tsx
+// @brief Menu component
+// @author Michal Zapletal (xzaple41)
+// @date October 2023
+
 import MenuButton from 'components/MenuButton'
 import { ArrowUpFromLine, ArrowDownToLine } from 'lucide-react'
-import { SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
-  setResfreshLog?: React.Dispatch<React.SetStateAction<boolean>>
+  setRefreshLog?: Dispatch<SetStateAction<boolean>>
 }
-function Menu({ setResfreshLog }: Props) {
+function Menu({ setRefreshLog }: Props) {
   const handlePush = async () => {
     const response = await window.git.push()
-    if (setResfreshLog) setResfreshLog(true)
+    if (setRefreshLog != undefined) setRefreshLog(true)
     return response
   }
   const handlePull = async () => {
     const response = await window.git.pull()
-    if (setResfreshLog) setResfreshLog(true)
+    if (setRefreshLog != undefined) setRefreshLog(true)
     return response
   }
 
@@ -30,11 +35,9 @@ function Menu({ setResfreshLog }: Props) {
             key={index}
             className='list-group-item rounded-0 border-0 bg-transparent p-0 pe-3 py-2'
           >
-            <MenuButton
-              Icon={button.Icon}
-              text={button.text}
-              onClick={button.onClick}
-            />
+            <MenuButton Icon={button.Icon} onClick={button.onClick}>
+              {button.text}
+            </MenuButton>
           </li>
         ))}
       </ul>

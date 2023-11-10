@@ -1,7 +1,16 @@
-// TODO
-// split into more modules
+// @file Git.ts
+// @brief Wrapper for SimpleGit Model
+// @author Radim Mifka (xmifka00)
+// @date October 2023
 
-import { simpleGit, SimpleGit, SimpleGitOptions } from 'simple-git'
+import {
+  simpleGit,
+  SimpleGit,
+  SimpleGitOptions,
+  StatusResult,
+  PushResult,
+  PullResult,
+} from 'simple-git'
 
 const options: Partial<SimpleGitOptions> = {
   baseDir: '',
@@ -24,7 +33,7 @@ export class Git {
     this.git = simpleGit(this.options)
   }
 
-  async getCWD() {
+  async getCWD(): Promise<string | undefined> {
     return this.options.baseDir
   }
 
@@ -32,22 +41,22 @@ export class Git {
     return this.git.clone(repositoryUrl, destination)
   }
 
-  pull() {
+  async pull(): Promise<PullResult> {
     return this.git.pull()
   }
 
-  push() {
+  async push(): Promise<PushResult> {
     return this.git.push()
   }
 
-  async status() {
+  async status(): Promise<StatusResult> {
     return this.git.status()
   }
 
-  async add(file: string) {
+  async add(file: string): Promise<string> {
     return this.git.add(file)
   }
-  async unstage(file: string) {
+  async unstage(file: string): Promise<string> {
     return this.git.reset([file])
   }
 }

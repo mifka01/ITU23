@@ -2,6 +2,7 @@
 // @brief Menu template
 // @author Radim Mifka (xmifka00)
 // @date October 2023
+
 import { app, BrowserWindow, Menu } from 'electron'
 import { openFolderDialog } from './utils'
 import { git } from '../models/Git'
@@ -20,7 +21,6 @@ export const generateMenu = (win: BrowserWindow) => {
         {
           label: 'Open',
           click: () => {
-
             openFolderDialog(win)
               .then((selectedDirectory: string) => {
                 git.setCWD(selectedDirectory)

@@ -1,3 +1,8 @@
+// @file components/App.tsx
+// @brief Main App grid
+// @author Radim Mifka (xmifka00)
+// @date October 2023
+
 import Menu from 'components/Menu'
 import Log from 'components/Log'
 import Stage from 'components/Stage'
@@ -7,13 +12,13 @@ function App() {
   // dunno about this
   document.body.classList.add('bg-darkpurple')
   document.body.classList.add('text-white')
-  const [resfreshLog, setResfreshLog] = useState(false)
+  const [refreshLog, setRefreshLog] = useState(false)
 
   return (
     <>
       <div className='container-fluid min-vh-100 d-flex flex-column overflow-hidden'>
         <div className='row'>
-          <Menu setResfreshLog={setResfreshLog} />
+          <Menu setRefreshLog={setRefreshLog} />
         </div>
         <div className='row text-center flex-grow-1'>
           <div className='d-flex flex-column col-3'>
@@ -34,10 +39,7 @@ function App() {
                 HEADER
               </div>
               <div className='row m-0 h-100 overflow-auto'>
-                <Log
-                  resfreshLog={resfreshLog}
-                  setResfreshLog={setResfreshLog}
-                />
+                <Log refreshLog={refreshLog} setRefreshLog={setRefreshLog} />
               </div>
             </div>
           </div>

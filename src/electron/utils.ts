@@ -2,6 +2,7 @@
 // @brief Utility functions for the application.
 // @author Radim Mifka (xmifka00)
 // @date October 2023
+
 import { ipcMain, IpcMainInvokeEvent, BrowserWindow, dialog } from 'electron'
 import { IController } from 'interfaces/IController'
 
