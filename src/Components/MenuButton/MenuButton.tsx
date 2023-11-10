@@ -1,24 +1,21 @@
 import Button from 'components/Button'
-import { ComponentType } from 'react'
+import { ComponentType, ComponentPropsWithoutRef } from 'react'
 import { LucideProps } from 'lucide-react'
 import './MenuButton.css'
 
-interface Props {
+interface Props extends ComponentPropsWithoutRef<'button'> {
   Icon: ComponentType<LucideProps>
-  text: string
-  className?: string
-  onClick: (...args: any[]) => any
 }
 
-function MenuButton({ Icon, text, className, onClick }: Props) {
+function MenuButton({ Icon, children, className, ...props }: Props) {
   return (
     <Button
+      {...props}
       className={`btn-darkpurple border border-davygray border-3 btn-square text-ecru h-10 w-10 ${className}`}
-      onClick={onClick}
     >
       <Icon size={32} />
       <div className='text-center'>
-        <p className='mb-0 text-white text-uppercase small'>{text}</p>
+        <p className='mb-0 text-white text-uppercase small'>{children}</p>
       </div>
     </Button>
   )

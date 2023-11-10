@@ -1,19 +1,12 @@
-import { ReactNode } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 
-interface Props {
-  children: ReactNode
-  className?: string
-  onClick: (...args: any[]) => any
-}
-
-function Button({ children, className, onClick }: Props) {
-  const handleClick = async () => {
-    const response = onClick()
-    return response
-  }
-
+function Button({
+  children,
+  className,
+  ...props
+}: ComponentPropsWithoutRef<'button'>) {
   return (
-    <button className={`btn m-0 p-0 ${className}`} onClick={handleClick}>
+    <button {...props} className={`btn m-0 p-0 ${className}`}>
       {children}
     </button>
   )
