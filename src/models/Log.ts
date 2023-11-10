@@ -1,3 +1,8 @@
+// @file Log.ts
+// @brief Model for managing logging
+// @author Miroslav Bálek (xbalek02)
+// @date October 2023
+
 type LogType = 'ERROR' | 'COMMAND'
 
 export class Log {

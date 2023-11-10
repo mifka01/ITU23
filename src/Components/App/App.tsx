@@ -1,3 +1,8 @@
+// @file components/App.tsx
+// @brief Main App grid
+// @author Radim Mifka (xmifka00)
+// @date October 2023
+
 import Menu from 'components/Menu'
 import Log from 'components/Log'
 import Stage from 'components/Stage'
