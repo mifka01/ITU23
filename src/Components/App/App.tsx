@@ -23,7 +23,7 @@ function App() {
         <div className='row text-center flex-grow-1'>
           <div className='d-flex flex-column col-3'>
             <div className='row h-50 border border-1 border-davygray'>
-              <Stage />
+              <Stage setRefreshLog={setRefreshLog} />
             </div>
             <div className='row h-50 border border-1 border-top-0 border-davygray'></div>
           </div>
