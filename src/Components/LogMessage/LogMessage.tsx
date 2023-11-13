@@ -13,11 +13,10 @@ function LogMessage({ type, time, text }: LogMessageProps) {
   return (
     <>
       <div
-        className={`line ${
-          type === 'COMMAND' ? 'text-success' : 'text-danger'
-        }`}
+        className={`row ${type === 'COMMAND' ? 'text-success' : 'text-danger'}`}
       >
-        {`${time}: ${text}`}
+        <div className='col-10 ps-0 text-start'> {text}</div>
+        <div className='col-2 pe-0 text-end'>{time}</div>
       </div>
     </>
   )

@@ -39,7 +39,6 @@ function Log({ refreshLog, setRefreshLog }: LogProps) {
       const response = await window.log.get()
       setMessages(response)
       setRefreshLog(false)
-      console.log(messages)
     }
   }
 

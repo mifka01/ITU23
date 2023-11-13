@@ -3,6 +3,7 @@
 // @author Michal Zapletal (xzaple41)
 // @date October 2023
 
+import clsx from 'clsx'
 import { ComponentPropsWithoutRef } from 'react'
 
 function Button({
@@ -11,7 +12,7 @@ function Button({
   ...props
 }: ComponentPropsWithoutRef<'button'>) {
   return (
-    <button {...props} className={`btn m-0 p-0 ${className}`}>
+    <button className={clsx('btn m-0 p-0', className)} {...props}>
       {children}
     </button>
   )

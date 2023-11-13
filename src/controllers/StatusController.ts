@@ -11,7 +11,8 @@ export const StatusController: IController = {
     async status(_: IpcMainInvokeEvent) {
       try {
         let statusResponse = await git.status()
-        log.append('COMMAND', `status`)
+        // happening too often
+        // log.append('COMMAND', `status`)
         return JSON.parse(JSON.stringify(statusResponse))
       } catch (error: any) {
         log.append('COMMAND', error)
