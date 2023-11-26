@@ -69,6 +69,10 @@ export class Git {
     await this.unstage(file)
     return this.git.clean('f', ['--', file])
   }
+
+  async commit(message: string) {
+    return this.git.commit(message)
+  }
 }
 
 export const git: Git = new Git(options)
