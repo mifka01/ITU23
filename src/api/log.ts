@@ -18,7 +18,4 @@ export const log = {
   append: (data: string): Promise<any> => {
     return ipcRenderer.invoke(`${log.prefix}:append`, data)
   },
-  listen: () => {
-    ipcRenderer.on('event-from-main', (event, eventData) => { })
-  },
 }
