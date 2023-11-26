@@ -16,9 +16,9 @@ export const RepositoryController: IController = {
         .then((selectedDirectory: string) => {
           git.setCWD(selectedDirectory)
         })
-        .catch((err) => {
-          console.error('Error opening folder dialog:', err)
+        .catch((error) => {
+          console.error('Error opening folder dialog:', String(error))
         })
     },
-  }
+  },
 }

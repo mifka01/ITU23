@@ -8,13 +8,33 @@ export const StageController: IController = {
   prefix: 'git',
 
   functions: {
+    async status(_: IpcMainInvokeEvent) {
+      try {
+        let response = await git.status()
+        // happening too often
+        // log.append('COMMAND', `status`)
+        return JSON.parse(JSON.stringify(response))
+      } catch (error: any) {
+        log.append('ERROR', String(error))
+      }
+    },
+
+    async commit(_: IpcMainInvokeEvent, message: string) {
+      try {
+        await git.commit(message)
+        log.append('COMMAND', `commit`)
+      } catch (error: any) {
+        log.append('ERROR', String(error))
+      }
+    },
+
     async add(_: IpcMainInvokeEvent, file: string) {
       try {
         await git.add(file)
         log.append('COMMAND', `Add file`)
         return true
       } catch (error: any) {
-        log.append('ERROR', error)
+        log.append('ERROR', String(error))
         return false
       }
     },
@@ -25,8 +45,7 @@ export const StageController: IController = {
         log.append('COMMAND', `Unstage file`)
         return true
       } catch (error: any) {
-        console.log(error)
-        log.append('ERROR', error)
+        log.append('ERROR', String(error))
         return false
       }
     },
@@ -37,8 +56,7 @@ export const StageController: IController = {
         log.append('COMMAND', `Discard file}`)
         return true
       } catch (error: any) {
-        console.log(error)
-        log.append('ERROR', error)
+        log.append('ERROR', String(error))
         return false
       }
     },
@@ -49,8 +67,7 @@ export const StageController: IController = {
         log.append('COMMAND', `Remove file}`)
         return true
       } catch (error: any) {
-        console.log(error)
-        log.append('ERROR', error)
+        log.append('ERROR', String(error))
         return false
       }
     },

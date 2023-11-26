@@ -1,11 +1,8 @@
 import { app, BrowserWindow, Menu } from 'electron'
 import path from 'node:path'
-import { CommitController } from '../controllers/CommitController'
-import { StatusController } from '../controllers/StatusController'
 import { GitController } from '../controllers/GitController'
 import { RepositoryController } from '../controllers/RepositoryController'
-import { PushController } from '../controllers/PushController'
-import { PullController } from '../controllers/PullController'
+import { MenuController } from '../controllers/MenuController'
 import { LogController } from '../controllers/LogController'
 import { StageController } from '../controllers/StageController'
 import { createIPCHandlers } from './utils'
@@ -39,12 +36,9 @@ function createWindow() {
 
   Menu.setApplicationMenu(generateMenu(win))
 
-  createIPCHandlers(CommitController)
   createIPCHandlers(GitController)
-  createIPCHandlers(StatusController)
   createIPCHandlers(RepositoryController)
-  createIPCHandlers(PushController)
-  createIPCHandlers(PullController)
+  createIPCHandlers(MenuController)
   createIPCHandlers(LogController)
   createIPCHandlers(StageController)
 
