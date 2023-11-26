@@ -32,3 +32,12 @@ $theme-colors: map_merge($theme-colors, $custom-colors);
   background-color: map-get($custom-colors, 'davygray');
   border-radius: 100px;
 }
+
+.form-control::placeholder {
+  color: map-get($custom-colors, 'davygray');
+  opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+  color: map-get($custom-colors, 'davygray');
+}
