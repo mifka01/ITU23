@@ -35,10 +35,7 @@ function App() {
               <div className='row m-0 h-100'>DIFF</div>
             </div>
             <div className='row border h-25 border-1 border-top-0 border-start-0 border-davygray overflow-hidden'>
-              <div className='row m-0 bg-darkpurple border border-0 border-bottom border-davygray text-start'>
-                HEADER
-              </div>
-              <div className='row m-0 h-100 overflow-auto'>
+              <div className='h-100 overflow-auto p-0'>
                 <Log refreshLog={refreshLog} setRefreshLog={setRefreshLog} />
               </div>
             </div>
