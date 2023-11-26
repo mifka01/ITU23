@@ -1,5 +1,5 @@
 // @file components/CollapseButton.tsx
-// @brief Component for collapsing/expanding sections
+// @brief Button component for collapsing/expanding sections
 // @author Radim Mifka (xmifka00)
 // @date November 2023
 

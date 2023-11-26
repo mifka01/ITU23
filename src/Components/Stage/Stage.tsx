@@ -5,8 +5,8 @@
 
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import File from 'components/File'
-import CollapseButton from 'components/CollapseButton'
-import clsx from 'clsx'
+import CollapseList from 'components/CollapseList'
+import Commit from 'components/Commit'
 
 type FileEntry = { path: string; status: string }
 
@@ -35,8 +35,6 @@ interface StageProps {
 function Stage({ setRefreshLog }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
-  const [stagedCollapsed, setStagedCollapsed] = useState<boolean>(false)
-  const [changesCollapsed, setChangesCollapsed] = useState<boolean>(false)
 
   const fetch = async () => {
     const response = await window.git.status()
@@ -65,18 +63,12 @@ function Stage({ setRefreshLog }: StageProps) {
 
   return (
     <>
-      <div className='text-start mt-5 text-beige'>
-        <div className='row border border-davygray border-start-0 border-end-0'>
-          <div className='col-10'>Staged Changes</div>
-          <div className='col-2 text-end'>
-            <CollapseButton
-              collapsed={stagedCollapsed}
-              setCollapsed={setStagedCollapsed}
-            />
-          </div>
-        </div>
-        <div className={clsx({ ['d-none']: stagedCollapsed })}>
-          {staged.map((file) => (
+      <div className='text-start text-beige'>
+        <Commit />
+        <CollapseList
+          className='border-bottom-0'
+          heading={'Staged changes'}
+          items={staged.map((file) => (
             <File
               key={file.path}
               afterClick={fetch}
@@ -85,18 +77,11 @@ function Stage({ setRefreshLog }: StageProps) {
               status={file.status}
             />
           ))}
-        </div>
-        <div className='row border border-davygray border-start-0 border-end-0'>
-          <div className='col-10'>Changes</div>
-          <div className='col-2 text-end'>
-            <CollapseButton
-              collapsed={changesCollapsed}
-              setCollapsed={setChangesCollapsed}
-            />
-          </div>
-        </div>
-        <div className={clsx({ ['d-none']: changesCollapsed })}>
-          {notAdded.map((file) => (
+        />
+
+        <CollapseList
+          heading={'Changes'}
+          items={notAdded.map((file) => (
             <File
               key={file.path}
               afterClick={fetch}
@@ -105,7 +90,7 @@ function Stage({ setRefreshLog }: StageProps) {
               status={file.status}
             />
           ))}
-        </div>
+        />
       </div>
     </>
   )
