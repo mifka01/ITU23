@@ -62,7 +62,7 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
           <span className='ps-2'>LOG</span>
         </div>
         <div className='col-1 text-end'>
-          <Button onClick={handleClear} className='text-beige ms-auto'>
+          <Button onClick={handleClear} className='text-beige ms-auto border-0'>
             <Trash2 size={18} />
           </Button>
         </div>
