@@ -101,7 +101,7 @@ function Stage({ setRefreshLog }: StageProps) {
   return (
     <>
       <div className='col-12 text-start text-beige'>
-        <Commit />
+        <Commit afterSubmit={fetchStatus} />
         <CollapseList
           heading={'Staged changes'}
           className='border-top border-bottom border-davygray'

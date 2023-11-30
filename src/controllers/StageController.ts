@@ -21,8 +21,17 @@ export const StageController: IController = {
 
     async commit(_: IpcMainInvokeEvent, message: string) {
       try {
-        await git.commit(message)
-        log.append('COMMAND', `commit`)
+        let response = await git.commit(message)
+
+        if (
+          !response.summary.changes &&
+          !response.summary.deletions &&
+          !response.summary.insertions
+        ) {
+          log.append('COMMAND', `nothing to commit, working tree clean`)
+        } else {
+          log.append('COMMAND', `Commited`)
+        }
       } catch (error: any) {
         log.append('ERROR', String(error))
       }
