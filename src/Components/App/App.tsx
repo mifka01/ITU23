@@ -16,35 +16,39 @@ function App() {
 
   return (
     <>
-      <div className='container-fluid min-vh-100 d-flex flex-column overflow-hidden'>
+      <div className='container-fluid min-vh-100 d-flex flex-column'>
         <div className='row'>
           <Menu setRefreshLog={setRefreshLog} />
         </div>
         <div className='row text-center flex-grow-1'>
-          <div className='d-flex flex-column col-3'>
-            <div className='row h-50 border border-1 border-davygray'>
+          <div className='col-3 border border-davygray'>
+            <div className='d-flex h-50'>
               <Stage setRefreshLog={setRefreshLog} />
             </div>
-            <div className='row h-50 border border-1 border-top-0 border-davygray'></div>
+            <div className='d-flex h-50'></div>
           </div>
-          <div className='col-7 d-flex flex-column bg-gunmetal'>
-            <div className='row h-75 border border-1 border-start-0 border-davygray'>
-              <div className='row m-0 border bg-darkpurple border-0 border-bottom border-davygray text-start'>
-                <div>HEADER</div>
+          <div className='col-7 gx-0 border-top border-davygray'>
+            <div className='d-flex flex-column h-75 '>
+              <div className='d-flex bg-darkpurple text-start border-bottom border-davygray'>
+                <span className='ps-2'>HEADER</span>
               </div>
-              <div className='row m-0 h-100'>DIFF</div>
-            </div>
-            <div className='row border h-25 border-1 border-top-0 border-start-0 border-davygray overflow-hidden'>
-              <div className='h-100 overflow-auto p-0'>
-                <Log refreshLog={refreshLog} setRefreshLog={setRefreshLog} />
+              <div className='d-flex flex-grow-1 h-100 bg-gunmetal'>
+                <span className='ps-2'>DIFF</span>
               </div>
             </div>
+            <div className='d-flex flex-column h-25 overflow-hidden'>
+              <Log
+                refreshLog={refreshLog}
+                setRefreshLog={setRefreshLog}
+                className='border-top border-bottom border-davygray'
+              />
+            </div>
           </div>
-          <div className='d-flex flex-column col-2'>
-            <div className='row h-50 border border-1 border-start-0 border-davygray'>
+          <div className='col-2 border border-davygray'>
+            <div className='row h-50 border-bottom border-davygray'>
               <div>HISTORY</div>
             </div>
-            <div className='row h-50 border border-1 border-top-0 border-start-0 border-davygray'>
+            <div className='row h-50'>
               <div>STASH</div>
             </div>
           </div>

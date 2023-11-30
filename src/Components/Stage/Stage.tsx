@@ -3,10 +3,11 @@
 // @author Radim Mifka (xmifka00)
 // @date November 2023
 
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction, useCallback } from 'react'
 import File from 'components/File'
 import CollapseList from 'components/CollapseList'
 import Commit from 'components/Commit'
+import { Plus, Minus, Undo2 } from 'lucide-react'
 
 type FileEntry = { path: string; status: string }
 
@@ -36,7 +37,39 @@ function Stage({ setRefreshLog }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
 
-  const fetch = async () => {
+  const handleStageAll = async () => {
+    await window.git.add()
+    fetchStatus()
+  }
+
+  const handleUnstageAll = async () => {
+    await window.git.unstage()
+    fetchStatus()
+  }
+
+  const handleDiscardAll = async () => {
+    await window.git.discard_unstaged()
+    fetchStatus()
+  }
+
+  const notAdded_buttons = [
+    {
+      Icon: Undo2,
+      onClick: handleDiscardAll,
+    },
+    {
+      Icon: Plus,
+      onClick: handleStageAll,
+    },
+  ]
+  const staged_buttons = [
+    {
+      Icon: Minus,
+      onClick: handleUnstageAll,
+    },
+  ]
+
+  const fetchStatus = useCallback(async () => {
     const response = await window.git.status()
 
     let staged_files: FileEntry[] = []
@@ -49,29 +82,30 @@ function Stage({ setRefreshLog }: StageProps) {
       }
       if (response.staged.includes(file.path)) staged_files.push(entry)
       else not_added.push(entry)
-
-      setStaged(staged_files)
-      setNotAdded(not_added)
     })
 
-    if (setRefreshLog != undefined) setRefreshLog(true)
-  }
+    setStaged(staged_files)
+    setNotAdded(not_added)
+
+    setRefreshLog?.(true)
+  }, [setRefreshLog])
 
   useEffect(() => {
-    fetch()
+    fetchStatus()
   }, [])
 
   return (
     <>
-      <div className='text-start text-beige'>
+      <div className='col-12 text-start text-beige'>
         <Commit />
         <CollapseList
-          className='border-bottom-0'
           heading={'Staged changes'}
+          className='border-top border-bottom border-davygray'
+          buttons={staged_buttons}
           items={staged.map((file) => (
             <File
               key={file.path}
-              afterClick={fetch}
+              afterClick={fetchStatus}
               staged={true}
               full_path={file.path}
               status={file.status}
@@ -81,10 +115,12 @@ function Stage({ setRefreshLog }: StageProps) {
 
         <CollapseList
           heading={'Changes'}
+          className='border-top border-bottom border-davygray'
+          buttons={notAdded_buttons}
           items={notAdded.map((file) => (
             <File
               key={file.path}
-              afterClick={fetch}
+              afterClick={fetchStatus}
               staged={false}
               full_path={file.path}
               status={file.status}

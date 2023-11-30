@@ -33,7 +33,7 @@ export class Git {
     this.git = simpleGit(this.options)
   }
 
-  async getCWD(): Promise<string | undefined> {
+  getCWD(): string | undefined {
     return this.options.baseDir
   }
 
@@ -53,16 +53,23 @@ export class Git {
     return this.git.status()
   }
 
-  async add(file: string): Promise<string> {
-    return this.git.add(file)
+  async add(file?: string): Promise<string> {
+    return this.git.add(file ? file : ['-A'])
   }
-  async unstage(file: string): Promise<string> {
-    return this.git.reset([file])
+
+  async unstage(file?: string): Promise<string> {
+    if (file) return this.git.reset(['--', file])
+    return this.git.reset([])
   }
 
   async discard(file: string) {
     await this.unstage(file)
     return this.git.checkout('HEAD', ['-f', '--', file])
+  }
+
+  async discard_unstaged() {
+    await this.git.stash(['push', '--keep-index', '--all'])
+    return this.git.stash(['drop', '0'])
   }
 
   async rm(file: string) {

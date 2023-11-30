@@ -28,10 +28,10 @@ export const StageController: IController = {
       }
     },
 
-    async add(_: IpcMainInvokeEvent, file: string) {
+    async add(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.add(file)
-        log.append('COMMAND', `Add file`)
+        log.append('COMMAND', `Added`)
         return true
       } catch (error: any) {
         log.append('ERROR', String(error))
@@ -39,10 +39,10 @@ export const StageController: IController = {
       }
     },
 
-    async unstage(_: IpcMainInvokeEvent, file: string) {
+    async unstage(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.unstage(file)
-        log.append('COMMAND', `Unstage file`)
+        log.append('COMMAND', `Unstaged`)
         return true
       } catch (error: any) {
         log.append('ERROR', String(error))
@@ -53,7 +53,18 @@ export const StageController: IController = {
     async discard(_: IpcMainInvokeEvent, file: string) {
       try {
         await git.discard(file)
-        log.append('COMMAND', `Discard file}`)
+        log.append('COMMAND', `Discard`)
+        return true
+      } catch (error: any) {
+        log.append('ERROR', String(error))
+        return false
+      }
+    },
+
+    async discard_unstaged(_: IpcMainInvokeEvent) {
+      try {
+        await git.discard_unstaged()
+        log.append('COMMAND', `Discard unstaged`)
         return true
       } catch (error: any) {
         log.append('ERROR', String(error))
@@ -64,7 +75,7 @@ export const StageController: IController = {
     async rm(_: IpcMainInvokeEvent, file: string) {
       try {
         await git.rm(file)
-        log.append('COMMAND', `Remove file}`)
+        log.append('COMMAND', `Remove file`)
         return true
       } catch (error: any) {
         log.append('ERROR', String(error))
