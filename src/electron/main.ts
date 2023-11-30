@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu } from 'electron'
 import path from 'node:path'
 import { GitController } from '../controllers/GitController'
-import { RepositoryController } from '../controllers/RepositoryController'
+import { AppController } from '../controllers/AppController'
 import { MenuController } from '../controllers/MenuController'
 import { LogController } from '../controllers/LogController'
 import { StageController } from '../controllers/StageController'
@@ -37,7 +37,7 @@ function createWindow() {
   Menu.setApplicationMenu(generateMenu(win))
 
   createIPCHandlers(GitController)
-  createIPCHandlers(RepositoryController)
+  createIPCHandlers(AppController)
   createIPCHandlers(MenuController)
   createIPCHandlers(LogController)
   createIPCHandlers(StageController)
@@ -58,6 +58,11 @@ app.on('window-all-closed', () => {
     app.quit()
     win = null
   }
+})
+
+app.on('browser-window-focus', (event, win) => {
+  win.webContents.send('app:request_refresh')
+  console.log(event)
 })
 
 app.on('activate', () => {

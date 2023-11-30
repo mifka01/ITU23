@@ -31,6 +31,13 @@ export const generateMenu = (win: BrowserWindow) => {
               })
           },
         },
+        {
+          label: 'Refresh',
+          accelerator: 'CmdOrCtrl+R',
+          click() {
+            win.reload()
+          },
+        },
         { type: 'separator' },
         {
           label: 'Exit',

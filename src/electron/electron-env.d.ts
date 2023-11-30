@@ -24,6 +24,6 @@ declare namespace NodeJS {
 // Used in Renderer process, expose in `preload.ts`
 interface Window {
   git: import('app/api/git').git
-  repository: import('app/api/repository').repository
+  app: import('app/api/app').app
   log: import('app/api/log').log
 }

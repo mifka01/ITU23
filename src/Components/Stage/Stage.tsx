@@ -3,7 +3,7 @@
 // @author Radim Mifka (xmifka00)
 // @date November 2023
 
-import { useState, useEffect, Dispatch, SetStateAction, useCallback } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import File from 'components/File'
 import CollapseList from 'components/CollapseList'
 import Commit from 'components/Commit'
@@ -69,7 +69,7 @@ function Stage({ setRefreshLog }: StageProps) {
     },
   ]
 
-  const fetchStatus = useCallback(async () => {
+  const fetchStatus = async () => {
     const response = await window.git.status()
 
     let staged_files: FileEntry[] = []
@@ -88,10 +88,14 @@ function Stage({ setRefreshLog }: StageProps) {
     setNotAdded(not_added)
 
     setRefreshLog?.(true)
-  }, [setRefreshLog])
+  }
 
   useEffect(() => {
+    window.app.request_refresh(fetchStatus)
     fetchStatus()
+    return () => {
+      window.app.request_refresh(fetchStatus, true)
+    }
   }, [])
 
   return (

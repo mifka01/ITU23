@@ -6,7 +6,6 @@
 import { useState } from 'react'
 import { Plus, Minus, Undo2 } from 'lucide-react'
 import Button from 'components/Button'
-import clsx from 'clsx'
 
 const STATUS_UNTRACKED = 'U'
 const STATUS_APPENDED = 'A'
@@ -14,7 +13,7 @@ const STATUS_MODIFIED = 'M'
 const STATUS_DELETED = 'D'
 
 interface FileProps {
-  afterClick: () => void
+  afterClick?: () => void
   staged: boolean
   full_path: string
   status: string
@@ -61,7 +60,7 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
     } else {
       await window.git.unstage(full_path)
     }
-    afterClick()
+    afterClick?.()
   }
 
   const handleDiscard = async () => {
@@ -70,7 +69,7 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
     } else {
       await window.git.discard(full_path)
     }
-    afterClick()
+    afterClick?.()
   }
 
   return (
