@@ -7,8 +7,8 @@ export const GitController: IController = {
   prefix: 'git',
   functions: {
     async cwd(_: IpcMainInvokeEvent) {
-      let response = await git.getCWD()
+      let response = git.getCWD()
       return response
     },
-  }
+  },
 }

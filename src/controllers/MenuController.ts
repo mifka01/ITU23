@@ -14,7 +14,6 @@ export const MenuController: IController = {
         log.append('COMMAND', `Succesfully Pulled`)
         return true
       } catch (error: any) {
-        console.log(error)
         log.append('ERROR', String(error))
         return false
       }

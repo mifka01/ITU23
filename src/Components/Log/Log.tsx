@@ -15,13 +15,15 @@ import { Trash2 } from 'lucide-react'
 
 import LogMessage from 'components/LogMessage'
 import Button from 'components/Button'
+import clsx from 'clsx'
 
 interface LogProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
   refreshLog?: boolean
+  className?: String
 }
 
-function Log({ refreshLog, setRefreshLog }: LogProps) {
+function Log({ refreshLog, setRefreshLog, className }: LogProps) {
   const [messages, setMessages] = useState<ComponentProps<typeof LogMessage>[]>(
     [],
   )
@@ -55,18 +57,17 @@ function Log({ refreshLog, setRefreshLog }: LogProps) {
 
   return (
     <>
-      <div className='m-0 row bg-darkpurple border border-0 border-bottom border-davygray text-start'>
-        <div className='col-11'>LOG</div>
+      <div className={clsx('d-flex bg-darkpurple text-start', className)}>
+        <div className='col-11'>
+          <span className='ps-2'>LOG</span>
+        </div>
         <div className='col-1 text-end'>
-          <Button
-            onClick={handleClear}
-            className='text-beige border-0 d-flex align-items-center h-100 ms-auto'
-          >
+          <Button onClick={handleClear} className='text-beige ms-auto'>
             <Trash2 size={18} />
           </Button>
         </div>
       </div>
-      <div className='row text-start m-0 ps-2'>
+      <div className='d-flex bg-gunmetal flex-column flex-grow-1 text-start h-100 overflow-auto'>
         {messages.map((message, index) => (
           <LogMessage
             key={index}
@@ -75,8 +76,8 @@ function Log({ refreshLog, setRefreshLog }: LogProps) {
             text={message.text}
           />
         ))}
+        <Bottom />
       </div>
-      <Bottom />
     </>
   )
 }

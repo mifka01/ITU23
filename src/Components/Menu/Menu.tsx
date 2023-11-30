@@ -12,14 +12,12 @@ interface Props {
 }
 function Menu({ setRefreshLog }: Props) {
   const handlePush = async () => {
-    const response = await window.git.push()
-    if (setRefreshLog != undefined) setRefreshLog(true)
-    return response
+    await window.git.push()
+    setRefreshLog?.(true)
   }
   const handlePull = async () => {
-    const response = await window.git.pull()
-    if (setRefreshLog != undefined) setRefreshLog(true)
-    return response
+    await window.git.pull()
+    setRefreshLog?.(true)
   }
 
   const buttons = [

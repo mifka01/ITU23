@@ -65,23 +65,25 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
   }
 
   const handleDiscard = async () => {
-    if (status == STATUS_UNTRACKED || status == STATUS_APPENDED)
+    if (status == STATUS_UNTRACKED || status == STATUS_APPENDED) {
       await window.git.rm(full_path)
-    else await window.git.discard(full_path)
+    } else {
+      await window.git.discard(full_path)
+    }
     afterClick()
   }
 
   return (
-    <>
-      <div
-        className={`row small ${background_color}`}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleHover}
-      >
-        <div className='col-8'>{name}</div>
-        <div className='col-4'>
-          <div className='d-flex justify-content-end'>
-            <div className={clsx(' text-end', { ['d-none']: !isHovered })}>
+    <div
+      className={`row small ${background_color}`}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+    >
+      <div className='col-8'>{name}</div>
+      <div className='col-4'>
+        <div className='d-flex justify-content-end'>
+          {isHovered && (
+            <div className='text-end'>
               <Button onClick={handleDiscard} className='text-end border-0'>
                 <Undo2 size={15} color='white' />
               </Button>
@@ -89,11 +91,11 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
                 {icon}
               </Button>
             </div>
-            <div className={`ps-2 mt-1 text-end ${status_color}`}>{status}</div>
-          </div>
+          )}
+          <div className={`ps-2 mt-1 text-end ${status_color}`}>{status}</div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
