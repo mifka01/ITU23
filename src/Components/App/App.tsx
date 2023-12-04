@@ -6,6 +6,7 @@
 import Menu from 'components/Menu'
 import Log from 'components/Log'
 import Stage from 'components/Stage'
+import Branches from 'components/Branches'
 import { useState } from 'react'
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
             <div className='d-flex h-50'>
               <Stage setRefreshLog={setRefreshLog} />
             </div>
-            <div className='d-flex h-50'></div>
+            <div className='d-flex h-25'>
+              <Branches setRefreshLog={setRefreshLog} />
+            </div>
           </div>
           <div className='col-7 gx-0 border-top border-davygray'>
             <div className='d-flex flex-column h-75 '>

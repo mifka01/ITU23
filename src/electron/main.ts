@@ -5,6 +5,7 @@ import { AppController } from '../controllers/AppController'
 import { MenuController } from '../controllers/MenuController'
 import { LogController } from '../controllers/LogController'
 import { StageController } from '../controllers/StageController'
+import { BranchController } from '../controllers/BranchController'
 import { createIPCHandlers } from './utils'
 import { generateMenu } from './menu'
 
@@ -41,6 +42,7 @@ function createWindow() {
   createIPCHandlers(MenuController)
   createIPCHandlers(LogController)
   createIPCHandlers(StageController)
+  createIPCHandlers(BranchController)
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
@@ -60,9 +62,8 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('browser-window-focus', (event, win) => {
+app.on('browser-window-focus', (_, win) => {
   win.webContents.send('app:request_refresh')
-  console.log(event)
 })
 
 app.on('activate', () => {

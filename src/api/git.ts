@@ -47,4 +47,12 @@ export const git = {
   cwd: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:cwd`)
   },
+
+  branches: (): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:branches`)
+  },
+
+  checkout_branch: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:checkout_branch`, name)
+  },
 }

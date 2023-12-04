@@ -80,6 +80,14 @@ export class Git {
   async commit(message: string) {
     return this.git.commit(message)
   }
+
+  async branches() {
+    return this.git.branchLocal()
+  }
+
+  async checkout_branch(name: string) {
+    return this.git.checkout(name)
+  }
 }
 
 export const git: Git = new Git(options)
