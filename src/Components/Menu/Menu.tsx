@@ -27,7 +27,7 @@ function Menu({ setRefreshLog }: Props) {
 
   return (
     <>
-      <ul className='list-group list-group-horizontal rounded-0 px-3'>
+      <ul className='list-group list-group-horizontal rounded-0 px-3 bg-darkpurple'>
         {buttons.map((button, index) => (
           <li
             key={index}

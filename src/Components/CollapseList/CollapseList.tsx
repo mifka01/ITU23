@@ -37,7 +37,7 @@ function CollapseList({
     <>
       <div
         className={clsx(
-          'heading row',
+          'heading row bg-darkpurple',
           { ['bg-gunmetal']: isHovered },
           className,
         )}

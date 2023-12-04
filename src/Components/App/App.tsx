@@ -10,14 +10,11 @@ import Branches from 'components/Branches'
 import { useState } from 'react'
 
 function App() {
-  // dunno about this
-  document.body.classList.add('bg-darkpurple')
-  document.body.classList.add('text-white')
   const [refreshLog, setRefreshLog] = useState(false)
 
   return (
     <>
-      <div className='container-fluid min-vh-100 d-flex flex-column'>
+      <div className='container-fluid min-vh-100 d-flex flex-column text-beige bg-darkpurple'>
         <div className='row'>
           <Menu setRefreshLog={setRefreshLog} />
         </div>
@@ -31,11 +28,11 @@ function App() {
             </div>
           </div>
           <div className='col-7 gx-0 border-top border-davygray'>
-            <div className='d-flex flex-column h-75 '>
-              <div className='d-flex bg-darkpurple text-start border-bottom border-davygray'>
+            <div className='d-flex flex-column h-75'>
+              <div className='d-flex bg-darkpurple text-beige text-start border-bottom border-davygray'>
                 <span className='ps-2'>HEADER</span>
               </div>
-              <div className='d-flex flex-grow-1 h-100 bg-gunmetal'>
+              <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
                 <span className='ps-2'>DIFF</span>
               </div>
             </div>
@@ -48,10 +45,10 @@ function App() {
             </div>
           </div>
           <div className='col-2 border border-davygray'>
-            <div className='row h-50 border-bottom border-davygray'>
+            <div className='row h-50 border-bottom border-davygray bg-darkpurple'>
               <div>HISTORY</div>
             </div>
-            <div className='row h-50'>
+            <div className='row h-50 bg-darkpurple text-beige'>
               <div>STASH</div>
             </div>
           </div>

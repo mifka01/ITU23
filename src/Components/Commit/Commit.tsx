@@ -35,7 +35,7 @@ function Commit({ className, afterSubmit }: CommitProps) {
 
   return (
     <>
-      <div className='row'>
+      <div className='row bg-darkpurple'>
         <form
           className={clsx('form-floating', className)}
           onSubmit={handleSubmit}
