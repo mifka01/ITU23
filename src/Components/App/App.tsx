@@ -7,10 +7,17 @@ import Menu from 'components/Menu'
 import Log from 'components/Log'
 import Stage from 'components/Stage'
 import Branches from 'components/Branches'
+import Portal from 'components/Portal'
+import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [modal, setModal] = useState<ModalProps>({
+    children: undefined,
+    buttons: [],
+  })
 
   return (
     <>
@@ -20,11 +27,23 @@ function App() {
         </div>
         <div className='row text-center flex-grow-1'>
           <div className='col-3 border border-davygray'>
-            <div className='d-flex h-50'>
-              <Stage setRefreshLog={setRefreshLog} />
+            <div className='d-flex'>
+              <Stage
+                setRefreshLog={setRefreshLog}
+                setShowModal={setShowModal}
+                setModal={setModal}
+              />
             </div>
-            <div className='d-flex h-25'>
-              <Branches setRefreshLog={setRefreshLog} />
+            <div className='d-flex '>
+              <Branches
+                setRefreshLog={setRefreshLog}
+                setShowModal={setShowModal}
+                setModal={setModal}
+              />
+            </div>
+            <div className='d-flex'>REPO</div>
+            <div className='clipping-container'>
+              <Portal showModal={showModal} {...modal} />
             </div>
           </div>
           <div className='col-7 gx-0 border-top border-davygray'>

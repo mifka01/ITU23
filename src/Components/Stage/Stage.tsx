@@ -8,6 +8,7 @@ import File from 'components/File'
 import CollapseList from 'components/CollapseList'
 import Commit from 'components/Commit'
 import { Plus, Minus, Undo2 } from 'lucide-react'
+import { ModalProps } from 'components/Modal'
 
 type FileEntry = { path: string; status: string }
 
@@ -31,9 +32,11 @@ function getStatus(filename: string, inputObject: StatusResult) {
 
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  setShowModal?: Dispatch<SetStateAction<boolean>>
+  setModal?: Dispatch<SetStateAction<ModalProps>>
 }
 
-function Stage({ setRefreshLog }: StageProps) {
+function Stage({ setRefreshLog, setShowModal, setModal }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
 
@@ -48,8 +51,28 @@ function Stage({ setRefreshLog }: StageProps) {
   }
 
   const handleDiscardAll = async () => {
-    await window.git.discard_unstaged()
-    fetchStatus()
+    if (setModal && setShowModal) {
+      setModal({
+        children: <span>Are you sure you want to discard all changes?</span>,
+        buttons: [
+          {
+            text: 'No',
+            onClick: () => {
+              setShowModal?.(false)
+            },
+          },
+          {
+            text: 'Yes',
+            onClick: async () => {
+              await window.git.discard_unstaged()
+              fetchStatus()
+              setShowModal?.(false)
+            },
+          },
+        ],
+      })
+      setShowModal(true)
+    }
   }
 
   const notAdded_buttons = [
