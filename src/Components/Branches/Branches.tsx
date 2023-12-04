@@ -6,6 +6,8 @@
 import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
+import { ModalProps } from 'components/Modal'
+import { Minus } from 'lucide-react'
 import {
   useState,
   useEffect,
@@ -16,15 +18,44 @@ import {
 
 interface BranchesProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  setShowModal?: Dispatch<SetStateAction<boolean>>
+  setModal?: Dispatch<SetStateAction<ModalProps>>
 }
 
 type BranchEntry = { name: string; current: boolean }
 
-function Branches({ setRefreshLog }: BranchesProps) {
+function Branches({ setRefreshLog, setModal, setShowModal }: BranchesProps) {
   const [branches, setBranches] = useState<BranchEntry[]>([])
 
+  const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {
+    if (setModal && setShowModal) {
+      let name = event.currentTarget.dataset['name']
+
+      setModal({
+        children: <span>Are you sure you want to delete branch: {name}?</span>,
+        buttons: [
+          {
+            text: 'No',
+            onClick: () => {
+              setShowModal?.(false)
+            },
+          },
+          {
+            text: 'Yes',
+            onClick: async () => {
+              await window.git.delete_branch(name)
+              fetchBranches()
+              setShowModal?.(false)
+            },
+          },
+        ],
+      })
+      setShowModal(true)
+    }
+  }
+
   const handleCheckout = async (event: MouseEvent<HTMLButtonElement>) => {
-    let name = event.currentTarget.innerText
+    let name = event.currentTarget.dataset['name']
     await window.git.checkout_branch(name)
     fetchBranches()
   }
@@ -60,16 +91,28 @@ function Branches({ setRefreshLog }: BranchesProps) {
       <CollapseList
         heading={'Branches'}
         className='border-top border-bottom border-davygray'
-        items={branches.map((branch: BranchEntry, index: number) => (
+        items={branches.map((branch: BranchEntry) => (
           <ListItem
-            key={index}
+            key={branch.name}
             start={
               <Button
+                data-name={branch.name}
                 onClick={handleCheckout}
-                className='text-end text-white border-0'
+                className='text-end text-beige border-0'
               >
-                {branch.name}
+                <small>{branch.name}</small>
               </Button>
+            }
+            hovered={
+              !branch.current ? (
+                <Button
+                  data-name={branch.name}
+                  className='text-white'
+                  onClick={handleDelete}
+                >
+                  <Minus size={15} />
+                </Button>
+              ) : undefined
             }
             end={
               branch.current ? (

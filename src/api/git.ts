@@ -55,4 +55,8 @@ export const git = {
   checkout_branch: (name: string): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:checkout_branch`, name)
   },
+
+  delete_branch: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:delete_branch`, name)
+  },
 }
