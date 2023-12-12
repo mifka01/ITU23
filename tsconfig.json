@@ -20,7 +20,7 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./src/*"],
-      "components/*": ["./src/components/*"],
+      "components/*": ["./src/Components/*"],
       "models/*": ["./src/models/*"],
       "interfaces/*": ["./src/interfaces/*"],
       "controllers/*": ["./src/controllers/*"],
