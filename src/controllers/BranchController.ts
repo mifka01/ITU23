@@ -28,10 +28,22 @@ export const BranchController: IController = {
         return false
       }
     },
+
     async delete_branch(_: IpcMainInvokeEvent, name: string) {
       try {
         await git.delete_branch(name)
         log.append('COMMAND', `git branch -d ${name}`)
+        return true
+      } catch (error: any) {
+        log.append('ERROR', String(error))
+        return false
+      }
+    },
+
+    async create_branch(_: IpcMainInvokeEvent, name: string) {
+      try {
+        await git.create_branch(name)
+        log.append('COMMAND', `git checkout -b ${name}`)
         return true
       } catch (error: any) {
         log.append('ERROR', String(error))

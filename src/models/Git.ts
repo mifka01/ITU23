@@ -92,6 +92,10 @@ export class Git {
   async delete_branch(name: string) {
     return this.git.deleteLocalBranch(name)
   }
+
+  async create_branch(name: string) {
+    return this.git.checkoutLocalBranch(name)
+  }
 }
 
 export const git: Git = new Git(options)
