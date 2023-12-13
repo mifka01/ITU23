@@ -16,10 +16,13 @@ import { useState } from 'react'
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [filePath,setFilePath] = useState("")
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
   })
+
+  //setFilePath("src/Components/App/App.tsx")
 
   return (
     <>
@@ -34,6 +37,7 @@ function App() {
                 setRefreshLog={setRefreshLog}
                 setShowModal={setShowModal}
                 setModal={setModal}
+                setFilePath={setFilePath}
               />
             </div>
             <div className='d-flex '>
@@ -51,10 +55,12 @@ function App() {
           <div className='col-7 gx-0 border-top border-davygray'>
             <div className='d-flex flex-column h-75'>
               <div className='d-flex bg-darkpurple text-beige text-start border-bottom border-davygray'>
-                <span className='ps-2'>HEADER</span>
+                <span className='ps-2'>{filePath ? filePath : "No file selected"}</span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                <Diff />
+                <Diff
+                    filePath={filePath}
+                />
               </div>
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>

@@ -6,6 +6,7 @@
 import { Plus, Minus, Undo2 } from 'lucide-react'
 import Button from 'components/Button'
 import ListItem from 'components/ListItem'
+import {Dispatch, SetStateAction} from "react";
 
 const STATUS_UNTRACKED = 'U'
 const STATUS_APPENDED = 'A'
@@ -17,9 +18,10 @@ interface FileProps {
   staged: boolean
   full_path: string
   status: string
+  setFilePath: Dispatch<SetStateAction<string>>
 }
 
-function File({ afterClick, staged, full_path, status }: FileProps) {
+function File({ afterClick, staged, full_path, status, setFilePath }: FileProps) {
   const name = full_path.split('/').pop()
   // const path = full_path.slice(0, full_path.lastIndexOf('/'))
 
@@ -78,6 +80,8 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
           </Button>
         </>
       }
+      setFilePath={setFilePath}
+      full_path={full_path}
     />
   )
 }

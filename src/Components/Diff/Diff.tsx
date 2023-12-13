@@ -3,20 +3,28 @@
 // @author Michal Zapletal (xzaple41)
 // @date October 2023
 
-
 import {useEffect, useState} from "react";
 
-function Diff() {
+interface Path{
+    filePath: string
+}
+
+function Diff({filePath} : Path) {
     const [data, setData] = useState<string>("")
 
     useEffect(() => {
         async function getData(){
-            const data = await window.git.getDiff('src/Components/Diff/Diff.tsx')
-            setData(data)
-            //console.log(data)
+            //console.log(filePath)
+            if(filePath) {
+                const data = await window.git.getDiff(filePath)
+                setData(data)
+            }
+            else
+                setData("")
         }
         getData()
-    }, []);
+    }, [filePath]);
+
 
     let res = []
     let result= data.split('\n')
@@ -64,7 +72,7 @@ function Diff() {
         res.push(record)
     }
 
-    console.log(res)
+    //console.log(res)
 
     return (
         <>

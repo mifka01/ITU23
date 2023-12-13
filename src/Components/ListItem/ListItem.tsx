@@ -3,15 +3,17 @@
 // @author Radim Mifka (xmifka00)
 // @date December 2023
 
-import { ReactNode, useState } from 'react'
+import {Dispatch, ReactNode, SetStateAction, useState} from 'react'
 
 interface ListItemProps {
   start?: ReactNode
   end?: ReactNode
   hovered?: ReactNode
+  setFilePath: Dispatch<SetStateAction<string>>
+  full_path: string
 }
 
-function ListItem({ start, end, hovered }: ListItemProps) {
+function ListItem({ start, end, hovered, setFilePath, full_path }: ListItemProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const background_color = isHovered ? 'bg-gunmetal' : 'bg-darkpurple'
@@ -19,13 +21,18 @@ function ListItem({ start, end, hovered }: ListItemProps) {
   const handleHover = () => {
     setIsHovered(!isHovered)
   }
+
+  const handleOnClick = async () => {
+    setFilePath(full_path)
+  }
+
   return (
     <div
       className={`row small ${background_color}`}
       onMouseEnter={handleHover}
       onMouseLeave={handleHover}
     >
-      <div className='col-8 mt-1'>{start}</div>
+      <div className='col-8 mt-1' onClick={handleOnClick}>{start}</div>
       <div className='col-4'>
         <div className='d-flex justify-content-end'>
           {isHovered && <div className='text-end'>{hovered}</div>}
