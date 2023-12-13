@@ -92,6 +92,10 @@ export class Git {
   async delete_branch(name: string) {
     return this.git.deleteLocalBranch(name)
   }
+
+  async commit_tree(maxCount: string) {
+    return this.git.log(['--max-count', maxCount])
+  }
 }
 
 export const git: Git = new Git(options)

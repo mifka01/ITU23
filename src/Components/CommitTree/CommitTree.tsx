@@ -1,0 +1,56 @@
+// @file components/CommitTree.tsx
+// @brief Commit tree component
+// @author Bálek Miroslav (xbalek02)
+// @date December 2023
+
+import CollapseList from 'components/CollapseList'
+import CommitItem from '../CommmitItem'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+
+interface CommitTreeProps {
+  setRefreshLog?: Dispatch<SetStateAction<boolean>>
+}
+
+type CommitEntry = { message: string; hash: string }
+
+function CommitTree({ setRefreshLog }: CommitTreeProps) {
+  const [committree, setCommitTree] = useState<CommitEntry[]>([])
+
+  const fetchCommitTree = async () => {
+    const response = await window.git.commit_tree()
+
+    let entries: CommitEntry[] = []
+    console.log(response)
+    response.all.forEach((entry: CommitEntry) => {
+      entries.push({ message: entry.message, hash: entry.hash })
+    })
+
+    setCommitTree(entries)
+    setRefreshLog?.(true)
+  }
+
+  useEffect(() => {
+    window.app.request_refresh(fetchCommitTree)
+    fetchCommitTree()
+    return () => {
+      window.app.request_refresh(fetchCommitTree, true)
+    }
+  }, [])
+
+  return (
+    <div className="col-12 text-start text-beige">
+      <CollapseList
+        heading={'Commit Tree'}
+        className="border-top border-bottom border-davygray"
+        items={committree.map((commit: CommitEntry) => (
+          <CommitItem
+            key={commit.hash}
+            message={<small>{commit.message}</small>}
+          />
+        ))}
+      />
+    </div>
+  )
+}
+
+export default CommitTree

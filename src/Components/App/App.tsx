@@ -8,6 +8,7 @@ import Log from 'components/Log'
 import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Portal from 'components/Portal'
+import CommitTree from 'components/CommitTree'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
 
@@ -65,7 +66,7 @@ function App() {
           </div>
           <div className='col-2 border border-davygray'>
             <div className='row h-50 border-bottom border-davygray bg-darkpurple'>
-              <div>HISTORY</div>
+              <CommitTree setRefreshLog={setRefreshLog} />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
               <div>STASH</div>
