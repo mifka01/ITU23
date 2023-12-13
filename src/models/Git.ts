@@ -94,8 +94,9 @@ export class Git {
   }
 
   async getDiff(){
-    return this.git.diff();
+    return this.git.diff(['--no-color','--minimal']);
   }
+  // --raw = generates names of changed files
 }
 
 export const git: Git = new Git(options)

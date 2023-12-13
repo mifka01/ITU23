@@ -21,6 +21,13 @@ function Diff() {
     console.log(data)
 
     let result= data.split('\n')
+    for(let i = 0; i < result.length; i++){
+        result[i] += '\n'
+        if(result[i][0] !== '+' && result[i][0] !== '-' && result[i][0] !== ' ' /*&& result[i][0] !== '@'*/){
+            delete result[i]
+        }
+    }
+
 
     return (
         <>
@@ -29,13 +36,39 @@ function Diff() {
                 overflow: 'auto',
                 height: '65vh',
                 width: '100%',
-                textAlign: 'left',
-                paddingLeft: '1vh'
+                textAlign: 'left'
             }}>
-                {result.map((element) => (<p>{element}</p>))}
+                <pre style={{width: "100%"}}>
+                    {result.map((element) => {
+                        if(element[0] === '+') {
+                            return (<code style={{
+                                backgroundColor: "green",
+                                display: "block",
+                                paddingLeft: '1vh'
+                            }}>
+                                {element.substring(1)}
+                            </code>)
+                        }else if(element[0] === '-'){
+                            return (<code style={{
+                                backgroundColor: "red",
+                                display: "block",
+                                paddingLeft: '1vh'
+                            }}>
+                                {element.substring(1)}
+                            </code>)
+                        }else {
+                            return (<code style={{
+                                display: "block",
+                                paddingLeft: '1vh'
+                            }}>
+                                {element.substring(1)}
+                            </code>)
+                        }
+                        })}
+                </pre>
             </div>
         </>
     )
 }
-
+// {result.map((element) => (<code>{element}</code>))}
 export default Diff
