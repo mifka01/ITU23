@@ -60,14 +60,14 @@ function Branches({
         ),
         buttons: [
           {
-            text: 'No',
+            text: 'Abort',
             onClick: () => {
               newBranchRef.current = ''
               setShowModal?.(false)
             },
           },
           {
-            text: 'Yes',
+            text: 'Create',
             onClick: async () => {
               await window.git.create_branch(newBranchRef.current)
               fetchBranches()
