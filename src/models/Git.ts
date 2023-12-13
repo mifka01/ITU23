@@ -41,12 +41,20 @@ export class Git {
     return this.git.clone(repositoryUrl, destination)
   }
 
-  async pull(): Promise<PullResult> {
-    return this.git.pull()
+  getCurrentBranch(): string {
+    return String(this.git.revparse(['--abbrev-ref', 'HEAD']))
   }
 
-  async push(): Promise<PushResult> {
-    return this.git.push()
+  getOrigin(): string {
+    return String(Array(this.git.getRemotes())[0])
+  }
+
+  async pull(): Promise<PullResult> {
+    return this.git.pull(this.getOrigin(), this.getCurrentBranch())
+  }
+
+  async push(): Promise<any> {
+    return this.git.push(this.getOrigin(), this.getCurrentBranch())
   }
 
   async status(): Promise<StatusResult> {
