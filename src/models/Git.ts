@@ -9,6 +9,7 @@ import {
   SimpleGitOptions,
   StatusResult,
   PushResult,
+  RemoteWithoutRefs,
   PullResult,
 } from 'simple-git'
 
@@ -41,20 +42,24 @@ export class Git {
     return this.git.clone(repositoryUrl, destination)
   }
 
-  getCurrentBranch(): string {
-    return String(this.git.revparse(['--abbrev-ref', 'HEAD']))
+  async getCurrentBranch(): Promise<string> {
+    return this.git.revparse(['--abbrev-ref', 'HEAD'])
   }
 
-  getOrigin(): string {
-    return String(Array(this.git.getRemotes())[0])
+  async getOrigins(): Promise<RemoteWithoutRefs[]> {
+    return this.git.getRemotes()
   }
 
   async pull(): Promise<PullResult> {
-    return this.git.pull(this.getOrigin(), this.getCurrentBranch())
+    let branch = await this.getCurrentBranch()
+    let origin = await this.getOrigins()
+    return this.git.pull(origin[0].name, branch)
   }
 
   async push(): Promise<any> {
-    return this.git.push(this.getOrigin(), this.getCurrentBranch())
+    let branch = await this.getCurrentBranch()
+    let origin = await this.getOrigins()
+    return this.git.push(origin[0].name, branch)
   }
 
   async status(): Promise<StatusResult> {
