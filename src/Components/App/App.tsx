@@ -1,5 +1,6 @@
 // @file components/App.tsx
 // @brief Main App grid
+
 // @author Radim Mifka (xmifka00)
 // @date October 2023
 
@@ -8,6 +9,7 @@ import Log from 'components/Log'
 import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Portal from 'components/Portal'
+import Diff from 'components/Diff'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
 
@@ -52,7 +54,7 @@ function App() {
                 <span className='ps-2'>HEADER</span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                <span className='ps-2'>DIFF</span>
+                <Diff />
               </div>
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
