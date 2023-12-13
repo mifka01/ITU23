@@ -6,8 +6,8 @@ import { git } from '../models/Git'
 export const DiffController: IController = {
     prefix: 'git',
     functions: {
-        async getDiff(_: IpcMainInvokeEvent) {
-            return git.getDiff()
+        async getDiff(_: IpcMainInvokeEvent, path: string) {
+            return git.getDiff(path)
         },
     },
 }

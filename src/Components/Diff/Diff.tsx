@@ -11,23 +11,60 @@ function Diff() {
 
     useEffect(() => {
         async function getData(){
-            const data = await window.git.getDiff()
+            const data = await window.git.getDiff('src/Components/Diff/Diff.tsx')
             setData(data)
             //console.log(data)
         }
         getData()
     }, []);
 
-    console.log(data)
-
+    let res = []
     let result= data.split('\n')
-    for(let i = 0; i < result.length; i++){
-        result[i] += '\n'
-        if(result[i][0] !== '+' && result[i][0] !== '-' && result[i][0] !== ' ' /*&& result[i][0] !== '@'*/){
-            delete result[i]
+    let from = 0
+    let neg = 0
+    let previous = 's'
+    for(let i = 0; i < result.length; i++) {
+        let record = []
+
+        if(result[i] && result[i][0] === '@') {
+            from = parseInt(result[i].split(' ')[2].replace(/\D/g,' ').trim().split(' ')[0])
+            previous = 's'
+            continue
+        }else if(result[i] && (result[i][0] == '+' || result[i][0] == '-' || result[i][0] == ' ')) {
+            if(result[i][1] === '+' || result[i][1] === '-'){
+                continue
+            }
+            record.push(result[i][0])
+        }else{
+            continue
         }
+
+        if(result[i][0] === '+'){
+            from ++
+            record.push(from.toString())
+        }else if(result[i][0] === '-') {
+            if(previous !== '-') {
+                neg = from
+            }
+            neg++
+            record.push(neg.toString())
+        }else {
+            if(previous !== 's')
+                from ++
+            record.push(from.toString())
+        }
+        previous = result[i][0]
+
+        record.push(result[i].substring(1))
+
+        if(record[2] === ""){
+            record[2] = " "
+        }
+
+        res.push(record)
     }
 
+    console.log(res)
 
     return (
         <>
@@ -36,34 +73,37 @@ function Diff() {
                 overflow: 'auto',
                 height: '65vh',
                 width: '100%',
-                textAlign: 'left'
+                textAlign: 'left',
+                display: "flex"
             }}>
                 <pre style={{width: "100%"}}>
-                    {result.map((element) => {
+                    {res.map((element) => {
+                        let color = ""
                         if(element[0] === '+') {
-                            return (<code style={{
-                                backgroundColor: "green",
-                                display: "block",
-                                paddingLeft: '1vh'
-                            }}>
-                                {element.substring(1)}
-                            </code>)
+                            color = "green"
                         }else if(element[0] === '-'){
-                            return (<code style={{
-                                backgroundColor: "red",
-                                display: "block",
-                                paddingLeft: '1vh'
-                            }}>
-                                {element.substring(1)}
-                            </code>)
-                        }else {
-                            return (<code style={{
-                                display: "block",
-                                paddingLeft: '1vh'
-                            }}>
-                                {element.substring(1)}
-                            </code>)
+                            color = "darkred"
                         }
+
+                        return (
+                            <div style={{
+                                display:  "block"
+                            }}>
+                                <code style={{
+                                    display: "inline-block",
+                                    width: "10%"
+                                }}>
+                                    {element[1]}
+                                </code>
+                                <code style={{
+                                display: "inline-block",
+                                paddingLeft: '1vh',
+                                background: color,
+                                width: "90%"
+                                }}>
+                                    {element[2]}
+                                </code>
+                            </div>)
                         })}
                 </pre>
             </div>

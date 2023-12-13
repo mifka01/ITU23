@@ -93,8 +93,8 @@ export class Git {
     return this.git.deleteLocalBranch(name)
   }
 
-  async getDiff(){
-    return this.git.diff(['--no-color','--minimal']);
+  async getDiff(path: string){
+    return this.git.diff(['--no-color','--minimal',path]);
   }
   // --raw = generates names of changed files
 }
