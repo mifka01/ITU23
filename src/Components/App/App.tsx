@@ -65,7 +65,7 @@ function App() {
             </div>
           </div>
           <div className='col-2 border border-davygray'>
-            <div className='row h-50 border-bottom border-davygray bg-darkpurple'>
+            <div className='d-flex'>
               <CommitTree setRefreshLog={setRefreshLog} />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
