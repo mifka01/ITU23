@@ -63,4 +63,8 @@ export const git = {
   create_branch: (name: string): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:create_branch`, name)
   },
+
+  commit_tree: (maxCount: number): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:commit_tree`, maxCount)
+  },
 }
