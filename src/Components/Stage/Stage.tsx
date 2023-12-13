@@ -77,17 +77,17 @@ function Stage({ setRefreshLog, setShowModal, setModal }: StageProps) {
 
   const notAdded_buttons = [
     {
-      Icon: Undo2,
+      text: Undo2,
       onClick: handleDiscardAll,
     },
     {
-      Icon: Plus,
+      text: Plus,
       onClick: handleStageAll,
     },
   ]
   const staged_buttons = [
     {
-      Icon: Minus,
+      text: Minus,
       onClick: handleUnstageAll,
     },
   ]

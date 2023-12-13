@@ -13,7 +13,7 @@ interface CollapseListProps {
   heading: String
   items: ReactNode[]
   className?: String
-  buttons?: { Icon: LucideIcon; onClick: () => Promise<void> }[]
+  buttons?: { text: LucideIcon | string; onClick: () => void }[]
 }
 
 function CollapseList({
@@ -56,7 +56,11 @@ function CollapseList({
                   onClick={button.onClick}
                   className='text-beige border-0 pe-2'
                 >
-                  <button.Icon size={20} />
+                  {typeof button.text === 'string' ? (
+                    button.text
+                  ) : (
+                    <button.text size={20} />
+                  )}
                 </Button>
               ),
           )}
