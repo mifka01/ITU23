@@ -32,11 +32,17 @@ function getStatus(filename: string, inputObject: StatusResult) {
 
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
 }
 
-function Stage({ setRefreshLog, setShowModal, setModal }: StageProps) {
+function Stage({
+  setRefreshLog,
+  setRefreshCommitTree,
+  setShowModal,
+  setModal,
+}: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
 
@@ -124,7 +130,12 @@ function Stage({ setRefreshLog, setShowModal, setModal }: StageProps) {
   return (
     <>
       <div className='col-12 text-start text-beige'>
-        <Commit afterSubmit={fetchStatus} />
+        <Commit
+          afterSubmit={() => {
+            fetchStatus()
+            setRefreshCommitTree?.(true)
+          }}
+        />
         <CollapseList
           heading={'Staged changes'}
           className='border-top border-bottom border-davygray'

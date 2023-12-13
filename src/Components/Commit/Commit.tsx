@@ -5,9 +5,17 @@
 
 import clsx from 'clsx'
 import Button from 'components/Button'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import {
+  ChangeEvent,
+  FormEvent,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 
 interface CommitProps {
+  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
+  refreshCommitTree?: Dispatch<SetStateAction<boolean>>
   className?: String
   afterSubmit?: () => void
 }

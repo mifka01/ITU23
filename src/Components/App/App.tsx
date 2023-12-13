@@ -14,6 +14,7 @@ import { useState } from 'react'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
+  const [refreshCommitTree, setRefreshCommitTree] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
@@ -31,6 +32,7 @@ function App() {
             <div className='d-flex'>
               <Stage
                 setRefreshLog={setRefreshLog}
+                setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
                 setModal={setModal}
               />
@@ -38,6 +40,7 @@ function App() {
             <div className='d-flex '>
               <Branches
                 setRefreshLog={setRefreshLog}
+                setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
                 setModal={setModal}
               />
@@ -65,8 +68,11 @@ function App() {
             </div>
           </div>
           <div className='col-2 border border-davygray'>
-            <div className='d-flex'>
-              <CommitTree setRefreshLog={setRefreshLog} />
+            <div className='row h-50 border-bottom border-davygray bg-darkpurple'>
+              <CommitTree
+                setRefreshCommitTree={setRefreshCommitTree}
+                refreshCommitTree={refreshCommitTree}
+              />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
               <div>STASH</div>

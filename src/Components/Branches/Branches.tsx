@@ -18,13 +18,19 @@ import {
 
 interface BranchesProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
 }
 
 type BranchEntry = { name: string; current: boolean }
 
-function Branches({ setRefreshLog, setModal, setShowModal }: BranchesProps) {
+function Branches({
+  setRefreshLog,
+  setRefreshCommitTree,
+  setModal,
+  setShowModal,
+}: BranchesProps) {
   const [branches, setBranches] = useState<BranchEntry[]>([])
 
   const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -76,6 +82,7 @@ function Branches({ setRefreshLog, setModal, setShowModal }: BranchesProps) {
 
     setBranches(entries)
     setRefreshLog?.(true)
+    setRefreshCommitTree?.(true)
   }
 
   useEffect(() => {

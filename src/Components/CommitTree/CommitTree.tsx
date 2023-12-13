@@ -8,12 +8,16 @@ import CommitItem from '../CommmitItem'
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 
 interface CommitTreeProps {
-  setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
+  refreshCommitTree?: boolean
 }
 
 type CommitEntry = { message: string; hash: string }
 
-function CommitTree({ setRefreshLog }: CommitTreeProps) {
+function CommitTree({
+  setRefreshCommitTree,
+  refreshCommitTree,
+}: CommitTreeProps) {
   const [committree, setCommitTree] = useState<CommitEntry[]>([])
 
   const fetchCommitTree = async () => {
@@ -26,8 +30,12 @@ function CommitTree({ setRefreshLog }: CommitTreeProps) {
     })
 
     setCommitTree(entries)
-    setRefreshLog?.(true)
   }
+
+  useEffect(() => {
+    fetchCommitTree()
+    setRefreshCommitTree?.(false), [refreshCommitTree == true]
+  })
 
   useEffect(() => {
     window.app.request_refresh(fetchCommitTree)
@@ -38,10 +46,10 @@ function CommitTree({ setRefreshLog }: CommitTreeProps) {
   }, [])
 
   return (
-    <div className="col-12 text-start text-beige">
+    <div className='col-12 text-start text-beige'>
       <CollapseList
         heading={'Commit Tree'}
-        className="border-top border-bottom border-davygray"
+        className='border-top border-bottom border-davygray'
         items={committree.map((commit: CommitEntry) => (
           <CommitItem
             key={commit.hash}
