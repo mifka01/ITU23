@@ -56,7 +56,7 @@ export class Git {
     return this.git.pull(origin[0].name, branch)
   }
 
-  async push(): Promise<any> {
+  async push(): Promise<PushResult> {
     let branch = await this.getCurrentBranch()
     let origin = await this.getOrigins()
     return this.git.push(origin[0].name, branch)
@@ -107,8 +107,9 @@ export class Git {
   }
 
   async commit_tree(maxCount: string) {
-    return this.git.log(['--max-count', maxCount])}
-    
+    return this.git.log(['--max-count', maxCount])
+  }
+
   async create_branch(name: string) {
     return this.git.checkoutLocalBranch(name)
   }
