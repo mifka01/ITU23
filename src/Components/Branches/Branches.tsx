@@ -10,9 +10,11 @@ import { ModalProps } from 'components/Modal'
 import { Minus } from 'lucide-react'
 import {
   useState,
+  useRef,
   useEffect,
   Dispatch,
   SetStateAction,
+  ChangeEvent,
   MouseEvent,
 } from 'react'
 
@@ -32,6 +34,52 @@ function Branches({
   setShowModal,
 }: BranchesProps) {
   const [branches, setBranches] = useState<BranchEntry[]>([])
+  const newBranchRef = useRef<string>('')
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    newBranchRef.current = value
+  }
+
+  const handleCreate = async () => {
+    if (setModal && setShowModal) {
+      setModal({
+        children: (
+          <>
+            <span>Please provide a branch name</span>
+            <input
+              type='text'
+              name='branch'
+              style={{ resize: 'none' }}
+              className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
+              placeholder='Branch name'
+              defaultValue={newBranchRef.current}
+              onChange={handleChange}
+            />
+          </>
+        ),
+        buttons: [
+          {
+            text: 'No',
+            onClick: () => {
+              newBranchRef.current = ''
+              setShowModal?.(false)
+            },
+          },
+          {
+            text: 'Yes',
+            onClick: async () => {
+              await window.git.create_branch(newBranchRef.current)
+              fetchBranches()
+              newBranchRef.current = ''
+              setShowModal?.(false)
+            },
+          },
+        ],
+      })
+      setShowModal(true)
+    }
+  }
 
   const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {
     if (setModal && setShowModal) {
@@ -97,6 +145,7 @@ function Branches({
     <div className='col-12 text-start text-beige'>
       <CollapseList
         heading={'Branches'}
+        buttons={[{ text: 'NEW', onClick: handleCreate }]}
         className='border-top border-bottom border-davygray'
         items={branches.map((branch: BranchEntry) => (
           <ListItem
@@ -114,7 +163,7 @@ function Branches({
               !branch.current ? (
                 <Button
                   data-name={branch.name}
-                  className='text-white'
+                  className='text-white border-0'
                   onClick={handleDelete}
                 >
                   <Minus size={15} />

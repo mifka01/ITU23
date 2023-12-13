@@ -94,7 +94,10 @@ export class Git {
   }
 
   async commit_tree(maxCount: string) {
-    return this.git.log(['--max-count', maxCount])
+    return this.git.log(['--max-count', maxCount])}
+    
+  async create_branch(name: string) {
+    return this.git.checkoutLocalBranch(name)
   }
 }
 
