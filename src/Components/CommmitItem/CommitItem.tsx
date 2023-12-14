@@ -6,11 +6,11 @@
 import { ReactNode, useState } from 'react'
 import { GitCommitVertical } from 'lucide-react'
 
-interface ListItemProps {
+interface CommitItemProps {
   message?: ReactNode
 }
 
-function ListItem({ message }: ListItemProps) {
+function ListItem({ message }: CommitItemProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleHover = () => {
@@ -18,14 +18,14 @@ function ListItem({ message }: ListItemProps) {
   }
   return (
     <div
-      className={`row small mt-0 mb-0 bg-darkpurple d-flex flex-nowrap align-items-center`}
+      className={`row small bg-darkpurple align-items-center`}
       onMouseEnter={handleHover}
       onMouseLeave={handleHover} 
     >
-      <div className="col-1 ps-1 me-1 text-end">
+      <div className="col-1">
         <GitCommitVertical size={'2em'} viewBox="9 3 6 18" />
       </div>
-      <div className="ps-2 col-11 mt-1 text-truncate">{message}</div>
+      <div className="col-11 mt-1 text-truncate">{message}</div>
     </div>
   )
 }
