@@ -4,7 +4,8 @@
 // @date October 2023
 
 import { app, BrowserWindow, Menu } from 'electron'
-import { openFolderDialog } from './utils'
+import { openFolderDialog, writeJson } from './utils'
+import { REPOSITORIES_FILE } from '../shared/constants'
 import { git } from '../models/Git'
 
 export const generateMenu = (win: BrowserWindow) => {
@@ -24,6 +25,7 @@ export const generateMenu = (win: BrowserWindow) => {
             openFolderDialog(win)
               .then((selectedDirectory: string) => {
                 git.setCWD(selectedDirectory)
+                writeJson(REPOSITORIES_FILE, selectedDirectory)
                 win.reload()
               })
               .catch((err) => {

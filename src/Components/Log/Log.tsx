@@ -55,8 +55,11 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
   }
 
   useEffect(() => {
-    fetch()
-  }, [refreshLog == true])
+    if (refreshLog) {
+      fetch()
+      setRefreshLog?.(false)
+    }
+  }, [refreshLog])
 
   return (
     <>
@@ -66,7 +69,7 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
         </div>
         <div className='col-1 d-flex align-items-center'>
           <Button onClick={handleClear} className='text-beige ms-auto border-0'>
-            <Trash2 size={18} className="mb-1 me-2"/>
+            <Trash2 size={18} className='mb-1 me-2' />
           </Button>
         </div>
       </div>

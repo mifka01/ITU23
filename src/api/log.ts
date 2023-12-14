@@ -4,18 +4,19 @@
 // @date October 2023
 
 import { ipcRenderer } from 'electron'
+import { Response } from 'shared/response'
 
 export const log = {
   prefix: 'log',
 
-  get: (): Promise<any> => {
+  get: (): Promise<Response> => {
     return ipcRenderer.invoke(`${log.prefix}:get`)
   },
-  clear: (): Promise<any> => {
+  clear: (): Promise<Response> => {
     return ipcRenderer.invoke(`${log.prefix}:clear`)
   },
   //prbbly not needed
-  append: (data: string): Promise<any> => {
+  append: (data: string): Promise<Response> => {
     return ipcRenderer.invoke(`${log.prefix}:append`, data)
   },
 }

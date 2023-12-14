@@ -17,14 +17,14 @@ export const StashController: IController = {
     async stashes(_: IpcMainInvokeEvent) {
       try {
         let response = await git.stashes()
-            
+
         let entries: StashEntry[] = []
         response.all.forEach((entry: StashEntry) => {
-          entries.push({ message: entry.message})
+          entries.push({ message: entry.message })
         })
 
         return ResponseSuccess({ stashes: entries })
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -33,10 +33,10 @@ export const StashController: IController = {
     async stash_push(_: IpcMainInvokeEvent, message: string) {
       try {
         let response = await git.stash_push(message)
- 
+
         log.append('COMMAND', `${response}`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -47,7 +47,7 @@ export const StashController: IController = {
         await git.stash_apply(index)
         log.append('COMMAND', `git stash apply stash@{${index}}`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -58,7 +58,7 @@ export const StashController: IController = {
         await git.stash_pop(index)
         log.append('COMMAND', `git stash pop stash@{${index}}`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -69,7 +69,7 @@ export const StashController: IController = {
         await git.stash_drop(index)
         log.append('COMMAND', `git stash drop stash@{${index}}`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }

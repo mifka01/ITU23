@@ -26,7 +26,7 @@ export const BranchController: IController = {
         })
 
         return ResponseSuccess({ branches: entries })
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -37,7 +37,7 @@ export const BranchController: IController = {
         await git.checkout_branch(name)
         log.append('COMMAND', `git checkout ${name}`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -48,7 +48,7 @@ export const BranchController: IController = {
         await git.delete_branch(name)
         log.append('COMMAND', `git branch -d ${name}`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -59,7 +59,7 @@ export const BranchController: IController = {
         await git.create_branch(name)
         log.append('COMMAND', `git checkout -b ${name}`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }

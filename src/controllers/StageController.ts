@@ -52,7 +52,7 @@ export const StageController: IController = {
         })
 
         return ResponseSuccess({ not_added: not_added, staged: staged_files })
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -72,7 +72,7 @@ export const StageController: IController = {
           log.append('COMMAND', `Commited`)
         }
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -83,7 +83,7 @@ export const StageController: IController = {
         await git.add(file)
         log.append('COMMAND', `Added`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -94,7 +94,7 @@ export const StageController: IController = {
         await git.unstage(file)
         log.append('COMMAND', `Unstaged`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -105,7 +105,7 @@ export const StageController: IController = {
         await git.discard(file)
         log.append('COMMAND', `Discard`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -116,7 +116,7 @@ export const StageController: IController = {
         await git.discard_unstaged()
         log.append('COMMAND', `Discard unstaged`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -127,7 +127,7 @@ export const StageController: IController = {
         await git.rm(file)
         log.append('COMMAND', `Remove file`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
