@@ -20,6 +20,7 @@ interface RepositoriesProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
+  setRefreshStashes?: Dispatch<SetStateAction<boolean>>
 }
 
 type RepositoryEntry = { name: string; path: string; current: boolean }
@@ -29,17 +30,25 @@ function Repositories({
   setRefreshCommitTree,
   setRefreshStage,
   setRefreshBranches,
+  setRefreshStashes,
 }: RepositoriesProps) {
   const [repositories, setRepositories] = useState<RepositoryEntry[]>([])
 
-  const handleCreate = async () => {}
+  const handleAdd = async () => {
+    await window.app.open()
+    fetchRepositories()
+  }
 
-  const handleDelete = async () => {}
+  const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {
+    const path = event.currentTarget.dataset['path']
+    await window.app.delete_repository(path)
+    fetchRepositories()
+  }
 
   const handleChange = async (event: MouseEvent<HTMLButtonElement>) => {
     const path = event.currentTarget.dataset['path']
     await window.app.setCWD(path)
-    await fetchRepositories()
+    fetchRepositories()
   }
 
   const fetchRepositories = async () => {
@@ -51,6 +60,7 @@ function Repositories({
       setRefreshCommitTree?.(true)
       setRefreshStage?.(true)
       setRefreshBranches?.(true)
+      setRefreshStashes?.(true)
     }
   }
 
@@ -62,7 +72,7 @@ function Repositories({
     <div className='col-12 text-start text-beige'>
       <CollapseList
         heading={'Repositories'}
-        buttons={[{ text: Plus, onClick: handleCreate }]}
+        buttons={[{ text: Plus, onClick: handleAdd }]}
         className='border-top border-bottom border-davygray'
         items={repositories.map((repository: RepositoryEntry) => (
           <ListItem
@@ -80,7 +90,7 @@ function Repositories({
             hovered={
               !repository.current && (
                 <Button
-                  data-name={repository.path}
+                  data-path={`${repository.path}/${repository.name}`}
                   className='text-white border-0'
                   onClick={handleDelete}
                 >

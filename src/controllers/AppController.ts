@@ -1,7 +1,8 @@
 // controllers/AppController.js
 import { BrowserWindow, IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
-import { openFolderDialog } from '../electron/utils'
+import { openFolderDialog, writeJson } from '../electron/utils'
+import { REPOSITORIES_FILE } from '../shared/constants'
 import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { app } from '../models/App'
@@ -18,6 +19,7 @@ export const AppController: IController = {
       await openFolderDialog(win)
         .then((selectedDirectory: string) => {
           git.setCWD(selectedDirectory)
+          writeJson(REPOSITORIES_FILE, selectedDirectory)
         })
         .catch((error) => {
           console.error('Error opening folder dialog:', String(error))
@@ -52,6 +54,16 @@ export const AppController: IController = {
         }
 
         return ResponseSuccess({ repositories: entries })
+      } catch (error: unknown) {
+        console.log(error)
+        return ResponseError()
+      }
+    },
+
+    async delete_repository(_: IpcMainInvokeEvent, path: string) {
+      try {
+        await app.delete_repository(REPOSITORIES_FILE, path)
+        return ResponseSuccess()
       } catch (error: unknown) {
         console.log(error)
         return ResponseError()

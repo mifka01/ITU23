@@ -5,7 +5,7 @@
 
 import { ipcMain, IpcMainInvokeEvent, BrowserWindow, dialog } from 'electron'
 import { IController } from 'interfaces/IController'
-import { writeFile, readFile, existsSync, writeFileSync } from 'fs'
+import { readFileSync, existsSync, writeFileSync } from 'fs'
 
 function removeDuplicates(arr: []) {
   return [...new Set(arr)]
@@ -61,18 +61,16 @@ export function createJson(path: string, data: string) {
 }
 
 export function writeJson(path: string, data: string) {
-  readFile(path, (error, ogData) => {
-    if (error) {
-      console.log(error)
-      return
-    }
-    const json: any = JSON.parse(ogData.toString())
-    json.push(data)
-    writeFile(path, JSON.stringify(removeDuplicates(json), null, 2), (err) => {
-      if (err) {
-        console.log('Failed to write updated data to file')
-        return
-      }
-    })
-  })
+  const ogData = readFileSync(path)
+  const json: any = JSON.parse(ogData.toString())
+  json.push(data)
+  writeFileSync(path, JSON.stringify(removeDuplicates(json), null, 2))
+}
+
+export function deleteFromJson(path: string, item: string) {
+  const ogData = readFileSync(path)
+  const json = JSON.parse(ogData.toString())
+  json.splice(json.indexOf(item), 1)
+
+  writeFileSync(path, JSON.stringify(removeDuplicates(json), null, 2))
 }

@@ -5,11 +5,15 @@
 
 import { readFileSync } from 'fs'
 import { REPOSITORIES_FILE } from '../shared/constants'
+import { deleteFromJson } from '../electron/utils'
 
 export class App {
   async repositories(): Promise<string> {
-    const response = readFileSync(REPOSITORIES_FILE, 'utf-8')
-    return response
+    return readFileSync(REPOSITORIES_FILE, 'utf-8')
+  }
+
+  async delete_repository(path: string, item: string): Promise<void> {
+    deleteFromJson(path, item)
   }
 }
 

@@ -1,6 +1,5 @@
 // @file components/App.tsx
 // @brief Main App grid
-
 // @author Radim Mifka (xmifka00)
 // @date October 2023
 
@@ -19,8 +18,9 @@ import { useState } from 'react'
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
   const [refreshCommitTree, setRefreshCommitTree] = useState(false)
-  const [refreshStage, setRefreshStage] = useState(true)
-  const [refreshBranches, setRefreshBranches] = useState(true)
+  const [refreshStage, setRefreshStage] = useState(false)
+  const [refreshStashes, setRefreshStashes] = useState(false)
+  const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [currentFile, setCurrentFile] = useState<string>('No file selected')
   const [modal, setModal] = useState<ModalProps>({
@@ -63,6 +63,7 @@ function App() {
                 setRefreshCommitTree={setRefreshCommitTree}
                 setRefreshStage={setRefreshStage}
                 setRefreshBranches={setRefreshBranches}
+                setRefreshStashes={setRefreshStashes}
               />
             </div>
             <div className='clipping-container'>
@@ -99,6 +100,8 @@ function App() {
                 setRefreshLog={setRefreshLog}
                 setModal={setModal}
                 setRefreshStage={setRefreshStage}
+                setRefreshStashes={setRefreshStashes}
+                refreshStashes={refreshStashes}
               />
             </div>
           </div>

@@ -27,4 +27,8 @@ export const app = {
   repositories: (): Promise<Response> => {
     return ipcRenderer.invoke(`${app.prefix}:repositories`)
   },
+
+  delete_repository: (path: string): Promise<Response> => {
+    return ipcRenderer.invoke(`${app.prefix}:delete_repository`, path)
+  },
 }
