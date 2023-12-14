@@ -8,6 +8,7 @@ import Menu from 'components/Menu'
 import Log from 'components/Log'
 import Stage from 'components/Stage'
 import Branches from 'components/Branches'
+import Repositories from 'components/Repositories'
 import Portal from 'components/Portal'
 import Diff from 'components/Diff'
 import CommitTree from 'components/CommitTree'
@@ -19,8 +20,9 @@ function App() {
   const [refreshLog, setRefreshLog] = useState(false)
   const [refreshCommitTree, setRefreshCommitTree] = useState(false)
   const [refreshStage, setRefreshStage] = useState(true)
+  const [refreshBranches, setRefreshBranches] = useState(true)
   const [showModal, setShowModal] = useState(false)
-  const [currentFile, setCurrentFile] = useState<string>("No file selected")
+  const [currentFile, setCurrentFile] = useState<string>('No file selected')
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -51,9 +53,18 @@ function App() {
                 setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
                 setModal={setModal}
+                setRefreshBranches={setRefreshBranches}
+                refreshBranches={refreshBranches}
               />
             </div>
-            <div className='d-flex'>REPO</div>
+            <div className='d-flex'>
+              <Repositories
+                setRefreshLog={setRefreshLog}
+                setRefreshCommitTree={setRefreshCommitTree}
+                setRefreshStage={setRefreshStage}
+                setRefreshBranches={setRefreshBranches}
+              />
+            </div>
             <div className='clipping-container'>
               <Portal showModal={showModal} {...modal} />
             </div>
@@ -83,11 +94,11 @@ function App() {
               />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
-            <Stashes
-              setShowModal={setShowModal}
-              setRefreshLog={setRefreshLog}
-              setModal={setModal}
-              setRefreshStage={setRefreshStage}
+              <Stashes
+                setShowModal={setShowModal}
+                setRefreshLog={setRefreshLog}
+                setModal={setModal}
+                setRefreshStage={setRefreshStage}
               />
             </div>
           </div>

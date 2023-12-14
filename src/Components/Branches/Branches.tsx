@@ -23,6 +23,8 @@ interface BranchesProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
+  setRefreshBranches?: Dispatch<SetStateAction<boolean>>
+  refreshBranches?: boolean
 }
 
 type BranchEntry = { name: string; current: boolean }
@@ -32,6 +34,8 @@ function Branches({
   setRefreshCommitTree,
   setModal,
   setShowModal,
+  setRefreshBranches,
+  refreshBranches,
 }: BranchesProps) {
   const [branches, setBranches] = useState<BranchEntry[]>([])
   const newBranchRef = useRef<string>('')
@@ -133,10 +137,11 @@ function Branches({
   useEffect(() => {
     window.app.request_refresh(fetchBranches)
     fetchBranches()
+    setRefreshBranches?.(false)
     return () => {
       window.app.request_refresh(fetchBranches, true)
     }
-  }, [])
+  }, [refreshBranches])
 
   return (
     <div className='col-12 text-start text-beige'>
@@ -157,7 +162,7 @@ function Branches({
               </Button>
             }
             hovered={
-              !branch.current ? (
+              !branch.current && (
                 <Button
                   data-name={branch.name}
                   className='text-white border-0'
@@ -165,13 +170,9 @@ function Branches({
                 >
                   <Minus size={15} />
                 </Button>
-              ) : undefined
+              )
             }
-            end={
-              branch.current ? (
-                <span className='text-ecru'>CURRENT</span>
-              ) : undefined
-            }
+            end={branch.current && <span className='text-ecru'>CURRENT</span>}
           />
         ))}
       />

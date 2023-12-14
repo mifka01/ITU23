@@ -17,9 +17,9 @@ interface StageProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
+  setCurrentFile?: Dispatch<SetStateAction<string>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   refreshStage?: boolean
-  setCurrentFile?: Dispatch<SetStateAction<string>>
 }
 
 function Stage({
@@ -109,7 +109,7 @@ function Stage({
 
   return (
     <>
-      <div className="col-12 text-start text-beige">
+      <div className='col-12 text-start text-beige'>
         <Commit
           afterSubmit={() => {
             fetchStatus()
@@ -118,7 +118,7 @@ function Stage({
         />
         <CollapseList
           heading={'Staged changes'}
-          className="border-top border-bottom border-davygray"
+          className='border-top border-bottom border-davygray'
           buttons={staged_buttons}
           items={staged.map((file) => (
             <File
@@ -136,7 +136,7 @@ function Stage({
 
         <CollapseList
           heading={'Changes'}
-          className="border-top border-bottom border-davygray"
+          className='border-top border-bottom border-davygray'
           buttons={notAdded_buttons}
           items={notAdded.map((file) => (
             <File
