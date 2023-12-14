@@ -13,13 +13,14 @@ const STATUS_MODIFIED = 'M'
 const STATUS_DELETED = 'D'
 
 interface FileProps {
-  afterClick?: () => void
+  onClick?: () => void
+  afterAction?: () => void
   staged: boolean
   full_path: string
   status: string
 }
 
-function File({ afterClick, staged, full_path, status }: FileProps) {
+function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
   const name = full_path.split('/').pop()
   const path = full_path.slice(0, full_path.lastIndexOf('/'))
 

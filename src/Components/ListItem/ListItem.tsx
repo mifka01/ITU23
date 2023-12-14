@@ -9,9 +9,10 @@ interface ListItemProps {
   start?: ReactNode
   end?: ReactNode
   hovered?: ReactNode
+  onClick?: () => void
 }
 
-function ListItem({ start, end, hovered }: ListItemProps) {
+function ListItem({ start, end, hovered, onClick }: ListItemProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const background_color = isHovered ? 'bg-gunmetal' : 'bg-darkpurple'
@@ -19,6 +20,7 @@ function ListItem({ start, end, hovered }: ListItemProps) {
   const handleHover = () => {
     setIsHovered(!isHovered)
   }
+
   return (
     <div
       className={`row small ${background_color}`}

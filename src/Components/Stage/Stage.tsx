@@ -17,6 +17,7 @@ interface StageProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
+  setCurrentFile?: Dispatch<SetStateAction<string>>
 }
 
 function Stage({
@@ -24,6 +25,7 @@ function Stage({
   setRefreshCommitTree,
   setShowModal,
   setModal,
+  setCurrentFile,
 }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
@@ -116,10 +118,13 @@ function Stage({
           items={staged.map((file) => (
             <File
               key={file.path}
-              afterClick={fetchStatus}
+              afterAction={fetchStatus}
               staged={true}
               full_path={file.path}
               status={file.status}
+              onClick={() => {
+                setCurrentFile?.(file.path)
+              }}
             />
           ))}
         />
@@ -131,10 +136,13 @@ function Stage({
           items={notAdded.map((file) => (
             <File
               key={file.path}
-              afterClick={fetchStatus}
+              afterAction={fetchStatus}
               staged={false}
               full_path={file.path}
               status={file.status}
+              onClick={() => {
+                setCurrentFile?.(file.path)
+              }}
             />
           ))}
         />

@@ -106,6 +106,11 @@ export class Git {
     return this.git.deleteLocalBranch(name)
   }
 
+  async getDiff(path: string) {
+    return this.git.diff(['--no-color', '--minimal', 'HEAD', path])
+  }
+  // --raw = generates names of changed files
+  
   async commit_tree(maxCount: number) {
     return this.git.log(['--max-count', String(maxCount)])
   }
