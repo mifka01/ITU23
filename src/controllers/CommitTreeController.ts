@@ -1,3 +1,8 @@
+// @file components/Branches.tsx
+// @brief Stash list component
+// @author Miroslav Bálek (xbalek02)
+// @date December 2023
+
 // controllers/CommitTreeController.ts
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'

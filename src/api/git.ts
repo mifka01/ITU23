@@ -1,6 +1,6 @@
 // @file api/git.ts
 // @brief
-// @author Radim Mifka (xmifka00)
+// @author Radim Mifka (xmifka00), Miroslav Bálek (xbalek02)
 // @date October 2023
 
 import { ipcRenderer } from 'electron'
@@ -64,7 +64,27 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:create_branch`, name)
   },
 
-  commit_tree: (maxCount: number): Promise<any> => {
+  commit_tree: (maxCount: string): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:commit_tree`, maxCount)
+  },
+
+  stashes: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stashes`, name)
+  },
+
+  stash_save: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_save`, name)
+  },
+
+  stash_apply: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_apply`, name)
+  },
+
+  stash_pop: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_pop`, name)
+  },
+
+  stash_drop: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_drop`, name)
   },
 }
