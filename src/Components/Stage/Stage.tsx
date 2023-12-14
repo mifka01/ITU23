@@ -12,24 +12,6 @@ import { ModalProps } from 'components/Modal'
 
 type FileEntry = { path: string; status: string }
 
-type StatusResult = {
-  not_added: string[]
-  deleted: string[]
-  created: string[]
-  files: { path: string }[]
-}
-
-function getStatus(filename: string, inputObject: StatusResult) {
-  if (inputObject.not_added.includes(filename)) {
-    return 'U'
-  } else if (inputObject.deleted.includes(filename)) {
-    return 'D'
-  } else if (inputObject.created.includes(filename)) {
-    return 'A'
-  }
-  return 'M'
-}
-
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
@@ -101,22 +83,11 @@ function Stage({
   const fetchStatus = async () => {
     const response = await window.git.status()
 
-    let staged_files: FileEntry[] = []
-    let not_added: FileEntry[] = []
-
-    response.files.forEach((file: { path: string }) => {
-      const entry: FileEntry = {
-        path: file.path,
-        status: getStatus(file.path, response),
-      }
-      if (response.staged.includes(file.path)) staged_files.push(entry)
-      else not_added.push(entry)
-    })
-
-    setStaged(staged_files)
-    setNotAdded(not_added)
-
-    setRefreshLog?.(true)
+    if (!response.status && response.payload) {
+      setStaged(response.payload.staged)
+      setNotAdded(response.payload.not_added)
+      setRefreshLog?.(true)
+    }
   }
 
   useEffect(() => {
