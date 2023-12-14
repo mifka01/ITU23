@@ -69,10 +69,14 @@ function Branches({
           {
             text: 'Create',
             onClick: async () => {
-              await window.git.create_branch(newBranchRef.current)
-              fetchBranches()
-              newBranchRef.current = ''
-              setShowModal?.(false)
+              const response = await window.git.create_branch(
+                newBranchRef.current,
+              )
+              if (!response.status) {
+                fetchBranches()
+                newBranchRef.current = ''
+                setShowModal?.(false)
+              }
             },
           },
         ],
@@ -97,9 +101,11 @@ function Branches({
           {
             text: 'Yes',
             onClick: async () => {
-              await window.git.delete_branch(name)
-              fetchBranches()
-              setShowModal?.(false)
+              const response = await window.git.delete_branch(name)
+              if (!response.status) {
+                fetchBranches()
+                setShowModal?.(false)
+              }
             },
           },
         ],
@@ -110,8 +116,8 @@ function Branches({
 
   const handleCheckout = async (event: MouseEvent<HTMLButtonElement>) => {
     let name = event.currentTarget.dataset['name']
-    await window.git.checkout_branch(name)
-    fetchBranches()
+    const response = await window.git.checkout_branch(name)
+    if (!response.status) fetchBranches()
   }
 
   const fetchBranches = async () => {

@@ -50,7 +50,8 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
 
   const handleClear = async () => {
     const response = await window.log.clear()
-    setMessages(response)
+    if (!response.status && response.payload)
+      setMessages(response.payload.messages)
   }
 
   useEffect(() => {
@@ -63,9 +64,9 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
         <div className='col-11'>
           <span className='ps-2'>LOG</span>
         </div>
-        <div className='col-1 text-end'>
+        <div className='col-1 d-flex align-items-center'>
           <Button onClick={handleClear} className='text-beige ms-auto border-0'>
-            <Trash2 size={18} />
+            <Trash2 size={18} className="mb-1 me-2"/>
           </Button>
         </div>
       </div>

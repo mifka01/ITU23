@@ -33,13 +33,13 @@ function Stage({
   const [staged, setStaged] = useState<FileEntry[]>([])
 
   const handleStageAll = async () => {
-    await window.git.add()
-    fetchStatus()
+    const response = await window.git.add()
+    if (!response.status) fetchStatus()
   }
 
   const handleUnstageAll = async () => {
-    await window.git.unstage()
-    fetchStatus()
+    const response = await window.git.unstage()
+    if (!response.status) fetchStatus()
   }
 
   const handleDiscardAll = async () => {
@@ -56,9 +56,11 @@ function Stage({
           {
             text: 'Yes',
             onClick: async () => {
-              await window.git.discard_unstaged()
-              fetchStatus()
-              setShowModal?.(false)
+              const response = await window.git.discard_unstaged()
+              if (!response.status) {
+                fetchStatus()
+                setShowModal?.(false)
+              }
             },
           },
         ],
