@@ -9,6 +9,7 @@ import {
   SimpleGitOptions,
   StatusResult,
   PushResult,
+  RemoteWithoutRefs,
   PullResult,
 } from 'simple-git'
 
@@ -41,12 +42,24 @@ export class Git {
     return this.git.clone(repositoryUrl, destination)
   }
 
+  async getCurrentBranch(): Promise<string> {
+    return this.git.revparse(['--abbrev-ref', 'HEAD'])
+  }
+
+  async getOrigins(): Promise<RemoteWithoutRefs[]> {
+    return this.git.getRemotes()
+  }
+
   async pull(): Promise<PullResult> {
-    return this.git.pull()
+    let branch = await this.getCurrentBranch()
+    let origin = await this.getOrigins()
+    return this.git.pull(origin[0].name, branch)
   }
 
   async push(): Promise<PushResult> {
-    return this.git.push()
+    let branch = await this.getCurrentBranch()
+    let origin = await this.getOrigins()
+    return this.git.push(origin[0].name, branch)
   }
 
   async status(): Promise<StatusResult> {
@@ -97,6 +110,14 @@ export class Git {
     return this.git.diff(['--no-color', '--minimal', 'HEAD', path])
   }
   // --raw = generates names of changed files
+  
+  async commit_tree(maxCount: number) {
+    return this.git.log(['--max-count', String(maxCount)])
+  }
+
+  async create_branch(name: string) {
+    return this.git.checkoutLocalBranch(name)
+  }
 }
 
 export const git: Git = new Git(options)

@@ -10,11 +10,13 @@ import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Portal from 'components/Portal'
 import Diff from 'components/Diff'
+import CommitTree from 'components/CommitTree'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
+  const [refreshCommitTree, setRefreshCommitTree] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [currentFile, setCurrentFile] = useState<string>("No file selected")
   const [modal, setModal] = useState<ModalProps>({
@@ -33,6 +35,7 @@ function App() {
             <div className='d-flex'>
               <Stage
                 setRefreshLog={setRefreshLog}
+                setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
                 setModal={setModal}
                 setCurrentFile={setCurrentFile}
@@ -41,6 +44,7 @@ function App() {
             <div className='d-flex '>
               <Branches
                 setRefreshLog={setRefreshLog}
+                setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
                 setModal={setModal}
               />
@@ -69,7 +73,10 @@ function App() {
           </div>
           <div className='col-2 border border-davygray'>
             <div className='row h-50 border-bottom border-davygray bg-darkpurple'>
-              <div>HISTORY</div>
+              <CommitTree
+                setRefreshCommitTree={setRefreshCommitTree}
+                refreshCommitTree={refreshCommitTree}
+              />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
               <div>STASH</div>

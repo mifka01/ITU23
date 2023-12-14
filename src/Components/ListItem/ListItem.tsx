@@ -27,12 +27,10 @@ function ListItem({ start, end, hovered, onClick }: ListItemProps) {
       onMouseEnter={handleHover}
       onMouseLeave={handleHover}
     >
-      <div className='col-8 mt-1' role={onClick && 'button'} onClick={onClick}>
-        {start}
-      </div>
-      <div className='col-4'>
-        <div className='d-flex justify-content-end'>
-          {isHovered && <div className='text-end'>{hovered}</div>}
+      <div className="col-8 mt-1 ">{start}</div>
+      <div className="col-4">
+        <div className="d-flex justify-content-end">
+          {isHovered && <div className="text-end">{hovered}</div>}
           <div className={`ps-2 mt-1 text-end`}>{end}</div>
         </div>
       </div>

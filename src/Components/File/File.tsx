@@ -22,7 +22,7 @@ interface FileProps {
 
 function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
   const name = full_path.split('/').pop()
-  // const path = full_path.slice(0, full_path.lastIndexOf('/'))
+  const path = full_path.slice(0, full_path.lastIndexOf('/'))
 
   let status_color = 'text-success'
 
@@ -48,28 +48,29 @@ function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
   )
 
   const handleStage = async () => {
-    if (!staged) {
-      await window.git.add(full_path)
-    } else {
-      await window.git.unstage(full_path)
-    }
-    afterAction?.()
+    const response = !staged
+      ? await window.git.add(full_path)
+      : await window.git.unstage(full_path)
+    if (!response.status) afterClick?.()
   }
 
   const handleDiscard = async () => {
-    if (status == STATUS_UNTRACKED || status == STATUS_APPENDED) {
-      await window.git.rm(full_path)
-    } else {
-      await window.git.discard(full_path)
-    }
-    afterAction?.()
+    const response =
+      status == STATUS_UNTRACKED || status == STATUS_APPENDED
+        ? await window.git.rm(full_path)
+        : await window.git.discard(full_path)
+    if (!response.status) afterClick?.()
   }
 
   return (
     <ListItem
-      onClick={onClick}
-      start={name}
-      end={<span className={status_color}>{status}</span>}
+      start={
+        <span>
+          {name}
+          <small className='text-davygray ms-2'>{path}</small>
+        </span>
+      }
+      end={<span className={status_color}> {status}</span>}
       hovered={
         <>
           <Button onClick={handleDiscard} className='text-end border-0'>

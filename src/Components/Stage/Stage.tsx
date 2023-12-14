@@ -12,26 +12,9 @@ import { ModalProps } from 'components/Modal'
 
 type FileEntry = { path: string; status: string }
 
-type StatusResult = {
-  not_added: string[]
-  deleted: string[]
-  created: string[]
-  files: { path: string }[]
-}
-
-function getStatus(filename: string, inputObject: StatusResult) {
-  if (inputObject.not_added.includes(filename)) {
-    return 'U'
-  } else if (inputObject.deleted.includes(filename)) {
-    return 'D'
-  } else if (inputObject.created.includes(filename)) {
-    return 'A'
-  }
-  return 'M'
-}
-
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
   setCurrentFile?: Dispatch<SetStateAction<string>>
@@ -39,6 +22,7 @@ interface StageProps {
 
 function Stage({
   setRefreshLog,
+  setRefreshCommitTree,
   setShowModal,
   setModal,
   setCurrentFile,
@@ -47,13 +31,13 @@ function Stage({
   const [staged, setStaged] = useState<FileEntry[]>([])
 
   const handleStageAll = async () => {
-    await window.git.add()
-    fetchStatus()
+    const response = await window.git.add()
+    if (!response.status) fetchStatus()
   }
 
   const handleUnstageAll = async () => {
-    await window.git.unstage()
-    fetchStatus()
+    const response = await window.git.unstage()
+    if (!response.status) fetchStatus()
   }
 
   const handleDiscardAll = async () => {
@@ -70,9 +54,11 @@ function Stage({
           {
             text: 'Yes',
             onClick: async () => {
-              await window.git.discard_unstaged()
-              fetchStatus()
-              setShowModal?.(false)
+              const response = await window.git.discard_unstaged()
+              if (!response.status) {
+                fetchStatus()
+                setShowModal?.(false)
+              }
             },
           },
         ],
@@ -83,17 +69,17 @@ function Stage({
 
   const notAdded_buttons = [
     {
-      Icon: Undo2,
+      text: Undo2,
       onClick: handleDiscardAll,
     },
     {
-      Icon: Plus,
+      text: Plus,
       onClick: handleStageAll,
     },
   ]
   const staged_buttons = [
     {
-      Icon: Minus,
+      text: Minus,
       onClick: handleUnstageAll,
     },
   ]
@@ -101,22 +87,11 @@ function Stage({
   const fetchStatus = async () => {
     const response = await window.git.status()
 
-    let staged_files: FileEntry[] = []
-    let not_added: FileEntry[] = []
-
-    response.files.forEach((file: { path: string }) => {
-      const entry: FileEntry = {
-        path: file.path,
-        status: getStatus(file.path, response),
-      }
-      if (response.staged.includes(file.path)) staged_files.push(entry)
-      else not_added.push(entry)
-    })
-
-    setStaged(staged_files)
-    setNotAdded(not_added)
-
-    setRefreshLog?.(true)
+    if (!response.status && response.payload) {
+      setStaged(response.payload.staged)
+      setNotAdded(response.payload.not_added)
+      setRefreshLog?.(true)
+    }
   }
 
   useEffect(() => {
@@ -130,7 +105,12 @@ function Stage({
   return (
     <>
       <div className='col-12 text-start text-beige'>
-        <Commit afterSubmit={fetchStatus} />
+        <Commit
+          afterSubmit={() => {
+            fetchStatus()
+            setRefreshCommitTree?.(true)
+          }}
+        />
         <CollapseList
           heading={'Staged changes'}
           className='border-top border-bottom border-davygray'

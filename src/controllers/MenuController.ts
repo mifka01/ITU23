@@ -1,6 +1,7 @@
 // controllers/MenuController.ts
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
+import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
 
@@ -12,26 +13,25 @@ export const MenuController: IController = {
       try {
         await git.pull()
         log.append('COMMAND', `Succesfully Pulled`)
-        return true
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
-        return false
+        return ResponseError()
       }
     },
 
     async push(_: IpcMainInvokeEvent) {
       try {
-        let response = await git.push()
+        const response = await git.push()
 
         if (response.pushed.pop()?.alreadyUpdated)
           log.append('COMMAND', `Everything up-to-date`)
         else log.append('COMMAND', `Pushed to:${response.repo}`)
 
-        response = JSON.parse(JSON.stringify(response))
-        return true
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
-        return false
+        return ResponseError()
       }
     },
   },

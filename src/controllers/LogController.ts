@@ -2,6 +2,7 @@
 //
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
+import { ResponseSuccess } from '../shared/response'
 import { log } from '../models/Log'
 
 export const LogController: IController = {
@@ -9,11 +10,11 @@ export const LogController: IController = {
 
   functions: {
     async get(_: IpcMainInvokeEvent) {
-      return log.get()
+      return ResponseSuccess({ messages: log.get() })
     },
     async clear(_: IpcMainInvokeEvent) {
       log.clear()
-      return log.get()
+      return ResponseSuccess({ messages: log.get() })
     },
   },
 }
