@@ -9,7 +9,12 @@ function Portal({ showModal, children, ...props }: PortalProps) {
   return (
     <>
       {showModal &&
-        createPortal(<Modal {...props}>{children}</Modal>, document.body)}
+        createPortal(
+          <Modal key={'modal-0'} {...props}>
+            {children}
+          </Modal>,
+          document.body,
+        )}
     </>
   )
 }
