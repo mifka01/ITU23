@@ -106,8 +106,8 @@ export class Git {
     return this.git.deleteLocalBranch(name)
   }
 
-  async commit_tree(maxCount: string) {
-    return this.git.log(['--max-count', maxCount])
+  async commit_tree(maxCount: number) {
+    return this.git.log(['--max-count', String(maxCount)])
   }
 
   async create_branch(name: string) {

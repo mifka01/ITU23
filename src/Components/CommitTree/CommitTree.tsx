@@ -23,13 +23,8 @@ function CommitTree({
   const fetchCommitTree = async () => {
     const response = await window.git.commit_tree()
 
-    let entries: CommitEntry[] = []
-    console.log(response)
-    response.all.forEach((entry: CommitEntry) => {
-      entries.push({ message: entry.message, hash: entry.hash })
-    })
-
-    setCommitTree(entries)
+    if (!response.status && response.payload)
+      setCommitTree(response.payload.commit_tree)
   }
 
   useEffect(() => {

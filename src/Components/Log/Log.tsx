@@ -41,8 +41,10 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
   const fetch = async () => {
     if (refreshLog && setRefreshLog) {
       const response = await window.log.get()
-      setMessages(response)
-      setRefreshLog(false)
+      if (!response.status && response.payload) {
+        setMessages(response.payload.messages)
+        setRefreshLog(false)
+      }
     }
   }
 
