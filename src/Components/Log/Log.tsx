@@ -50,7 +50,8 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
 
   const handleClear = async () => {
     const response = await window.log.clear()
-    setMessages(response)
+    if (!response.status && response.payload)
+      setMessages(response.payload.messages)
   }
 
   useEffect(() => {

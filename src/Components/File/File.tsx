@@ -47,21 +47,18 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
   )
 
   const handleStage = async () => {
-    if (!staged) {
-      await window.git.add(full_path)
-    } else {
-      await window.git.unstage(full_path)
-    }
-    afterClick?.()
+    const response = !staged
+      ? await window.git.add(full_path)
+      : await window.git.unstage(full_path)
+    if (!response.status) afterClick?.()
   }
 
   const handleDiscard = async () => {
-    if (status == STATUS_UNTRACKED || status == STATUS_APPENDED) {
-      await window.git.rm(full_path)
-    } else {
-      await window.git.discard(full_path)
-    }
-    afterClick?.()
+    const response =
+      status == STATUS_UNTRACKED || status == STATUS_APPENDED
+        ? await window.git.rm(full_path)
+        : await window.git.discard(full_path)
+    if (!response.status) afterClick?.()
   }
 
   return (

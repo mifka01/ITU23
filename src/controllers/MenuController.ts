@@ -22,13 +22,12 @@ export const MenuController: IController = {
 
     async push(_: IpcMainInvokeEvent) {
       try {
-        let response = await git.push()
+        const response = await git.push()
 
         if (response.pushed.pop()?.alreadyUpdated)
           log.append('COMMAND', `Everything up-to-date`)
         else log.append('COMMAND', `Pushed to:${response.repo}`)
 
-        response = JSON.parse(JSON.stringify(response))
         return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
