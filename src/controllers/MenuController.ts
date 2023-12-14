@@ -14,7 +14,7 @@ export const MenuController: IController = {
         await git.pull()
         log.append('COMMAND', `Succesfully Pulled`)
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -29,7 +29,7 @@ export const MenuController: IController = {
         else log.append('COMMAND', `Pushed to:${response.repo}`)
 
         return ResponseSuccess()
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }

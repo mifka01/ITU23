@@ -4,71 +4,72 @@
 // @date October 2023
 
 import { ipcRenderer } from 'electron'
+import { Response } from 'shared/response'
 
 export const git = {
   prefix: 'git',
 
-  commit: (data: string): Promise<any> => {
+  commit: (data: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:commit`, data)
   },
 
-  status: (data: string): Promise<any> => {
+  status: (data: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:status`, data)
   },
 
-  push: (data: string): Promise<any> => {
+  push: (data: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:push`, data)
   },
 
-  pull: (data: string): Promise<any> => {
+  pull: (data: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:pull`, data)
   },
 
-  add: (file: string): Promise<any> => {
+  add: (file: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:add`, file)
   },
 
-  unstage: (file: string): Promise<any> => {
+  unstage: (file: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:unstage`, file)
   },
 
-  discard: (file: string): Promise<any> => {
+  discard: (file: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:discard`, file)
   },
 
-  discard_unstaged: (): Promise<any> => {
+  discard_unstaged: (): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:discard_unstaged`)
   },
 
-  rm: (file: string): Promise<any> => {
+  rm: (file: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:rm`, file)
   },
 
-  cwd: (): Promise<any> => {
+  cwd: (): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:cwd`)
   },
 
-  branches: (): Promise<any> => {
+  branches: (): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:branches`)
   },
 
-  checkout_branch: (name: string): Promise<any> => {
+  checkout_branch: (name: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:checkout_branch`, name)
   },
 
-  delete_branch: (name: string): Promise<any> => {
+  delete_branch: (name: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:delete_branch`, name)
   },
 
-  getDiff: (path: string): Promise<any> => {
+  getDiff: (path: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:getDiff`, path)
   },
 
-  create_branch: (name: string): Promise<any> => {
+  create_branch: (name: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:create_branch`, name)
   },
 
-  commit_tree: (maxCount: string): Promise<any> => {
+  commit_tree: (maxCount: number): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:commit_tree`, maxCount)
   },
 

@@ -1,3 +1,8 @@
+// @file shared/response.ts
+// @brief shared types
+// @author Radim Mifka (xmifka00)
+// @date December 2023
+
 enum ResponseStatus {
   STATUS_SUCCESS = 0,
   STATUS_ERROR,

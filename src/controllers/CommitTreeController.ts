@@ -27,7 +27,7 @@ export const CommitTreeController: IController = {
         })
 
         return ResponseSuccess({ commit_tree: entries })
-      } catch (error: any) {
+      } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
       }
