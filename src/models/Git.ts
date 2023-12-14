@@ -81,7 +81,7 @@ export class Git {
   }
 
   async discard_unstaged() {
-    await this.git.stash(['push', '--keep-index', '--all'])
+    await this.git.stash(['push', '--keep-index', '--include-untracked'])
     return this.git.stash(['drop', '0'])
   }
 
@@ -105,6 +105,11 @@ export class Git {
   async delete_branch(name: string) {
     return this.git.deleteLocalBranch(name)
   }
+
+  async getDiff(path: string) {
+    return this.git.diff(['--no-color', '--minimal', 'HEAD', path])
+  }
+  // --raw = generates names of changed files
 
   async commit_tree(maxCount: number) {
     return this.git.log(['--max-count', String(maxCount)])

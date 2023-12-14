@@ -60,6 +60,10 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:delete_branch`, name)
   },
 
+  getDiff: (path: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:getDiff`, path)
+  },
+
   create_branch: (name: string): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:create_branch`, name)
   },

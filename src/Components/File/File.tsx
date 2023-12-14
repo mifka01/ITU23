@@ -13,13 +13,14 @@ const STATUS_MODIFIED = 'M'
 const STATUS_DELETED = 'D'
 
 interface FileProps {
-  afterClick?: () => void
+  onClick?: () => void
+  afterAction?: () => void
   staged: boolean
   full_path: string
   status: string
 }
 
-function File({ afterClick, staged, full_path, status }: FileProps) {
+function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
   const name = full_path.split('/').pop()
   const path = full_path.slice(0, full_path.lastIndexOf('/'))
 
@@ -50,7 +51,7 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
     const response = !staged
       ? await window.git.add(full_path)
       : await window.git.unstage(full_path)
-    if (!response.status) afterClick?.()
+    if (!response.status) afterAction?.()
   }
 
   const handleDiscard = async () => {
@@ -58,13 +59,13 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
       status == STATUS_UNTRACKED || status == STATUS_APPENDED
         ? await window.git.rm(full_path)
         : await window.git.discard(full_path)
-    if (!response.status) afterClick?.()
+    if (!response.status) afterAction?.()
   }
 
   return (
     <ListItem
       start={
-        <span>
+        <span onClick={onClick} role={'button'}>
           {name}
           <small className='text-davygray ms-2'>{path}</small>
         </span>

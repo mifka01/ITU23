@@ -1,5 +1,6 @@
 // @file components/App.tsx
 // @brief Main App grid
+
 // @author Radim Mifka (xmifka00)
 // @date October 2023
 
@@ -8,6 +9,7 @@ import Log from 'components/Log'
 import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Portal from 'components/Portal'
+import Diff from 'components/Diff'
 import CommitTree from 'components/CommitTree'
 import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
@@ -18,6 +20,7 @@ function App() {
   const [refreshCommitTree, setRefreshCommitTree] = useState(false)
   const [refreshStage, setRefreshStage] = useState(true)
   const [showModal, setShowModal] = useState(false)
+  const [currentFile, setCurrentFile] = useState<string>("No file selected")
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -39,6 +42,7 @@ function App() {
                 setModal={setModal}
                 setRefreshStage={setRefreshStage}
                 refreshStage={refreshStage}
+                setCurrentFile={setCurrentFile}
               />
             </div>
             <div className='d-flex '>
@@ -57,10 +61,10 @@ function App() {
           <div className='col-7 gx-0 border-top border-davygray'>
             <div className='d-flex flex-column h-75'>
               <div className='d-flex bg-darkpurple text-beige text-start border-bottom border-davygray'>
-                <span className='ps-2'>HEADER</span>
+                <span className='ps-2'>{currentFile}</span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                <span className='ps-2'>DIFF</span>
+                <Diff currentFile={currentFile} />
               </div>
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
