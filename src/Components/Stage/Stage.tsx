@@ -101,9 +101,16 @@ function Stage({
   useEffect(() => {
     window.app.request_refresh(fetchStatus)
     fetchStatus()
-    setRefreshStage?.(false)
     return () => {
       window.app.request_refresh(fetchStatus, true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (refreshStage) {
+      console.log('update stage')
+      fetchStatus()
+      setRefreshStage?.(false)
     }
   }, [refreshStage])
 

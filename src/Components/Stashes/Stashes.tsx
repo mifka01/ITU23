@@ -23,6 +23,8 @@ interface StashesProps {
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
+  setRefreshStashes?: Dispatch<SetStateAction<boolean>>
+  refreshStashes?: boolean
 }
 
 type StashEntry = { message: string; hash: string }
@@ -32,6 +34,8 @@ function Stashes({
   setModal,
   setShowModal,
   setRefreshStage,
+  setRefreshStashes,
+  refreshStashes,
 }: StashesProps) {
   const [stashes, setStashes] = useState<StashEntry[]>([])
   const newStashRef = useRef<string>('')
@@ -48,11 +52,11 @@ function Stashes({
           <>
             <span>Please provide a stash name</span>
             <input
-              type="text"
-              name="stash"
+              type='text'
+              name='stash'
               style={{ resize: 'none' }}
-              className="form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3"
-              placeholder="Stash name"
+              className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
+              placeholder='Stash name'
               defaultValue={newStashRef.current}
               onChange={handleChange}
             />
@@ -143,6 +147,13 @@ function Stashes({
   }
 
   useEffect(() => {
+    if (refreshStashes) {
+      fetchStashes()
+      setRefreshStashes?.(false)
+    }
+  }, [refreshStashes])
+
+  useEffect(() => {
     window.app.request_refresh(fetchStashes)
     fetchStashes()
     return () => {
@@ -151,11 +162,11 @@ function Stashes({
   }, [])
 
   return (
-    <div className="col-12 text-start text-beige">
+    <div className='col-12 text-start text-beige'>
       <CollapseList
         heading={'Stashes'}
         buttons={[{ text: Plus, onClick: handleCreate }]}
-        className="border-top border-bottom border-davygray"
+        className='border-top border-bottom border-davygray'
         items={stashes.map((stash: StashEntry, index: number) => (
           <ListItem
             key={stash.message}
@@ -165,27 +176,27 @@ function Stashes({
                 <Button
                   data-message={stash.message}
                   data-index={index}
-                  className="text-white border-0 pe-1"
+                  className='text-white border-0 pe-1'
                   onClick={handlePop}
-                  title="pop stash"
+                  title='pop stash'
                 >
                   <ArchiveRestore size={15} />
                 </Button>
                 <Button
                   data-message={stash.message}
                   data-index={index}
-                  className="text-white border-0 pe-1"
+                  className='text-white border-0 pe-1'
                   onClick={handleApply}
-                  title="apply stash"
+                  title='apply stash'
                 >
                   <Archive size={15} />
                 </Button>
                 <Button
                   data-message={stash.message}
                   data-index={index}
-                  className="text-white border-0"
+                  className='text-white border-0'
                   onClick={handleDrop}
-                  title="drop stash"
+                  title='drop stash'
                 >
                   <Minus size={15} />
                 </Button>

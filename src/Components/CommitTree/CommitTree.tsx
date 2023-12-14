@@ -28,9 +28,11 @@ function CommitTree({
   }
 
   useEffect(() => {
-    fetchCommitTree()
-    setRefreshCommitTree?.(false), [refreshCommitTree == true]
-  })
+    if (refreshCommitTree) {
+      fetchCommitTree()
+      setRefreshCommitTree?.(false)
+    }
+  }, [refreshCommitTree])
 
   useEffect(() => {
     window.app.request_refresh(fetchCommitTree)

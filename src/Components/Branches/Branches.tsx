@@ -135,13 +135,19 @@ function Branches({
   }
 
   useEffect(() => {
+    if (refreshBranches) {
+      fetchBranches()
+      setRefreshBranches?.(false)
+    }
+  }, [refreshBranches])
+
+  useEffect(() => {
     window.app.request_refresh(fetchBranches)
     fetchBranches()
-    setRefreshBranches?.(false)
     return () => {
       window.app.request_refresh(fetchBranches, true)
     }
-  }, [refreshBranches])
+  }, [])
 
   return (
     <div className='col-12 text-start text-beige'>
