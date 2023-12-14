@@ -7,7 +7,7 @@ import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
 import { ModalProps } from 'components/Modal'
-import { Minus } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import {
   useState,
   useRef,
@@ -60,14 +60,14 @@ function Branches({
         ),
         buttons: [
           {
-            text: 'No',
+            text: 'Abort',
             onClick: () => {
               newBranchRef.current = ''
               setShowModal?.(false)
             },
           },
           {
-            text: 'Yes',
+            text: 'Create',
             onClick: async () => {
               await window.git.create_branch(newBranchRef.current)
               fetchBranches()
@@ -145,7 +145,7 @@ function Branches({
     <div className='col-12 text-start text-beige'>
       <CollapseList
         heading={'Branches'}
-        buttons={[{ text: 'NEW', onClick: handleCreate }]}
+        buttons={[{ text: Plus, onClick: handleCreate }]}
         className='border-top border-bottom border-davygray'
         items={branches.map((branch: BranchEntry) => (
           <ListItem

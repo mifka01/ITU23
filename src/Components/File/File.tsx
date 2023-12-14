@@ -21,7 +21,7 @@ interface FileProps {
 
 function File({ afterClick, staged, full_path, status }: FileProps) {
   const name = full_path.split('/').pop()
-  // const path = full_path.slice(0, full_path.lastIndexOf('/'))
+  const path = full_path.slice(0, full_path.lastIndexOf('/'))
 
   let status_color = 'text-success'
 
@@ -66,8 +66,13 @@ function File({ afterClick, staged, full_path, status }: FileProps) {
 
   return (
     <ListItem
-      start={name}
-      end={<span className={status_color}>{status}</span>}
+      start={
+        <span>
+          {name}
+          <small className='text-davygray ms-2'>{path}</small>
+        </span>
+      }
+      end={<span className={status_color}> {status}</span>}
       hovered={
         <>
           <Button onClick={handleDiscard} className='text-end border-0'>
