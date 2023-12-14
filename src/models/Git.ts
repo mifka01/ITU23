@@ -1,6 +1,6 @@
 // @file Git.ts
 // @brief Wrapper for SimpleGit Model
-// @author Radim Mifka (xmifka00)
+// @author Radim Mifka (xmifka00), Miroslav Bálek (xbalek02)
 // @date October 2023
 
 import {
@@ -117,6 +117,26 @@ export class Git {
 
   async create_branch(name: string) {
     return this.git.checkoutLocalBranch(name)
+  }
+
+  async stashes() {
+    return this.git.stashList()
+  }
+  
+  async stash_push(message: string) {
+    return this.git.stash(['push','-m', message])
+  }
+
+  async stash_drop(hash: string) {
+    return this.git.stash(['drop' ,`stash@{${hash}}`])
+  }
+
+  async stash_pop(hash: string) {
+    return this.git.stash(['pop', `stash@{${hash}}`])
+  }
+
+  async stash_apply(hash: string) {
+    return this.git.stash(['apply', `stash@{${hash}}`])
   }
 }
 

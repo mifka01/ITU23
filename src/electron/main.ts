@@ -8,6 +8,7 @@ import { StageController } from '../controllers/StageController'
 import { BranchController } from '../controllers/BranchController'
 import { DiffController } from "../controllers/DiffController.ts"
 import { CommitTreeController } from '../controllers/CommitTreeController'
+import { StashController } from '../controllers/StashController'
 import { createIPCHandlers } from './utils'
 import { generateMenu } from './menu'
 
@@ -47,6 +48,7 @@ function createWindow() {
   createIPCHandlers(BranchController)
   createIPCHandlers(DiffController)
   createIPCHandlers(CommitTreeController)
+  createIPCHandlers(StashController)
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)

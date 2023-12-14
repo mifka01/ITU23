@@ -17,6 +17,8 @@ interface StageProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
+  setRefreshStage?: Dispatch<SetStateAction<boolean>>
+  refreshStage?: boolean
   setCurrentFile?: Dispatch<SetStateAction<string>>
 }
 
@@ -25,6 +27,8 @@ function Stage({
   setRefreshCommitTree,
   setShowModal,
   setModal,
+  setRefreshStage,
+  refreshStage,
   setCurrentFile,
 }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
@@ -97,14 +101,15 @@ function Stage({
   useEffect(() => {
     window.app.request_refresh(fetchStatus)
     fetchStatus()
+    setRefreshStage?.(false)
     return () => {
       window.app.request_refresh(fetchStatus, true)
     }
-  }, [])
+  }, [refreshStage])
 
   return (
     <>
-      <div className='col-12 text-start text-beige'>
+      <div className="col-12 text-start text-beige">
         <Commit
           afterSubmit={() => {
             fetchStatus()
@@ -113,7 +118,7 @@ function Stage({
         />
         <CollapseList
           heading={'Staged changes'}
-          className='border-top border-bottom border-davygray'
+          className="border-top border-bottom border-davygray"
           buttons={staged_buttons}
           items={staged.map((file) => (
             <File
@@ -131,7 +136,7 @@ function Stage({
 
         <CollapseList
           heading={'Changes'}
-          className='border-top border-bottom border-davygray'
+          className="border-top border-bottom border-davygray"
           buttons={notAdded_buttons}
           items={notAdded.map((file) => (
             <File

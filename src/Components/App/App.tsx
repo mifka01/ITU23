@@ -11,12 +11,14 @@ import Branches from 'components/Branches'
 import Portal from 'components/Portal'
 import Diff from 'components/Diff'
 import CommitTree from 'components/CommitTree'
+import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
   const [refreshCommitTree, setRefreshCommitTree] = useState(false)
+  const [refreshStage, setRefreshStage] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [currentFile, setCurrentFile] = useState<string>("No file selected")
   const [modal, setModal] = useState<ModalProps>({
@@ -38,6 +40,8 @@ function App() {
                 setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
                 setModal={setModal}
+                setRefreshStage={setRefreshStage}
+                refreshStage={refreshStage}
                 setCurrentFile={setCurrentFile}
               />
             </div>
@@ -79,7 +83,12 @@ function App() {
               />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
-              <div>STASH</div>
+            <Stashes
+              setShowModal={setShowModal}
+              setRefreshLog={setRefreshLog}
+              setModal={setModal}
+              setRefreshStage={setRefreshStage}
+              />
             </div>
           </div>
         </div>
