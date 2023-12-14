@@ -33,7 +33,7 @@ export const StageController: IController = {
       type FileEntry = { path: string; status: string }
 
       try {
-        let response = await git.status()
+        const response = await git.status()
 
         let staged_files: FileEntry[] = []
         let not_added: FileEntry[] = []
@@ -60,7 +60,7 @@ export const StageController: IController = {
 
     async commit(_: IpcMainInvokeEvent, message: string) {
       try {
-        let response = await git.commit(message)
+        const response = await git.commit(message)
 
         if (
           !response.summary.changes &&

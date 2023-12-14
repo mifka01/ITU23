@@ -35,9 +35,11 @@ function Commit({ className, afterSubmit }: CommitProps) {
     event.preventDefault()
     if (formData.message == '') console.log('blank')
     else {
-      await window.git.commit(formData.message)
-      setFormData({ message: '' })
-      afterSubmit?.()
+      const response = await window.git.commit(formData.message)
+      if (!response.status) {
+        setFormData({ message: '' })
+        afterSubmit?.()
+      }
     }
   }
 

@@ -14,7 +14,7 @@ export const CommitTreeController: IController = {
   functions: {
     async commit_tree(_: IpcMainInvokeEvent) {
       try {
-        let response = await git.commit_tree(HISTORY_MAX_COUNT)
+        const response = await git.commit_tree(HISTORY_MAX_COUNT)
 
         let entries: CommitEntry[] = []
         response.all.forEach((entry: CommitEntry) => {

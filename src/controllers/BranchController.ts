@@ -12,7 +12,7 @@ export const BranchController: IController = {
   functions: {
     async branches(_: IpcMainInvokeEvent) {
       try {
-        let response = await git.branches()
+        const response = await git.branches()
 
         let entries: BranchEntry[] = []
         let current = response.current
