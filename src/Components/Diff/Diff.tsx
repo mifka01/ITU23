@@ -36,35 +36,34 @@ function Diff({ currentFile }: Path) {
             }}>
                 <pre style={{width: "100%"}}>
                     {data.map((element) => {
-                        let code_color = ""
-                        let line_color = ""
+                        let code_color
+                        let line_color
                         if(element.mark === '+') {
-                            code_color = "rgba(24,98,37,0.5)"
-                            line_color = "rgba(20,51,1,0.5)"
+                            code_color = 'bg-codeok bg-opacity-50'
+                            line_color = 'bg-lineok bg-opacity-50'
                         }else if(element.mark === '-'){
-                            code_color = "rgba(124,0,0,0.5)"
-                            line_color = "rgba(77,13,13,0.55)"
+                            code_color = 'bg-codenok bg-opacity-50'
+                            line_color = 'bg-linenok bg-opacity-50'
                         }else{
-                            line_color = "rgba(21,20,30,0.5)"
+                            code_color = 'bg-darkpruple'
+                            line_color = 'bg-linenochange bg-opacity-50'
                         }
 
                         return (
                             <div style={{
                                 display:  "block"
                             }}>
-                                <code style={{
+                                <code className={line_color} style={{
                                     display: "inline-block",
                                     width: "5%",
-                                    background: line_color,
-                                    paddingLeft: "2vh",
+                                    paddingLeft: "1vh",
                                     minWidth: "5%"
                                 }}>
                                     {element.line_num}
                                 </code>
-                                <code style={{
+                                <code className={'bg-opacity-50 '+code_color} style={{
                                 display: "inline-block",
                                 paddingLeft: '1vh',
-                                background: code_color,
                                 width: "95%"
                                 }}>
                                     {element.line}
