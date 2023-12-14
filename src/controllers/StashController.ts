@@ -1,9 +1,8 @@
-// @file components/Branches.tsx
-// @brief Stash list component
+// @file components/StashController.ts
+// @brief Stash list controller
 // @author Miroslav Bálek (xbalek02)
 // @date December 2023
 
-// controllers/BranchController.ts
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { ResponseSuccess, ResponseError } from '../shared/response'

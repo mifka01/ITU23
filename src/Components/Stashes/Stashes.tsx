@@ -1,4 +1,4 @@
-// @file components/Branches.tsx
+// @file components/Stashes.tsx
 // @brief Stash list component
 // @author Miroslav Bálek (xbalek02)
 // @date December 2023
@@ -15,7 +15,7 @@ import {
   Dispatch,
   SetStateAction,
   MouseEvent,
-  ChangeEvent
+  ChangeEvent,
 } from 'react'
 
 interface StashesProps {
@@ -31,7 +31,7 @@ function Stashes({
   setRefreshLog,
   setModal,
   setShowModal,
-  setRefreshStage
+  setRefreshStage,
 }: StashesProps) {
   const [stashes, setStashes] = useState<StashEntry[]>([])
   const newStashRef = useRef<string>('')
@@ -62,7 +62,6 @@ function Stashes({
           {
             text: 'Abort',
             onClick: () => {
-              
               newStashRef.current = ''
               setShowModal?.(false)
             },
@@ -70,10 +69,11 @@ function Stashes({
           {
             text: 'Create',
             onClick: async () => {
-              
-              await window.git.stash_push(newStashRef.current)
-              fetchStashes()
-              setRefreshStage?.(true)
+              const response = await window.git.stash_push(newStashRef.current)
+              if (!response.status) {
+                fetchStashes()
+                setRefreshStage?.(true)
+              }
               newStashRef.current = ''
               setShowModal?.(false)
             },
@@ -103,8 +103,10 @@ function Stashes({
           {
             text: 'Yes',
             onClick: async () => {
-              await window.git.stash_drop(index)
-              fetchStashes()
+              const response = await window.git.stash_drop(index)
+              if (!response.status) {
+                fetchStashes()
+              }
               setShowModal?.(false)
             },
           },
@@ -114,21 +116,21 @@ function Stashes({
     }
   }
   const handleApply = async (event: MouseEvent<HTMLButtonElement>) => {
-
-      let index = event.currentTarget.dataset['index']
-      await window.git.stash_apply(index)
+    let index = event.currentTarget.dataset['index']
+    const response = await window.git.stash_apply(index)
+    if (!response.status) {
       setRefreshStage?.(true)
       fetchStashes()
- 
+    }
   }
 
   const handlePop = async (event: MouseEvent<HTMLButtonElement>) => {
-      let index = event.currentTarget.dataset['index']
-      await window.git.stash_pop(index)
+    let index = event.currentTarget.dataset['index']
+    const response = await window.git.stash_pop(index)
+    if (!response.status) {
       setRefreshStage?.(true)
-
       fetchStashes()
-  
+    }
   }
 
   const fetchStashes = async () => {
@@ -157,8 +159,7 @@ function Stashes({
         items={stashes.map((stash: StashEntry, index: number) => (
           <ListItem
             key={stash.message}
-            start={
-            <small>{stash.message}</small>}
+            start={<small>{stash.message}</small>}
             hovered={
               <>
                 <Button

@@ -1,9 +1,9 @@
-// @file components/Branches.tsx
-// @brief Stash list component
+// controllers/CommitTreeController.ts
+// @brief Commit tree controller
 // @author Miroslav Bálek (xbalek02)
 // @date December 2023
 
-// controllers/CommitTreeController.ts
+
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { ResponseSuccess, ResponseError } from '../shared/response'
