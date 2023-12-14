@@ -7,38 +7,38 @@ import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
 import { ModalProps } from 'components/Modal'
-import { Minus } from 'lucide-react'
+import { Minus, Plus, ArchiveRestore, Archive } from 'lucide-react'
 import {
   useState,
   useRef,
   useEffect,
   Dispatch,
   SetStateAction,
-  ChangeEvent,
   MouseEvent,
+  ChangeEvent
 } from 'react'
 
-interface BranchesProps {
+interface StashesProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
+  setRefreshStage?: Dispatch<SetStateAction<boolean>>
 }
 
-type BranchEntry = { name: string; current: boolean }
+type StashEntry = { message: string; hash: string }
 
-function Branches({
+function Stashes({
   setRefreshLog,
-  setRefreshCommitTree,
   setModal,
   setShowModal,
-}: BranchesProps) {
-  const [branches, setBranches] = useState<BranchEntry[]>([])
-  const newBranchRef = useRef<string>('')
+  setRefreshStage
+}: StashesProps) {
+  const [stashes, setStashes] = useState<StashEntry[]>([])
+  const newStashRef = useRef<string>('')
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    newBranchRef.current = value
+    newStashRef.current = value
   }
 
   const handleCreate = async () => {
@@ -46,32 +46,35 @@ function Branches({
       setModal({
         children: (
           <>
-            <span>Please provide a branch name</span>
+            <span>Please provide a stash name</span>
             <input
-              type='text'
-              name='branch'
+              type="text"
+              name="stash"
               style={{ resize: 'none' }}
-              className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
-              placeholder='Branch name'
-              defaultValue={newBranchRef.current}
+              className="form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3"
+              placeholder="Stash name"
+              defaultValue={newStashRef.current}
               onChange={handleChange}
             />
           </>
         ),
         buttons: [
           {
-            text: 'No',
+            text: 'Abort',
             onClick: () => {
-              newBranchRef.current = ''
+              
+              newStashRef.current = ''
               setShowModal?.(false)
             },
           },
           {
-            text: 'Yes',
+            text: 'Create',
             onClick: async () => {
-              await window.git.create_branch(newBranchRef.current)
-              fetchBranches()
-              newBranchRef.current = ''
+              
+              await window.git.stash_push(newStashRef.current)
+              fetchStashes()
+              setRefreshStage?.(true)
+              newStashRef.current = ''
               setShowModal?.(false)
             },
           },
@@ -81,12 +84,15 @@ function Branches({
     }
   }
 
-  const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleDrop = async (event: MouseEvent<HTMLButtonElement>) => {
     if (setModal && setShowModal) {
-      let name = event.currentTarget.dataset['name']
+      let message = event.currentTarget.dataset['message']
+      let index = event.currentTarget.dataset['index']
 
       setModal({
-        children: <span>Are you sure you want to delete branch: {name}?</span>,
+        children: (
+          <span>Are you sure you want to drop this stash: {message}?</span>
+        ),
         buttons: [
           {
             text: 'No',
@@ -97,8 +103,8 @@ function Branches({
           {
             text: 'Yes',
             onClick: async () => {
-              await window.git.delete_branch(name)
-              fetchBranches()
+              await window.git.stash_drop(index)
+              fetchStashes()
               setShowModal?.(false)
             },
           },
@@ -107,73 +113,82 @@ function Branches({
       setShowModal(true)
     }
   }
+  const handleApply = async (event: MouseEvent<HTMLButtonElement>) => {
 
-  const handleCheckout = async (event: MouseEvent<HTMLButtonElement>) => {
-    let name = event.currentTarget.dataset['name']
-    await window.git.checkout_branch(name)
-    fetchBranches()
+      let index = event.currentTarget.dataset['index']
+      await window.git.stash_apply(index)
+      setRefreshStage?.(true)
+      fetchStashes()
+ 
   }
 
-  const fetchBranches = async () => {
-    const response = await window.git.branches()
-    let entries: BranchEntry[] = []
+  const handlePop = async (event: MouseEvent<HTMLButtonElement>) => {
+      let index = event.currentTarget.dataset['index']
+      await window.git.stash_pop(index)
+      setRefreshStage?.(true)
 
-    let current = response.current
+      fetchStashes()
+  
+  }
 
-    response.all.forEach((branch_name: string) => {
-      const entry: BranchEntry = {
-        name: branch_name,
-        current: branch_name == current,
-      }
-      entries.push(entry)
-    })
+  const fetchStashes = async () => {
+    const response = await window.git.stashes()
 
-    setBranches(entries)
-    setRefreshLog?.(true)
-    setRefreshCommitTree?.(true)
+    if (!response.status && response.payload) {
+      setStashes(response.payload.stashes)
+      setRefreshLog?.(true)
+    }
   }
 
   useEffect(() => {
-    window.app.request_refresh(fetchBranches)
-    fetchBranches()
+    window.app.request_refresh(fetchStashes)
+    fetchStashes()
     return () => {
-      window.app.request_refresh(fetchBranches, true)
+      window.app.request_refresh(fetchStashes, true)
     }
   }, [])
 
   return (
-    <div className='col-12 text-start text-beige'>
+    <div className="col-12 text-start text-beige">
       <CollapseList
-        heading={'Branches'}
-        buttons={[{ text: 'NEW', onClick: handleCreate }]}
-        className='border-top border-bottom border-davygray'
-        items={branches.map((branch: BranchEntry) => (
+        heading={'Stashes'}
+        buttons={[{ text: Plus, onClick: handleCreate }]}
+        className="border-top border-bottom border-davygray"
+        items={stashes.map((stash: StashEntry, index: number) => (
           <ListItem
-            key={branch.name}
+            key={stash.message}
             start={
-              <Button
-                data-name={branch.name}
-                onClick={handleCheckout}
-                className='text-end text-beige border-0'
-              >
-                <small>{branch.name}</small>
-              </Button>
-            }
+            <small>{stash.message}</small>}
             hovered={
-              !branch.current ? (
+              <>
                 <Button
-                  data-name={branch.name}
-                  className='text-white border-0'
-                  onClick={handleDelete}
+                  data-message={stash.message}
+                  data-index={index}
+                  className="text-white border-0 pe-1"
+                  onClick={handlePop}
+                  title="pop stash"
+                >
+                  <ArchiveRestore size={15} />
+                </Button>
+                <Button
+                  data-message={stash.message}
+                  data-index={index}
+                  className="text-white border-0 pe-1"
+                  onClick={handleApply}
+                  title="apply stash"
+                >
+                  <Archive size={15} />
+                </Button>
+                <Button
+                  data-message={stash.message}
+                  data-index={index}
+                  className="text-white border-0"
+                  onClick={handleDrop}
+                  title="drop stash"
                 >
                   <Minus size={15} />
                 </Button>
-              ) : undefined
-            }
-            end={
-              branch.current ? (
-                <span className='text-ecru'>CURRENT</span>
-              ) : undefined
+              </>
             }
           />
         ))}
@@ -182,4 +197,4 @@ function Branches({
   )
 }
 
-export default Branches
+export default Stashes

@@ -9,12 +9,14 @@ import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Portal from 'components/Portal'
 import CommitTree from 'components/CommitTree'
+import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
   const [refreshCommitTree, setRefreshCommitTree] = useState(false)
+  const [refreshStage, setRefreshStage] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
@@ -35,6 +37,8 @@ function App() {
                 setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
                 setModal={setModal}
+                setRefreshStage={setRefreshStage}
+                refreshStage={refreshStage}
               />
             </div>
             <div className='d-flex '>
@@ -75,7 +79,12 @@ function App() {
               />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
-              <div>STASH</div>
+            <Stashes
+              setShowModal={setShowModal}
+              setRefreshLog={setRefreshLog}
+              setModal={setModal}
+              setRefreshStage={setRefreshStage}
+              />
             </div>
           </div>
         </div>

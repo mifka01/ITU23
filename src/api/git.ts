@@ -72,19 +72,19 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:stashes`, name)
   },
 
-  stash_save: (name: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:stash_save`, name)
+  stash_push: (name: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_push`, name)
   },
 
-  stash_apply: (name: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:stash_apply`, name)
+  stash_apply: (hash: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_apply`, hash)
   },
 
-  stash_pop: (name: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:stash_pop`, name)
+  stash_pop: (hash: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_pop`, hash)
   },
 
-  stash_drop: (name: string): Promise<any> => {
-    return ipcRenderer.invoke(`${git.prefix}:stash_drop`, name)
+  stash_drop: (hash: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:stash_drop`, hash)
   },
 }

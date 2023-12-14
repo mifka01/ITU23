@@ -117,17 +117,21 @@ export class Git {
   async stashes() {
     return this.git.stashList()
   }
-
-  async stash_drop(index: string) {
-    return this.git.stash(['drop', index])
+  
+  async stash_push(message: string) {
+    return this.git.stash(['push','-m', message])
   }
 
-  async stash_pop(index: string) {
-    return this.git.stash(['pop', index])
+  async stash_drop(hash: string) {
+    return this.git.stash(['drop' ,`stash@{${hash}}`])
   }
 
-  async stash_apply(index: string) {
-    return this.git.stash(['apply', index])
+  async stash_pop(hash: string) {
+    return this.git.stash(['pop', `stash@{${hash}}`])
+  }
+
+  async stash_apply(hash: string) {
+    return this.git.stash(['apply', `stash@{${hash}}`])
   }
 }
 
