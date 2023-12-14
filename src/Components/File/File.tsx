@@ -6,7 +6,6 @@
 import { Plus, Minus, Undo2 } from 'lucide-react'
 import Button from 'components/Button'
 import ListItem from 'components/ListItem'
-import {Dispatch, SetStateAction} from "react";
 
 const STATUS_UNTRACKED = 'U'
 const STATUS_APPENDED = 'A'
@@ -14,14 +13,14 @@ const STATUS_MODIFIED = 'M'
 const STATUS_DELETED = 'D'
 
 interface FileProps {
-  afterClick?: () => void
+  onClick?: () => void
+  afterAction?: () => void
   staged: boolean
   full_path: string
   status: string
-  setFilePath: Dispatch<SetStateAction<string>>
 }
 
-function File({ afterClick, staged, full_path, status, setFilePath }: FileProps) {
+function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
   const name = full_path.split('/').pop()
   // const path = full_path.slice(0, full_path.lastIndexOf('/'))
 
@@ -54,7 +53,7 @@ function File({ afterClick, staged, full_path, status, setFilePath }: FileProps)
     } else {
       await window.git.unstage(full_path)
     }
-    afterClick?.()
+    afterAction?.()
   }
 
   const handleDiscard = async () => {
@@ -63,11 +62,12 @@ function File({ afterClick, staged, full_path, status, setFilePath }: FileProps)
     } else {
       await window.git.discard(full_path)
     }
-    afterClick?.()
+    afterAction?.()
   }
 
   return (
     <ListItem
+      onClick={onClick}
       start={name}
       end={<span className={status_color}>{status}</span>}
       hovered={
@@ -80,8 +80,6 @@ function File({ afterClick, staged, full_path, status, setFilePath }: FileProps)
           </Button>
         </>
       }
-      setFilePath={setFilePath}
-      full_path={full_path}
     />
   )
 }

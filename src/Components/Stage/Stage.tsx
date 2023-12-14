@@ -34,10 +34,15 @@ interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
-  setFilePath: Dispatch<SetStateAction<string>>
+  setCurrentFile?: Dispatch<SetStateAction<string>>
 }
 
-function Stage({ setRefreshLog, setShowModal, setModal, setFilePath }: StageProps) {
+function Stage({
+  setRefreshLog,
+  setShowModal,
+  setModal,
+  setCurrentFile,
+}: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
 
@@ -133,11 +138,13 @@ function Stage({ setRefreshLog, setShowModal, setModal, setFilePath }: StageProp
           items={staged.map((file) => (
             <File
               key={file.path}
-              afterClick={fetchStatus}
+              afterAction={fetchStatus}
               staged={true}
               full_path={file.path}
               status={file.status}
-              setFilePath={setFilePath}
+              onClick={() => {
+                setCurrentFile?.(file.path)
+              }}
             />
           ))}
         />
@@ -146,14 +153,16 @@ function Stage({ setRefreshLog, setShowModal, setModal, setFilePath }: StageProp
           heading={'Changes'}
           className='border-top border-bottom border-davygray'
           buttons={notAdded_buttons}
-            items={notAdded.map((file) => (
+          items={notAdded.map((file) => (
             <File
               key={file.path}
-              afterClick={fetchStatus}
+              afterAction={fetchStatus}
               staged={false}
               full_path={file.path}
               status={file.status}
-              setFilePath={setFilePath}
+              onClick={() => {
+                setCurrentFile?.(file.path)
+              }}
             />
           ))}
         />

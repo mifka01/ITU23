@@ -3,28 +3,25 @@
 // @author Michal Zapletal (xzaple41)
 // @date October 2023
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from 'react'
 
-interface Path{
-    filePath: string
+interface Path {
+  currentFile?: string
 }
 
-function Diff({filePath} : Path) {
-    const [data, setData] = useState<string>("")
+function Diff({ currentFile }: Path) {
+  const [data, setData] = useState<string>('')
 
-    useEffect(() => {
-        async function getData(){
-            //console.log(filePath)
-            if(filePath) {
-                const data = await window.git.getDiff(filePath)
-                setData(data)
-            }
-            else
-                setData("")
-        }
-        getData()
-    }, [filePath]);
-
+  useEffect(() => {
+    async function getData() {
+      //console.log(filePath)
+      if (currentFile) {
+        const data = await window.git.getDiff(currentFile)
+        setData(data)
+      } else setData('')
+    }
+    getData()
+  }, [currentFile])
 
     let res = []
     let result= data.split('\n')
