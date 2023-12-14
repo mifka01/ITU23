@@ -20,15 +20,14 @@ function ListItem({ message }: ListItemProps) {
     <div
       className={`row small mt-0 mb-0 bg-darkpurple d-flex flex-nowrap align-items-center`}
       onMouseEnter={handleHover}
-      onMouseLeave={handleHover}
-      
+      onMouseLeave={handleHover} 
     >
-      <div className="col-1 ps-1 mt-0 mb-0 text-end">
-        <GitCommitVertical size={'2em'} />
+      <div className="col-1 ps-1 me-1 text-end">
+        <GitCommitVertical size={'2em'} viewBox="9 3 6 18" />
       </div>
       <div className="ps-2 col-11 mt-1 text-truncate">{message}</div>
     </div>
-  );
+  )
 }
 
 export default ListItem
