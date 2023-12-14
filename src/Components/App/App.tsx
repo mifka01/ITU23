@@ -16,7 +16,7 @@ import { useState } from 'react'
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [currentFile, setCurrentFile] = useState<string>()
+  const [currentFile, setCurrentFile] = useState<string>("No file selected")
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -53,7 +53,7 @@ function App() {
           <div className='col-7 gx-0 border-top border-davygray'>
             <div className='d-flex flex-column h-75'>
               <div className='d-flex bg-darkpurple text-beige text-start border-bottom border-davygray'>
-                <span className='ps-2'>header</span>
+                <span className='ps-2'>{currentFile}</span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
                 <Diff currentFile={currentFile} />

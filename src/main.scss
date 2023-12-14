@@ -13,6 +13,11 @@ $custom-colors: (
   'davygray': #505168,
   'darkpurple': #27233a,
   'gunmetal': #1f1d2b,
+  'codeok': rgba(24,98,37,0.5),
+  'codenok': rgba(124,0,0,0.5),
+  'lineok': rgba(20,51,1,0.5),
+  'linenok': rgba(77,13,13,0.55),
+  'linenochange': rgba(21,20,30,0.5),
 );
 
 $theme-colors: map_merge($theme-colors, $custom-colors);

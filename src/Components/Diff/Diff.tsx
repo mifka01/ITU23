@@ -16,11 +16,10 @@ function Diff({ currentFile }: Path) {
 
   useEffect(() => {
     async function getData() {
-      //console.log(filePath)
-      if (currentFile) {
-        const data = await window.git.getDiff(currentFile)
-        setData(data)
-      } else setData([])
+        const response = await window.git.getDiff(currentFile)
+        if(!response.status && response.payload) {
+            setData(response.payload.res)
+        }
     }
     getData()
   }, [currentFile])
@@ -30,18 +29,23 @@ function Diff({ currentFile }: Path) {
             <div style={{
                 overflowY: 'scroll',
                 overflow: 'auto',
-                height: '65vh',
+                height: '67.5vh', //TODO: repair height to align with parent content
                 width: '100%',
                 textAlign: 'left',
                 display: "flex"
             }}>
                 <pre style={{width: "100%"}}>
                     {data.map((element) => {
-                        let color = ""
+                        let code_color = ""
+                        let line_color = ""
                         if(element.mark === '+') {
-                            color = "green"
+                            code_color = "rgba(24,98,37,0.5)"
+                            line_color = "rgba(20,51,1,0.5)"
                         }else if(element.mark === '-'){
-                            color = "darkred"
+                            code_color = "rgba(124,0,0,0.5)"
+                            line_color = "rgba(77,13,13,0.55)"
+                        }else{
+                            line_color = "rgba(21,20,30,0.5)"
                         }
 
                         return (
@@ -50,21 +54,24 @@ function Diff({ currentFile }: Path) {
                             }}>
                                 <code style={{
                                     display: "inline-block",
-                                    width: "10%"
+                                    width: "5%",
+                                    background: line_color,
+                                    paddingLeft: "2vh",
+                                    minWidth: "5%"
                                 }}>
                                     {element.line_num}
                                 </code>
                                 <code style={{
                                 display: "inline-block",
                                 paddingLeft: '1vh',
-                                background: color,
-                                width: "90%"
+                                background: code_color,
+                                width: "95%"
                                 }}>
                                     {element.line}
                                 </code>
                             </div>)
                         })}
-                </pre>
+                    </pre>
             </div>
         </>
 )
