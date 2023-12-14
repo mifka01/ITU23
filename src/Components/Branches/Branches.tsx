@@ -116,21 +116,12 @@ function Branches({
 
   const fetchBranches = async () => {
     const response = await window.git.branches()
-    let entries: BranchEntry[] = []
 
-    let current = response.current
-
-    response.all.forEach((branch_name: string) => {
-      const entry: BranchEntry = {
-        name: branch_name,
-        current: branch_name == current,
-      }
-      entries.push(entry)
-    })
-
-    setBranches(entries)
-    setRefreshLog?.(true)
-    setRefreshCommitTree?.(true)
+    if (!response.status && response.payload) {
+      setBranches(response.payload.branches)
+      setRefreshLog?.(true)
+      setRefreshCommitTree?.(true)
+    }
   }
 
   useEffect(() => {

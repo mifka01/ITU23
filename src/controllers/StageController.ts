@@ -1,21 +1,60 @@
 // controllers/StageController.ts
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
+import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
+
+type StatusResult = {
+  not_added: string[]
+  deleted: string[]
+  created: string[]
+  files: { path: string }[]
+}
 
 export const StageController: IController = {
   prefix: 'git',
 
+  helpers: {
+    getStatusLetter(filename: string, inputObject: StatusResult) {
+      if (inputObject.not_added.includes(filename)) {
+        return 'U'
+      } else if (inputObject.deleted.includes(filename)) {
+        return 'D'
+      } else if (inputObject.created.includes(filename)) {
+        return 'A'
+      }
+      return 'M'
+    },
+  },
+
   functions: {
     async status(_: IpcMainInvokeEvent) {
+      type FileEntry = { path: string; status: string }
+
       try {
         let response = await git.status()
-        // happening too often
-        // log.append('COMMAND', `status`)
-        return JSON.parse(JSON.stringify(response))
+
+        let staged_files: FileEntry[] = []
+        let not_added: FileEntry[] = []
+
+        response.files.forEach((file: { path: string }) => {
+          const entry: FileEntry = {
+            path: file.path,
+            status: StageController.helpers?.getStatusLetter(
+              file.path,
+              response,
+            ),
+          }
+
+          if (response.staged.includes(file.path)) staged_files.push(entry)
+          else not_added.push(entry)
+        })
+
+        return ResponseSuccess({ not_added: not_added, staged: staged_files })
       } catch (error: any) {
         log.append('ERROR', String(error))
+        return ResponseError()
       }
     },
 
@@ -32,8 +71,10 @@ export const StageController: IController = {
         } else {
           log.append('COMMAND', `Commited`)
         }
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
+        return ResponseError()
       }
     },
 
@@ -41,10 +82,10 @@ export const StageController: IController = {
       try {
         await git.add(file)
         log.append('COMMAND', `Added`)
-        return true
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
-        return false
+        return ResponseError()
       }
     },
 
@@ -52,10 +93,10 @@ export const StageController: IController = {
       try {
         await git.unstage(file)
         log.append('COMMAND', `Unstaged`)
-        return true
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
-        return false
+        return ResponseError()
       }
     },
 
@@ -63,10 +104,10 @@ export const StageController: IController = {
       try {
         await git.discard(file)
         log.append('COMMAND', `Discard`)
-        return true
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
-        return false
+        return ResponseError()
       }
     },
 
@@ -74,10 +115,10 @@ export const StageController: IController = {
       try {
         await git.discard_unstaged()
         log.append('COMMAND', `Discard unstaged`)
-        return true
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
-        return false
+        return ResponseError()
       }
     },
 
@@ -85,10 +126,10 @@ export const StageController: IController = {
       try {
         await git.rm(file)
         log.append('COMMAND', `Remove file`)
-        return true
+        return ResponseSuccess()
       } catch (error: any) {
         log.append('ERROR', String(error))
-        return false
+        return ResponseError()
       }
     },
   },

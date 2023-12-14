@@ -1,19 +1,30 @@
 // controllers/CommitTreeController.ts
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
+import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
+
+const HISTORY_MAX_COUNT = 7
+
+type CommitEntry = { message: string; hash: string }
 
 export const CommitTreeController: IController = {
   prefix: 'git',
   functions: {
     async commit_tree(_: IpcMainInvokeEvent) {
       try {
-        //TOOD: magic number + idk if this is the right place to set it
-        let response = await git.commit_tree('7')
-        return JSON.parse(JSON.stringify(response))
+        let response = await git.commit_tree(HISTORY_MAX_COUNT)
+
+        let entries: CommitEntry[] = []
+        response.all.forEach((entry: CommitEntry) => {
+          entries.push({ message: entry.message, hash: entry.hash })
+        })
+
+        return ResponseSuccess({ commit_tree: entries })
       } catch (error: any) {
         log.append('ERROR', String(error))
+        return ResponseError()
       }
     },
   },
