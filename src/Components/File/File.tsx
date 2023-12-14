@@ -51,7 +51,7 @@ function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
     const response = !staged
       ? await window.git.add(full_path)
       : await window.git.unstage(full_path)
-    if (!response.status) afterClick?.()
+    if (!response.status) afterAction?.()
   }
 
   const handleDiscard = async () => {
@@ -59,13 +59,13 @@ function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
       status == STATUS_UNTRACKED || status == STATUS_APPENDED
         ? await window.git.rm(full_path)
         : await window.git.discard(full_path)
-    if (!response.status) afterClick?.()
+    if (!response.status) afterAction?.()
   }
 
   return (
     <ListItem
       start={
-        <span onClick={onClick} role={"button"}>
+        <span onClick={onClick} role={'button'}>
           {name}
           <small className='text-davygray ms-2'>{path}</small>
         </span>
