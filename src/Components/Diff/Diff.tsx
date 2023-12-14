@@ -9,8 +9,10 @@ interface Path {
   currentFile?: string
 }
 
+type DiffEntry = {mark: string, line_num: string, line: string}
+
 function Diff({ currentFile }: Path) {
-  const [data, setData] = useState<string>('')
+  const [data, setData] = useState<DiffEntry[]>([])
 
   useEffect(() => {
     async function getData() {
@@ -18,58 +20,10 @@ function Diff({ currentFile }: Path) {
       if (currentFile) {
         const data = await window.git.getDiff(currentFile)
         setData(data)
-      } else setData('')
+      } else setData([])
     }
     getData()
   }, [currentFile])
-
-    let res = []
-    let result= data.split('\n')
-    let from = 0
-    let neg = 0
-    let previous = 's'
-    for(let i = 0; i < result.length; i++) {
-        let record = []
-
-        if(result[i] && result[i][0] === '@') {
-            from = parseInt(result[i].split(' ')[2].replace(/\D/g,' ').trim().split(' ')[0])
-            previous = 's'
-            continue
-        }else if(result[i] && (result[i][0] == '+' || result[i][0] == '-' || result[i][0] == ' ')) {
-            if(result[i][1] === '+' || result[i][1] === '-'){
-                continue
-            }
-            record.push(result[i][0])
-        }else{
-            continue
-        }
-
-        if(result[i][0] === '+'){
-            from ++
-            record.push(from.toString())
-        }else if(result[i][0] === '-') {
-            if(previous !== '-') {
-                neg = from
-            }
-            neg++
-            record.push(neg.toString())
-        }else {
-            if(previous !== 's')
-                from ++
-            record.push(from.toString())
-        }
-        previous = result[i][0]
-
-        record.push(result[i].substring(1))
-
-        if(record[2] === ""){
-            record[2] = " "
-        }
-
-        res.push(record)
-    }
-
-    //console.log(res)
 
     return (
         <>
@@ -82,11 +36,11 @@ function Diff({ currentFile }: Path) {
                 display: "flex"
             }}>
                 <pre style={{width: "100%"}}>
-                    {res.map((element) => {
+                    {data.map((element) => {
                         let color = ""
-                        if(element[0] === '+') {
+                        if(element.mark === '+') {
                             color = "green"
-                        }else if(element[0] === '-'){
+                        }else if(element.mark === '-'){
                             color = "darkred"
                         }
 
@@ -98,7 +52,7 @@ function Diff({ currentFile }: Path) {
                                     display: "inline-block",
                                     width: "10%"
                                 }}>
-                                    {element[1]}
+                                    {element.line_num}
                                 </code>
                                 <code style={{
                                 display: "inline-block",
@@ -106,14 +60,14 @@ function Diff({ currentFile }: Path) {
                                 background: color,
                                 width: "90%"
                                 }}>
-                                    {element[2]}
+                                    {element.line}
                                 </code>
                             </div>)
                         })}
                 </pre>
             </div>
         </>
-    )
+)
 }
 // {result.map((element) => (<code>{element}</code>))}
 export default Diff
