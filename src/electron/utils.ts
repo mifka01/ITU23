@@ -5,6 +5,11 @@
 
 import { ipcMain, IpcMainInvokeEvent, BrowserWindow, dialog } from 'electron'
 import { IController } from 'interfaces/IController'
+import { writeFile, readFile, existsSync, writeFileSync } from 'fs'
+
+function removeDuplicates(arr: []) {
+  return [...new Set(arr)]
+}
 
 /**
  * @brief Create IPC handlers for the given functions.
@@ -42,5 +47,32 @@ export function openFolderDialog(win: BrowserWindow): Promise<string> {
       .catch((err) => {
         reject(err)
       })
+  })
+}
+
+export function createJson(path: string, data: string) {
+  if (!existsSync(path)) {
+    try {
+      writeFileSync(path, data, 'utf-8')
+    } catch (e) {
+      alert('Failed to save the file !')
+    }
+  }
+}
+
+export function writeJson(path: string, data: string) {
+  readFile(path, (error, ogData) => {
+    if (error) {
+      console.log(error)
+      return
+    }
+    const json: any = JSON.parse(ogData.toString())
+    json.push(data)
+    writeFile(path, JSON.stringify(removeDuplicates(json), null, 2), (err) => {
+      if (err) {
+        console.log('Failed to write updated data to file')
+        return
+      }
+    })
   })
 }

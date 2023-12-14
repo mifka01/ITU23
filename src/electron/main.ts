@@ -1,16 +1,17 @@
 import { app, BrowserWindow, Menu } from 'electron'
-import path from 'node:path'
 import { GitController } from '../controllers/GitController'
 import { AppController } from '../controllers/AppController'
 import { MenuController } from '../controllers/MenuController'
 import { LogController } from '../controllers/LogController'
 import { StageController } from '../controllers/StageController'
 import { BranchController } from '../controllers/BranchController'
-import { DiffController } from "../controllers/DiffController.ts"
+import { DiffController } from '../controllers/DiffController.ts'
 import { CommitTreeController } from '../controllers/CommitTreeController'
 import { StashController } from '../controllers/StashController'
-import { createIPCHandlers } from './utils'
+import { createIPCHandlers, createJson } from './utils'
 import { generateMenu } from './menu'
+import { REPOSITORIES_FILE } from '../shared/constants.ts'
+import path from 'node:path'
 
 // The built directory structure
 //
@@ -56,6 +57,9 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
+
+  // create repositories json
+  createJson(REPOSITORIES_FILE, '[]')
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
