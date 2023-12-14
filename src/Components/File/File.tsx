@@ -65,7 +65,7 @@ function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
   return (
     <ListItem
       start={
-        <span>
+        <span onClick={onClick} role={"button"}>
           {name}
           <small className='text-davygray ms-2'>{path}</small>
         </span>
