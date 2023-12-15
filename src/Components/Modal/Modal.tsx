@@ -1,3 +1,10 @@
+/**
+ * @file Modal.tsx
+ * @brief React component for the modal.
+ * @author Radim Mifka (xmifka00)
+ * @date December 2023
+ */
+
 import { PropsWithChildren } from 'react'
 import Button from 'components/Button'
 import './Modal.css'
@@ -22,9 +29,8 @@ export function Modal({ children, buttons }: ModalProps) {
                 {buttons?.map(({ text, onClick, className }) => (
                   <div className='col text-center'>
                     <Button
-                      className={`border-0 ${
-                        className ? className : 'text-beige'
-                      }`}
+                      className={`border-0 ${className ? className : 'text-beige'
+                        }`}
                       onClick={onClick}
                     >
                       {text}

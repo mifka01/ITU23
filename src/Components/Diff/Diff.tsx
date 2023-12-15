@@ -1,7 +1,9 @@
-// @file components/Diff.tsx
-// @brief Diff output
-// @author Michal Zapletal (xzaple41)
-// @date October 2023
+/**
+ * @file components/Diff.tsx
+ * @brief Diff output
+ * @author Michal Zapletal (xzaple41)
+ * @date October 2023
+ */
 
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'

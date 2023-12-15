@@ -1,10 +1,22 @@
-// controllers/StageController.ts
+/**
+ * @file StageController.ts
+ * @brief Represents the StageController, which is responsible for managing the staging area in Git.
+ * @author Radim Mifka (xmifka00)
+ * @date October 2023
+ */
+
+/**
+ * Represents the StageController, which is responsible for managing the staging area in Git.
+ */
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
 
+/**
+ * Represents the result of the Git status command.
+ */
 type StatusResult = {
   not_added: string[]
   deleted: string[]
@@ -12,10 +24,19 @@ type StatusResult = {
   files: { path: string }[]
 }
 
+/**
+ * The StageController object that implements the IController interface.
+ */
 export const StageController: IController = {
   prefix: 'git',
 
   helpers: {
+    /**
+     * Gets the status letter for a given filename based on the input object.
+     * @param filename - The name of the file.
+     * @param inputObject - The input object containing the status information.
+     * @returns The status letter for the file.
+     */
     getStatusLetter(filename: string, inputObject: StatusResult) {
       if (inputObject.not_added.includes(filename)) {
         return 'U'
@@ -29,6 +50,12 @@ export const StageController: IController = {
   },
 
   functions: {
+    /**
+     * Retrieves the Git status.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @returns A ResponseSuccess object containing the status information.
+     * @throws A ResponseError object if an error occurs.
+     */
     async status(_: IpcMainInvokeEvent) {
       type FileEntry = { path: string; status: string }
 
@@ -58,6 +85,13 @@ export const StageController: IController = {
       }
     },
 
+    /**
+     * Commits the changes with the specified message.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @param message - The commit message.
+     * @returns A ResponseSuccess object if the commit is successful.
+     * @throws A ResponseError object if an error occurs.
+     */
     async commit(_: IpcMainInvokeEvent, message: string) {
       try {
         const response = await git.commit(message)
@@ -78,6 +112,13 @@ export const StageController: IController = {
       }
     },
 
+    /**
+     * Adds a file to the staging area.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @param file - The file to be added. If not specified, all files will be added.
+     * @returns A ResponseSuccess object if the file is successfully added.
+     * @throws A ResponseError object if an error occurs.
+     */
     async add(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.add(file)
@@ -89,6 +130,13 @@ export const StageController: IController = {
       }
     },
 
+    /**
+     * Unstages a file from the staging area.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @param file - The file to be unstaged. If not specified, all files will be unstaged.
+     * @returns A ResponseSuccess object if the file is successfully unstaged.
+     * @throws A ResponseError object if an error occurs.
+     */
     async unstage(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.unstage(file)
@@ -100,6 +148,13 @@ export const StageController: IController = {
       }
     },
 
+    /**
+     * Discards the changes made to a file.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @param file - The file to be discarded.
+     * @returns A ResponseSuccess object if the file changes are successfully discarded.
+     * @throws A ResponseError object if an error occurs.
+     */
     async discard(_: IpcMainInvokeEvent, file: string) {
       try {
         await git.discard(file)
@@ -111,6 +166,12 @@ export const StageController: IController = {
       }
     },
 
+    /**
+     * Discards all unstaged changes.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @returns A ResponseSuccess object if the unstaged changes are successfully discarded.
+     * @throws A ResponseError object if an error occurs.
+     */
     async discard_unstaged(_: IpcMainInvokeEvent) {
       try {
         await git.discard_unstaged()
@@ -122,6 +183,13 @@ export const StageController: IController = {
       }
     },
 
+    /**
+     * Removes a file from the repository.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @param file - The file to be removed.
+     * @returns A ResponseSuccess object if the file is successfully removed.
+     * @throws A ResponseError object if an error occurs.
+     */
     async rm(_: IpcMainInvokeEvent, file: string) {
       try {
         await git.rm(file)

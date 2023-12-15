@@ -1,7 +1,9 @@
-// @file components/StashController.ts
-// @brief Stash list controller
-// @author Miroslav Bálek (xbalek02)
-// @date December 2023
+/**
+ * @file components/StashController.ts
+ * @brief Stash list controller
+ * @author Miroslav Bálek (xbalek02)
+ * @date December 2023
+ */
 
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
@@ -11,9 +13,17 @@ import { log } from '../models/Log'
 
 type StashEntry = { message: string; }
 
+/**
+ * StashController is responsible for handling stash-related operations.
+ */
 export const StashController: IController = {
   prefix: 'git',
   functions: {
+    /**
+     * Retrieves the list of stashes.
+     * @param _: IpcMainInvokeEvent - The IPC event object.
+     * @returns A response object containing the list of stashes.
+     */
     async stashes(_: IpcMainInvokeEvent) {
       try {
         let response = await git.stashes()
@@ -30,6 +40,12 @@ export const StashController: IController = {
       }
     },
 
+    /**
+     * Pushes a stash with the specified message.
+     * @param _: IpcMainInvokeEvent - The IPC event object.
+     * @param message - The message for the stash.
+     * @returns A response object indicating the success or failure of the operation.
+     */
     async stash_push(_: IpcMainInvokeEvent, message: string) {
       try {
         let response = await git.stash_push(message)
@@ -42,6 +58,12 @@ export const StashController: IController = {
       }
     },
 
+    /**
+     * Applies the stash at the specified index.
+     * @param _: IpcMainInvokeEvent - The IPC event object.
+     * @param index - The index of the stash to apply.
+     * @returns A response object indicating the success or failure of the operation.
+     */
     async stash_apply(_: IpcMainInvokeEvent, index: string) {
       try {
         await git.stash_apply(index)
@@ -53,6 +75,12 @@ export const StashController: IController = {
       }
     },
 
+    /**
+     * Pops the stash at the specified index.
+     * @param _: IpcMainInvokeEvent - The IPC event object.
+     * @param index - The index of the stash to pop.
+     * @returns A response object indicating the success or failure of the operation.
+     */
     async stash_pop(_: IpcMainInvokeEvent, index: string) {
       try {
         await git.stash_pop(index)
@@ -64,6 +92,12 @@ export const StashController: IController = {
       }
     },
 
+    /**
+     * Drops the stash at the specified index.
+     * @param _: IpcMainInvokeEvent - The IPC event object.
+     * @param index - The index of the stash to drop.
+     * @returns A response object indicating the success or failure of the operation.
+     */
     async stash_drop(_: IpcMainInvokeEvent, index: string) {
       try {
         await git.stash_drop(index)

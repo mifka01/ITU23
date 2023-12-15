@@ -1,7 +1,10 @@
-// @file components/Menu.tsx
-// @brief Menu component
-// @author Michal Zapletal (xzaple41)
-// @date October 2023
+/**
+ * @file components/Menu.tsx
+ * @brief Menu component
+ * @author Michal Zapletal (xzaple41)
+ * @date October 2023
+ */
+
 
 import MenuButton from 'components/MenuButton'
 import {ArrowUpFromLine, ArrowDownToLine, Undo2, GitCompareArrows} from 'lucide-react'

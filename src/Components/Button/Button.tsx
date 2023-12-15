@@ -1,11 +1,18 @@
-// @file components/Button.tsx
-// @brief Basic Button component
-// @author Michal Zapletal (xzaple41)
-// @date October 2023
+/**
+ * @file components/Button.tsx
+ * @brief Basic Button component
+ * @author Michal Zapletal (xzaple41)
+ * @date October 2023
+ */
 
 import clsx from 'clsx'
 import { ComponentPropsWithoutRef } from 'react'
 
+/**
+ * Button component.
+ * @param {ComponentPropsWithoutRef<'button'>} props - The button props.
+ * @returns {JSX.Element} The rendered button element.
+ */
 function Button({
   children,
   className,

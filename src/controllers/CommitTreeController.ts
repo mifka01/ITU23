@@ -1,8 +1,9 @@
-// controllers/CommitTreeController.ts
-// @brief Commit tree controller
-// @author Miroslav Bálek (xbalek02)
-// @date December 2023
-
+/**
+ * @file controllers/CommitTreeController.ts
+ * @brief Commit tree controller
+ * @author Miroslav Bálek (xbalek02)
+ * @date December 2023
+ */
 
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
@@ -14,9 +15,18 @@ const HISTORY_MAX_COUNT = 7
 
 type CommitEntry = { message: string; hash: string }
 
+/**
+ * Commit Tree Controller
+ */
 export const CommitTreeController: IController = {
   prefix: 'git',
   functions: {
+    /**
+     * Retrieves the commit tree.
+     * @param _ The IpcMainInvokeEvent object.
+     * @returns A ResponseSuccess object containing the commit tree entries.
+     *          If an error occurs, a ResponseError object is returned.
+     */
     async commit_tree(_: IpcMainInvokeEvent) {
       try {
         const response = await git.commit_tree(HISTORY_MAX_COUNT)

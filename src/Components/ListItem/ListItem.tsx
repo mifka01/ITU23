@@ -1,7 +1,9 @@
-// @file components/ListItem.tsx
-// @brief Component general item in list
-// @author Radim Mifka (xmifka00)
-// @date December 2023
+/**
+ * @file components/ListItem.tsx
+ * @brief Component general item in list
+ * @author Radim Mifka (xmifka00)
+ * @date December 2023
+ */
 
 import { ReactNode, useState } from 'react'
 

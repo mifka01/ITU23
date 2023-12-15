@@ -1,7 +1,9 @@
-// @file components/Repositories.tsx
-// @brief Repositories list component
-// @author Radim Mifka (xmifka00)
-// @date December 2023
+/**
+ * @file components/Repositories.tsx
+ * @brief Repositories list component
+ * @author Radim Mifka (xmifka00)
+ * @date December 2023
+ */
 
 import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'

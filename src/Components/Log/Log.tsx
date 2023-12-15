@@ -1,7 +1,9 @@
-// @file components/Log.ts
-// @brief Component for command log
-// @author Miroslav Bálek (xbalek02)
-// @date November 2023
+/**
+ * @file components/Log.ts
+ * @brief Component for command log
+ * @author Miroslav Bálek (xbalek02)
+ * @date November 2023
+ */
 
 import {
   useState,
