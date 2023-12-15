@@ -239,29 +239,29 @@ export class Git {
 
   /**
    * Drops a stash.
-   * @param hash - The hash of the stash to drop.
+   * @param index - The index of the stash to drop.
    * @returns A promise that resolves when the stash is dropped.
    */
-  async stash_drop(hash: string) {
-    return this.git.stash(['drop', `stash@{${hash}}`])
+  async stash_drop(index: string) {
+    return this.git.stash(['drop', `stash@{${index}}`])
   }
 
   /**
    * Pops a stash.
-   * @param hash - The hash of the stash to pop.
+   * @param index - The index of the stash to pop.
    * @returns A promise that resolves when the stash is popped.
    */
-  async stash_pop(hash: string) {
-    return this.git.stash(['pop', `stash@{${hash}}`])
+  async stash_pop(index: string) {
+    return this.git.stash(['pop', `stash@{${index}}`])
   }
 
   /**
    * Applies a stash.
-   * @param hash - The hash of the stash to apply.
+   * @param index - The index of the stash to apply.
    * @returns A promise that resolves when the stash is applied.
    */
-  async stash_apply(hash: string) {
-    return this.git.stash(['apply', `stash@{${hash}}`])
+  async stash_apply(index: string) {
+    return this.git.stash(['apply', `stash@{${index}}`])
   }
 
   async revert() {
