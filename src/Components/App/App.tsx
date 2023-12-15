@@ -52,6 +52,7 @@ function App() {
                 setRefreshStage={setRefreshStage}
                 refreshStage={refreshStage}
                 setCurrentFile={setCurrentFile}
+                currentFile={currentFile}
               />
             </div>
             <div className='d-flex '>

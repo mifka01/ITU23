@@ -26,7 +26,7 @@ function Diff({ currentFile }: Path) {
 
   useEffect(() => {
     // TODO
-    if (!currentFile) {
+    if (!currentFile || (currentFile && currentFile === 'No file selected')) {
       setData([])
       return
     }

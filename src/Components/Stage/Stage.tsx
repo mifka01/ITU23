@@ -22,6 +22,7 @@ interface StageProps {
   setCurrentFile?: Dispatch<SetStateAction<string>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   refreshStage?: boolean
+  currentFile?: string
 }
 
 function Stage({
@@ -32,6 +33,7 @@ function Stage({
   setRefreshStage,
   refreshStage,
   setCurrentFile,
+  currentFile,
 }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
@@ -96,6 +98,20 @@ function Stage({
     if (!response.status && response.payload) {
       setStaged(response.payload.staged)
       setNotAdded(response.payload.not_added)
+      let found = false
+      staged.forEach((s) => {
+        if(!currentFile && s.path === currentFile){
+          found = true
+        }
+      })
+      notAdded.forEach((s) => {
+        if(!currentFile && s.path === currentFile){
+          found = true
+        }
+      })
+      if(!found && setCurrentFile){
+        setCurrentFile('No file selected')
+      }
     }
     setRefreshLog?.(true)
   }
