@@ -6,14 +6,14 @@
 import MenuButton from 'components/MenuButton'
 import {ArrowUpFromLine, ArrowDownToLine, Undo2, GitCompareArrows} from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
-//import {ModalProps} from "components/Modal";
+import {ModalProps} from "components/Modal";
 
 interface Props {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  /*setShowModal?: Dispatch<SetStateAction<boolean>>
-  setModal?: Dispatch<SetStateAction<ModalProps>>*/
+  setShowModal?: Dispatch<SetStateAction<boolean>>
+  setModal?: Dispatch<SetStateAction<ModalProps>>
 }
-function Menu({ setRefreshLog/*, setShowModal, setModal */}: Props) {
+function Menu({ setRefreshLog, setShowModal, setModal }: Props) {
   const handlePush = async () => {
     const response = await window.git.push()
     if (!response.status) setRefreshLog?.(true)
@@ -23,45 +23,31 @@ function Menu({ setRefreshLog/*, setShowModal, setModal */}: Props) {
     if (!response.status) setRefreshLog?.(true)
   }
 
-  const handleRevert = async () => {
+  /*const handleRevert = async () => {
     const response = await window.git.revert()
     if (!response.status) setRefreshLog?.(true)
-  }
+  }*/
 
-  /*const handleFetch = async () => {
+  const handleRevert = async () => {
     if (setModal && setShowModal) {
       setModal({
         children: (
             <>
-              <span>Please provide a stash name</span>
-              <input
-                  type='text'
-                  name='stash'
-                  style={{ resize: 'none' }}
-                  className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
-                  placeholder='Stash name'
-                  defaultValue={newStashRef.current}
-                  onChange={handleChange}
-              />
+              <span>Do you really wanna revert last commit ?</span>
             </>
         ),
         buttons: [
           {
-            text: 'Abort',
+            text: 'Leave',
             onClick: () => {
-              newStashRef.current = ''
               setShowModal?.(false)
             },
           },
           {
-            text: 'Create',
+            text: 'Revert',
             onClick: async () => {
-              const response = await window.git.stash_push(newStashRef.current)
-              if (!response.status) {
-                fetchStashes()
-                setRefreshStage?.(true)
-              }
-              newStashRef.current = ''
+              const response = await window.git.revert()
+              if (!response.status) setRefreshLog?.(true)
               setShowModal?.(false)
             },
           },
@@ -69,7 +55,7 @@ function Menu({ setRefreshLog/*, setShowModal, setModal */}: Props) {
       })
       setShowModal(true)
     }
-  }*/
+  }
 
   const handleFetch = async () => {
     const response = await window.git.fetch()
