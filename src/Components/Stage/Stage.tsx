@@ -1,7 +1,9 @@
-// @file components/Stage.tsx
-// @brief Component for managing git status and staging
-// @author Radim Mifka (xmifka00)
-// @date November 2023
+/**
+ * @file componets/Stage.tsx
+ * @brief Stage component.
+ * @author Radim Mifka (xmifka00)
+ * @date November 2023
+ */
 
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import File from 'components/File'

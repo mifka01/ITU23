@@ -1,7 +1,9 @@
-// @file components/file.tsx
-// @brief Component for file in staging area
-// @author Radim Mifka (xmifka00)
-// @date November 2023
+/**
+ * @file components/file.tsx
+ * @brief Component for file in staging area
+ * @author Radim Mifka (xmifka00)
+ * @date November 2023
+ */
 
 import { Plus, Minus, Undo2 } from 'lucide-react'
 import Button from 'components/Button'

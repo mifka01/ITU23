@@ -1,7 +1,9 @@
-// @file electron/menu.ts
-// @brief Menu template
-// @author Radim Mifka (xmifka00)
-// @date October 2023
+/**
+ * @file menu.ts
+ * @brief Menu template for the application.
+ * @author Radim Mifka (xmifka00)
+ * @date October 2023
+ */
 
 import { app, BrowserWindow, Menu } from 'electron'
 import { openFolderDialog, writeJson } from './utils'

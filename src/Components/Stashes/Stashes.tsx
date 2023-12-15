@@ -1,7 +1,9 @@
-// @file components/Stashes.tsx
-// @brief Stash list component
-// @author Miroslav Bálek (xbalek02)
-// @date December 2023
+/**
+ * @file components/Stashes.tsx
+ * @brief Stash list component
+ * @author Miroslav Bálek (xbalek02)
+ * @date December 2023
+ */
 
 import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'

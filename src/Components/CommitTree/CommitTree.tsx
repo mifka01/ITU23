@@ -1,10 +1,12 @@
-// @file components/CommitTree.tsx
-// @brief Commit tree component
-// @author Bálek Miroslav (xbalek02)
-// @date December 2023
+/**
+ * @file components/CommitTree.tsx
+ * @brief Commit tree component
+ * @author Bálek Miroslav (xbalek02)
+ * @date December 2023
+ */
 
 import CollapseList from 'components/CollapseList'
-import CommitItem from '../CommmitItem'
+import CommitItem from 'components/CommitItem'
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 
 interface CommitTreeProps {

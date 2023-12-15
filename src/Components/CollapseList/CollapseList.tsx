@@ -1,9 +1,11 @@
-// @file components/CollapseList.tsx
-// @brief Component for collapsing/expanding section
-// @author Radim Mifka (xmifka00)
-// @date November 2023
+/**
+ * @file components/CollapseList.tsx
+ * @brief Component for collapsing/expanding section
+ * @author Radim Mifka (xmifka00)
+ * @date November 2023
+ */
 
-import {ReactNode, useState, useCallback} from 'react'
+import { ReactNode, useState, useCallback } from 'react'
 import CollapseButton from 'components/CollapseButton'
 import { LucideIcon } from 'lucide-react'
 import clsx from 'clsx'

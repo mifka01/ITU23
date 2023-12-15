@@ -1,7 +1,14 @@
-// @file main.scss
-// @brief overrides for bootstrap
-// @author Radim Mifka (xmifka00)
-// @date November 2023
+/**
+ * Overrides for Bootstrap.
+ *
+ * This file contains custom styles and overrides for Bootstrap.
+ * It is intended to be used as a main stylesheet for the project.
+ *
+ * @file main.scss
+ * @brief Overrides for Bootstrap
+ * @author Radim Mifka (xmifka00)
+ * @date November 2023
+ */
 
 @import '../node_modules/bootstrap/scss/functions';
 @import '../node_modules/bootstrap/scss/variables';
@@ -13,11 +20,11 @@ $custom-colors: (
   'davygray': #505168,
   'darkpurple': #27233a,
   'gunmetal': #1f1d2b,
-  'codeok': rgba(24,98,37,0.5),
-  'codenok': rgba(124,0,0,0.5),
-  'lineok': rgba(20,51,1,0.5),
-  'linenok': rgba(77,13,13,0.55),
-  'linenochange': rgba(21,20,30,0.5),
+  'codeok': rgba(24, 98, 37, 0.5),
+  'codenok': rgba(124, 0, 0, 0.5),
+  'lineok': rgba(20, 51, 1, 0.5),
+  'linenok': rgba(77, 13, 13, 0.55),
+  'linenochange': rgba(21, 20, 30, 0.5),
 );
 
 $theme-colors: map_merge($theme-colors, $custom-colors);
