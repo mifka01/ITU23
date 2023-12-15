@@ -91,6 +91,18 @@ export const CommitHistoryController: IController = {
 
         let entries: CommitDetailEntry[] = []
         response.all.forEach((entry: CommitDetailEntry) => {
+          const parsedDate = new Date(entry.date);
+
+          const formattedDate = parsedDate.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZoneName: 'short',
+          });
+
           entries.push({
             message: entry.message,
             hash: entry.hash,
@@ -98,7 +110,7 @@ export const CommitHistoryController: IController = {
             author_email: entry.author_email,
             body: entry.body,
             refs: entry.refs,
-            date: entry.date,
+            date: formattedDate,
           })
         })
 
