@@ -19,7 +19,7 @@ interface StageProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
-  setCurrentFile?: Dispatch<SetStateAction<string>>
+  setCurrentFile: Dispatch<SetStateAction<string>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   refreshStage?: boolean
   currentFile?: string
@@ -93,25 +93,12 @@ function Stage({
   ]
 
   const fetchStatus = async () => {
-    const response = await window.git.status()
+    const response = await window.git.status(currentFile)
 
     if (!response.status && response.payload) {
       setStaged(response.payload.staged)
       setNotAdded(response.payload.not_added)
-      let found = false
-      staged.forEach((s) => {
-        if(!currentFile && s.path === currentFile){
-          found = true
-        }
-      })
-      notAdded.forEach((s) => {
-        if(!currentFile && s.path === currentFile){
-          found = true
-        }
-      })
-      if(!found && setCurrentFile){
-        setCurrentFile('No file selected')
-      }
+      setCurrentFile(response.payload.file)
     }
     setRefreshLog?.(true)
   }
@@ -152,7 +139,7 @@ function Stage({
               full_path={file.path}
               status={file.status}
               onClick={() => {
-                setCurrentFile?.(file.path)
+                setCurrentFile(file.path)
               }}
             />
           ))}
@@ -170,7 +157,7 @@ function Stage({
               full_path={file.path}
               status={file.status}
               onClick={() => {
-                setCurrentFile?.(file.path)
+                setCurrentFile(file.path)
               }}
             />
           ))}
