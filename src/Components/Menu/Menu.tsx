@@ -21,7 +21,6 @@ function Menu({ setRefreshLog }: Props) {
   }
 
   const handleRevert = async () => {
-    console.log("revert Menu.tsx")
     const response = await window.git.revert()
     if (!response.status) setRefreshLog?.(true)
   }

@@ -36,17 +36,15 @@ export const MenuController: IController = {
     },
 
     async revert(_: IpcMainInvokeEvent) {
-      try {
-        console.log("revert MenuController.ts")
-        const response = await git.revert()
+      const response = await git.revert()
 
-      console.log(response)
-
+      if(response !== undefined){
+        log.append('COMMAND',`Successfully reverted commit "${response}"`)
         return ResponseSuccess()
-      } catch (error: unknown) {
-        log.append('ERROR', String(error))
-        return ResponseError()
       }
+
+      log.append('ERROR', 'No existing commits to revert')
+      return ResponseError()
     },
   },
 }

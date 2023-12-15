@@ -94,7 +94,6 @@ export const git = {
   },
 
   revert: (): Promise<any> => {
-    console.log("revert git.ts")
     return ipcRenderer.invoke(`${git.prefix}:revert`)
   },
 }

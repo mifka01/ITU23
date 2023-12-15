@@ -140,9 +140,14 @@ export class Git {
   }
 
   async revert() {
-    console.log("revert Git.ts")
+    let result = await this.git.log(['-1'])
+    if(result.latest !== undefined){
+      let hash = result.latest?.hash ? result.latest.hash : ""
+      this.git.revert(hash)
+      return result.latest?.message
+    }
 
-    return this.git.log(['-1'])
+    return undefined
   }
 }
 
