@@ -92,4 +92,12 @@ export const git = {
   stash_drop: (hash: string): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:stash_drop`, hash)
   },
+
+  revert: (): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:revert`)
+  },
+
+  fetch: (): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:fetch`)
+  },
 }

@@ -4,13 +4,16 @@
 // @date October 2023
 
 import MenuButton from 'components/MenuButton'
-import { ArrowUpFromLine, ArrowDownToLine } from 'lucide-react'
+import {ArrowUpFromLine, ArrowDownToLine, Undo2, GitCompareArrows} from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
+import {ModalProps} from "components/Modal";
 
 interface Props {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  setShowModal?: Dispatch<SetStateAction<boolean>>
+  setModal?: Dispatch<SetStateAction<ModalProps>>
 }
-function Menu({ setRefreshLog }: Props) {
+function Menu({ setRefreshLog, setShowModal, setModal }: Props) {
   const handlePush = async () => {
     const response = await window.git.push()
     if (!response.status) setRefreshLog?.(true)
@@ -20,9 +23,45 @@ function Menu({ setRefreshLog }: Props) {
     if (!response.status) setRefreshLog?.(true)
   }
 
+  const handleRevert = async () => {
+    if (setModal && setShowModal) {
+      setModal({
+        children: (
+            <>
+              <span>Do you really wanna revert last commit ?</span>
+            </>
+        ),
+        buttons: [
+          {
+            text: 'Leave',
+            onClick: () => {
+              setShowModal?.(false)
+            },
+          },
+          {
+            text: 'Revert',
+            onClick: async () => {
+              const response = await window.git.revert()
+              if (!response.status) setRefreshLog?.(true)
+              setShowModal?.(false)
+            },
+          },
+        ],
+      })
+      setShowModal(true)
+    }
+  }
+
+  const handleFetch = async () => {
+    const response = await window.git.fetch()
+    if (!response.status) setRefreshLog?.(true)
+  }
+
   const buttons = [
     { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush },
     { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull },
+    { Icon: Undo2, text: 'revert', onClick: handleRevert },
+    { Icon: GitCompareArrows, text: 'fetch', onClick: handleFetch },
   ]
 
   return (
