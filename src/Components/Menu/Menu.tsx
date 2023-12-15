@@ -23,11 +23,6 @@ function Menu({ setRefreshLog, setShowModal, setModal }: Props) {
     if (!response.status) setRefreshLog?.(true)
   }
 
-  /*const handleRevert = async () => {
-    const response = await window.git.revert()
-    if (!response.status) setRefreshLog?.(true)
-  }*/
-
   const handleRevert = async () => {
     if (setModal && setShowModal) {
       setModal({
