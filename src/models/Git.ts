@@ -43,7 +43,7 @@ export class Git {
    * Sets the current working directory for the Git instance.
    * @param directoryPath - The path to the directory.
    */
-  setCWD(directoryPath: string) {
+  async setCWD(directoryPath: string) {
     this.options.baseDir = directoryPath
     this.git = simpleGit(this.options)
   }
@@ -266,8 +266,8 @@ export class Git {
 
   async revert() {
     let result = await this.git.log(['-1'])
-    if(result.latest !== undefined){
-      let hash = result.latest?.hash ? result.latest.hash : ""
+    if (result.latest !== undefined) {
+      let hash = result.latest?.hash ? result.latest.hash : ''
       this.git.revert(hash)
       return result.latest?.message
     }
