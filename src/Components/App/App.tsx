@@ -39,6 +39,7 @@ function App() {
             setShowModal={setShowModal}
             setRefreshBranches={setRefreshBranches}
             setModal={setModal}
+            setRefreshCommitTree={setRefreshCommitTree}
           />
         </div>
         <div className='row text-center flex-grow-1'>
@@ -84,7 +85,9 @@ function App() {
                 <span className='ps-2'>{currentFile}</span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                <Diff currentFile={currentFile} />
+                <Diff
+                    currentFile={currentFile}
+                />
               </div>
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>

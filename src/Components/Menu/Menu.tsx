@@ -20,8 +20,9 @@ interface Props {
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
 }
-function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches }: Props) {
+function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRefreshCommitTree }: Props) {
   const handlePush = async () => {
     await window.git.push()
     setRefreshLog?.(true)
@@ -52,6 +53,7 @@ function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches }: Pro
               await window.git.revert()
               setRefreshLog?.(true)
               setShowModal?.(false)
+              setRefreshCommitTree?.(true)
             },
           },
         ],
