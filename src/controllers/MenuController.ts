@@ -34,5 +34,19 @@ export const MenuController: IController = {
         return ResponseError()
       }
     },
+
+    async revert(_: IpcMainInvokeEvent) {
+      try {
+        console.log("revert MenuController.ts")
+        const response = await git.revert()
+
+      console.log(response)
+
+        return ResponseSuccess()
+      } catch (error: unknown) {
+        log.append('ERROR', String(error))
+        return ResponseError()
+      }
+    },
   },
 }

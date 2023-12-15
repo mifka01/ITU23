@@ -138,6 +138,12 @@ export class Git {
   async stash_apply(hash: string) {
     return this.git.stash(['apply', `stash@{${hash}}`])
   }
+
+  async revert() {
+    console.log("revert Git.ts")
+
+    return this.git.log(['-1'])
+  }
 }
 
 export const git: Git = new Git(options)

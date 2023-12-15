@@ -4,7 +4,7 @@
 // @date October 2023
 
 import MenuButton from 'components/MenuButton'
-import { ArrowUpFromLine, ArrowDownToLine } from 'lucide-react'
+import {ArrowUpFromLine, ArrowDownToLine, Undo2, GitCompareArrows} from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
@@ -20,9 +20,22 @@ function Menu({ setRefreshLog }: Props) {
     if (!response.status) setRefreshLog?.(true)
   }
 
+  const handleRevert = async () => {
+    console.log("revert Menu.tsx")
+    const response = await window.git.revert()
+    if (!response.status) setRefreshLog?.(true)
+  }
+
+  const handleFetch = async () => {
+    const response = await window.git.pull()
+    if (!response.status) setRefreshLog?.(true)
+  }
+
   const buttons = [
     { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush },
     { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull },
+    { Icon: Undo2, text: 'revert', onClick: handleRevert },
+    { Icon: GitCompareArrows, text: 'fetch', onClick: handleFetch },
   ]
 
   return (
