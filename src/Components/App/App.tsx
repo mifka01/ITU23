@@ -24,7 +24,7 @@ function App() {
   const [refreshStashes, setRefreshStashes] = useState(false)
   const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [currentFile, setCurrentFile] = useState<string>('No file selected')
+  const [currentFile, setCurrentFile] = useState<string | undefined>(undefined)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -82,12 +82,12 @@ function App() {
           <div className='col-7 gx-0 border-top border-davygray'>
             <div className='d-flex flex-column h-75'>
               <div className='d-flex bg-darkpurple text-beige text-start border-bottom border-davygray'>
-                <span className='ps-2'>{currentFile}</span>
+                <span className='ps-2'>
+                  {currentFile ? currentFile : 'No file selected'}
+                </span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                <Diff
-                    currentFile={currentFile}
-                />
+                <Diff currentFile={currentFile} />
               </div>
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>

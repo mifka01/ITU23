@@ -5,7 +5,7 @@
  * @date October 2023
  */
 
-import { useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 interface Path {
@@ -25,8 +25,7 @@ function Diff({ currentFile }: Path) {
   }
 
   useEffect(() => {
-    // TODO
-    if (!currentFile || (currentFile && currentFile === 'No file selected')) {
+    if (!currentFile) {
       setData([])
       return
     }
