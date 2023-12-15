@@ -37,22 +37,20 @@ function Repositories({
   const [repositories, setRepositories] = useState<RepositoryEntry[]>([])
 
   const handleAdd = async () => {
-    let response = await window.app.open()
-    if (!response.status) {
-      fetchRepositories()
-    }
+    const response = await window.app.open()
+    if (!response.status) fetchRepositories()
   }
 
   const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {
     const path = event.currentTarget.dataset['path']
-    await window.app.delete_repository(path)
-    fetchRepositories()
+    const response = await window.app.delete_repository(path)
+    if (!response.status) fetchRepositories()
   }
 
   const handleChange = async (event: MouseEvent<HTMLButtonElement>) => {
     const path = event.currentTarget.dataset['path']
-    await window.app.setCWD(path)
-    fetchRepositories()
+    const response = await window.app.setCWD(path)
+    if (!response.status) fetchRepositories()
   }
 
   const fetchRepositories = async () => {
