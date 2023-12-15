@@ -149,6 +149,10 @@ export class Git {
 
     return undefined
   }
+
+  async fetch() {
+    return this.git.fetch()
+  }
 }
 
 export const git: Git = new Git(options)

@@ -6,11 +6,14 @@
 import MenuButton from 'components/MenuButton'
 import {ArrowUpFromLine, ArrowDownToLine, Undo2, GitCompareArrows} from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
+//import {ModalProps} from "components/Modal";
 
 interface Props {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  /*setShowModal?: Dispatch<SetStateAction<boolean>>
+  setModal?: Dispatch<SetStateAction<ModalProps>>*/
 }
-function Menu({ setRefreshLog }: Props) {
+function Menu({ setRefreshLog/*, setShowModal, setModal */}: Props) {
   const handlePush = async () => {
     const response = await window.git.push()
     if (!response.status) setRefreshLog?.(true)
@@ -25,8 +28,51 @@ function Menu({ setRefreshLog }: Props) {
     if (!response.status) setRefreshLog?.(true)
   }
 
+  /*const handleFetch = async () => {
+    if (setModal && setShowModal) {
+      setModal({
+        children: (
+            <>
+              <span>Please provide a stash name</span>
+              <input
+                  type='text'
+                  name='stash'
+                  style={{ resize: 'none' }}
+                  className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
+                  placeholder='Stash name'
+                  defaultValue={newStashRef.current}
+                  onChange={handleChange}
+              />
+            </>
+        ),
+        buttons: [
+          {
+            text: 'Abort',
+            onClick: () => {
+              newStashRef.current = ''
+              setShowModal?.(false)
+            },
+          },
+          {
+            text: 'Create',
+            onClick: async () => {
+              const response = await window.git.stash_push(newStashRef.current)
+              if (!response.status) {
+                fetchStashes()
+                setRefreshStage?.(true)
+              }
+              newStashRef.current = ''
+              setShowModal?.(false)
+            },
+          },
+        ],
+      })
+      setShowModal(true)
+    }
+  }*/
+
   const handleFetch = async () => {
-    const response = await window.git.pull()
+    const response = await window.git.fetch()
     if (!response.status) setRefreshLog?.(true)
   }
 

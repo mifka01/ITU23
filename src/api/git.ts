@@ -96,4 +96,8 @@ export const git = {
   revert: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:revert`)
   },
+
+  fetch: (): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:fetch`)
+  },
 }

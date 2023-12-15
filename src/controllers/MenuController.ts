@@ -2,6 +2,7 @@
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { ResponseSuccess, ResponseError } from '../shared/response'
+//import Modal from 'components/Modal'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
 
@@ -45,6 +46,17 @@ export const MenuController: IController = {
 
       log.append('ERROR', 'No existing commits to revert')
       return ResponseError()
+    },
+
+    async fetch(_: IpcMainInvokeEvent) {
+      try {
+        await git.fetch()
+        log.append('COMMAND','Successfully fetched')
+        return ResponseSuccess()
+      }catch (error: unknown){
+        log.append('ERROR',String(error))
+        return ResponseError()
+      }
     },
   },
 }
