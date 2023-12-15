@@ -17,9 +17,13 @@ export const AppController: IController = {
       if (win === null) return ResponseError()
 
       await openFolderDialog(win)
-        .then((selectedDirectory: string) => {
-          git.setCWD(selectedDirectory)
-          writeJson(REPOSITORIES_FILE, selectedDirectory)
+        .then((selectedDirectory: string | undefined) => {
+          if (selectedDirectory) {
+            git.setCWD(selectedDirectory)
+            writeJson(REPOSITORIES_FILE, selectedDirectory)
+          } else {
+            return ResponseError()
+          }
         })
         .catch((error) => {
           console.error('Error opening folder dialog:', String(error))

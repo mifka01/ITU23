@@ -37,8 +37,10 @@ function Repositories({
   const [repositories, setRepositories] = useState<RepositoryEntry[]>([])
 
   const handleAdd = async () => {
-    await window.app.open()
-    fetchRepositories()
+    let response = await window.app.open()
+    if (!response.status) {
+      fetchRepositories()
+    }
   }
 
   const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {

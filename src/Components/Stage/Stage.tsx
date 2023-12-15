@@ -110,7 +110,6 @@ function Stage({
 
   useEffect(() => {
     if (refreshStage) {
-      console.log('update stage')
       fetchStatus()
       setRefreshStage?.(false)
     }

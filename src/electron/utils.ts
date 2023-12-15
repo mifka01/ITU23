@@ -40,7 +40,9 @@ export function createIPCHandlers(controller: IController): void {
  * @param win The BrowserWindow to open the dialog on.
  * @returns A Promise that resolves with the selected folder path.
  */
-export function openFolderDialog(win: BrowserWindow): Promise<string> {
+export function openFolderDialog(
+  win: BrowserWindow,
+): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     dialog
       .showOpenDialog(win, {
@@ -50,6 +52,10 @@ export function openFolderDialog(win: BrowserWindow): Promise<string> {
         if (!result.canceled && result.filePaths.length > 0) {
           const selectedDirectory = result.filePaths[0]
           resolve(selectedDirectory)
+        } else {
+          if (result.canceled) {
+            resolve(undefined)
+          }
         }
       })
       .catch((err) => {
