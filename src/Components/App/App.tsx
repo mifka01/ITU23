@@ -11,8 +11,9 @@ import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Repositories from 'components/Repositories'
 import Portal from 'components/Portal'
-import Diff from 'components/Diff'
+//import Diff from 'components/Diff'
 import CommitTree from 'components/CommitTree'
+import CommitDetail from 'components/CommitDetail'
 import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
@@ -25,6 +26,7 @@ function App() {
   const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [currentFile, setCurrentFile] = useState<string>('No file selected')
+  const [currentCommit, setCurrentCommit] = useState<string>('')
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -85,9 +87,10 @@ function App() {
                 <span className='ps-2'>{currentFile}</span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                <Diff
-                    currentFile={currentFile}
-                />
+                {/* <Diff
+                    currentFile={currentFile} 
+                />*/}
+                <CommitDetail currentCommit={currentCommit} />
               </div>
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
@@ -103,6 +106,7 @@ function App() {
               <CommitTree
                 setRefreshCommitTree={setRefreshCommitTree}
                 refreshCommitTree={refreshCommitTree}
+                setCurrentCommit={setCurrentCommit}
               />
             </div>
             <div className='row h-50 bg-darkpurple text-beige'>
