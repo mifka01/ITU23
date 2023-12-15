@@ -58,12 +58,12 @@ function Repositories({
 
     if (!response.status && response.payload) {
       setRepositories(response.payload.repositories)
-      setRefreshLog?.(true)
       setRefreshCommitTree?.(true)
       setRefreshStage?.(true)
       setRefreshBranches?.(true)
       setRefreshStashes?.(true)
     }
+    setRefreshLog?.(true)
   }
 
   useEffect(() => {

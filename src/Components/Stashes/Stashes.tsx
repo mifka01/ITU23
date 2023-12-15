@@ -144,8 +144,8 @@ function Stashes({
 
     if (!response.status && response.payload) {
       setStashes(response.payload.stashes)
-      setRefreshLog?.(true)
     }
+    setRefreshLog?.(true)
   }
 
   useEffect(() => {

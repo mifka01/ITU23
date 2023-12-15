@@ -17,14 +17,21 @@ type DiffEntry = { mark: string; line_num: string; line: string }
 function Diff({ currentFile }: Path) {
   const [data, setData] = useState<DiffEntry[]>([])
 
-  useEffect(() => {
-    async function getData() {
-      const response = await window.git.getDiff(currentFile)
-      if (!response.status && response.payload) {
-        setData(response.payload.data)
-      }
+  const fetchData = async () => {
+    const response = await window.git.getDiff(currentFile)
+    if (!response.status && response.payload) {
+      setData(response.payload.data)
     }
-    getData()
+  }
+
+  useEffect(() => {
+    // TODO
+    if (!currentFile) {
+      setData([])
+      return
+    }
+
+    fetchData()
   }, [currentFile])
 
   return (

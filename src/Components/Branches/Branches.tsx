@@ -81,8 +81,9 @@ function Branches({
               if (!response.status) {
                 fetchBranches()
                 newBranchRef.current = ''
-                setShowModal?.(false)
               }
+              setShowModal?.(false)
+              setRefreshLog?.(true)
             },
           },
         ],
@@ -110,8 +111,9 @@ function Branches({
               const response = await window.git.delete_branch(name)
               if (!response.status) {
                 fetchBranches()
-                setShowModal?.(false)
               }
+              setShowModal?.(false)
+              setRefreshLog?.(true)
             },
           },
         ],
@@ -123,7 +125,9 @@ function Branches({
   const handleCheckout = async (event: MouseEvent<HTMLButtonElement>) => {
     let name = event.currentTarget.dataset['name']
     const response = await window.git.checkout_branch(name)
+
     if (!response.status) fetchBranches()
+    setRefreshLog?.(true)
   }
 
   const fetchBranches = async () => {
@@ -131,9 +135,9 @@ function Branches({
 
     if (!response.status && response.payload) {
       setBranches(response.payload.branches)
-      setRefreshLog?.(true)
       setRefreshCommitTree?.(true)
     }
+    setRefreshLog?.(true)
   }
 
   useEffect(() => {

@@ -35,9 +35,10 @@ function App() {
       <div className='container-fluid min-vh-100 d-flex flex-column text-beige bg-darkpurple'>
         <div className='row'>
           <Menu
-              setRefreshLog={setRefreshLog}
-              setShowModal={setShowModal}
-              setModal={setModal}
+            setRefreshLog={setRefreshLog}
+            setShowModal={setShowModal}
+            setRefreshBranches={setRefreshBranches}
+            setModal={setModal}
           />
         </div>
         <div className='row text-center flex-grow-1'>

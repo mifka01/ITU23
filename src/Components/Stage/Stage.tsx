@@ -96,8 +96,8 @@ function Stage({
     if (!response.status && response.payload) {
       setStaged(response.payload.staged)
       setNotAdded(response.payload.not_added)
-      setRefreshLog?.(true)
     }
+    setRefreshLog?.(true)
   }
 
   useEffect(() => {

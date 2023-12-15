@@ -5,34 +5,39 @@
  * @date October 2023
  */
 
-
 import MenuButton from 'components/MenuButton'
-import {ArrowUpFromLine, ArrowDownToLine, Undo2, GitCompareArrows} from 'lucide-react'
+import {
+  ArrowUpFromLine,
+  ArrowDownToLine,
+  Undo2,
+  GitCompareArrows,
+} from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
-import {ModalProps} from "components/Modal";
+import { ModalProps } from 'components/Modal'
 
 interface Props {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
+  setRefreshBranches?: Dispatch<SetStateAction<boolean>>
 }
-function Menu({ setRefreshLog, setShowModal, setModal }: Props) {
+function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches }: Props) {
   const handlePush = async () => {
-    const response = await window.git.push()
-    if (!response.status) setRefreshLog?.(true)
+    await window.git.push()
+    setRefreshLog?.(true)
   }
   const handlePull = async () => {
-    const response = await window.git.pull()
-    if (!response.status) setRefreshLog?.(true)
+    await window.git.pull()
+    setRefreshLog?.(true)
   }
 
   const handleRevert = async () => {
     if (setModal && setShowModal) {
       setModal({
         children: (
-            <>
-              <span>Do you really wanna revert last commit ?</span>
-            </>
+          <>
+            <span>Do you really wanna revert last commit ?</span>
+          </>
         ),
         buttons: [
           {
@@ -44,8 +49,8 @@ function Menu({ setRefreshLog, setShowModal, setModal }: Props) {
           {
             text: 'Revert',
             onClick: async () => {
-              const response = await window.git.revert()
-              if (!response.status) setRefreshLog?.(true)
+              await window.git.revert()
+              setRefreshLog?.(true)
               setShowModal?.(false)
             },
           },
@@ -57,7 +62,10 @@ function Menu({ setRefreshLog, setShowModal, setModal }: Props) {
 
   const handleFetch = async () => {
     const response = await window.git.fetch()
-    if (!response.status) setRefreshLog?.(true)
+    if (!response.status) {
+      setRefreshBranches?.(true)
+    }
+    setRefreshLog?.(true)
   }
 
   const buttons = [
