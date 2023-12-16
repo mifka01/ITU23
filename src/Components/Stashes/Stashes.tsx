@@ -172,7 +172,7 @@ function Stashes({
         items={stashes.map((stash: StashEntry, index: number) => (
           <ListItem
             key={stash.message}
-            start={<small>{stash.message}</small>}
+            start={<span>{stash.message}</span>}
             hovered={
               <>
                 <Button
