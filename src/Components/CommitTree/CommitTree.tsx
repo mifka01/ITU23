@@ -14,6 +14,7 @@ interface CommitTreeProps {
   refreshCommitTree?: boolean
   setCurrentCommit?: Dispatch<SetStateAction<string | undefined>>
   currentCommit?: string | undefined
+  setShowDiff: Dispatch<SetStateAction<boolean>>
 }
 
 type CommitEntry = { message: string; hash: string }
@@ -22,6 +23,7 @@ function CommitTree({
   setRefreshCommitTree,
   refreshCommitTree,
   setCurrentCommit,
+  setShowDiff,
 }: CommitTreeProps) {
   const [committree, setCommitTree] = useState<CommitEntry[]>([])
 
@@ -58,6 +60,7 @@ function CommitTree({
             message={<small>{commit.message}</small>}
             onClick={() => {
               setCurrentCommit?.(commit.hash)
+              setShowDiff?.(false)
             }}
           />
         ))}

@@ -21,6 +21,7 @@ interface StageProps {
   setModal?: Dispatch<SetStateAction<ModalProps>>
   setCurrentFile: Dispatch<SetStateAction<string>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
+  setShowDiff?: Dispatch<SetStateAction<boolean>>
   refreshStage?: boolean
   currentFile?: string
 }
@@ -34,6 +35,7 @@ function Stage({
   refreshStage,
   setCurrentFile,
   currentFile,
+  setShowDiff
 }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
@@ -140,6 +142,7 @@ function Stage({
               status={file.status}
               onClick={() => {
                 setCurrentFile(file.path)
+                setShowDiff?.(true)
               }}
             />
           ))}
@@ -158,6 +161,7 @@ function Stage({
               status={file.status}
               onClick={() => {
                 setCurrentFile(file.path)
+                setShowDiff?.(true)
               }}
             />
           ))}

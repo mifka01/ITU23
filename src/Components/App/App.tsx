@@ -2,6 +2,7 @@
  * @file components/App.tsx
  * @brief Main App grid
  * @author Radim Mifka (xmifka00)
+ * @author Miroslav Bálek (xbalek02)
  * @date October 2023
  */
 
@@ -11,12 +12,12 @@ import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Repositories from 'components/Repositories'
 import Portal from 'components/Portal'
-//import Diff from 'components/Diff'
+import MainWindow from 'components/MainWindow'
 import CommitTree from 'components/CommitTree'
-import CommitDetail from 'components/CommitDetail'
 import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
+import Main from 'electron/main'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
@@ -26,7 +27,8 @@ function App() {
   const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [currentFile, setCurrentFile] = useState<string>('No file selected')
-  const [currentCommit, setCurrentCommit] =  useState<string | undefined>(undefined)
+  const [currentCommit, setCurrentCommit] = useState<string | undefined>(undefined)
+  const [showDiff, setShowDiff] = useState(true)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -56,6 +58,7 @@ function App() {
                 refreshStage={refreshStage}
                 setCurrentFile={setCurrentFile}
                 currentFile={currentFile}
+                setShowDiff={setShowDiff}
               />
             </div>
             <div className='d-flex '>
@@ -84,13 +87,14 @@ function App() {
           <div className='col-7 gx-0 border-top border-davygray'>
             <div className='d-flex flex-column h-75'>
               <div className='d-flex bg-darkpurple text-beige text-start border-bottom border-davygray'>
-                <span className='ps-2'>{currentFile}</span>
+                <span className='ps-2'>{showDiff ? (currentFile):(`Commit detail`)}</span>
               </div>
               <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                {/* <Diff
-                    currentFile={currentFile} 
-                />*/}
-                <CommitDetail currentCommit={currentCommit} />
+                <MainWindow
+                showDiff={showDiff}
+                currentFile={currentFile}
+                currentCommit={currentCommit}
+                />
               </div>
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
@@ -107,7 +111,7 @@ function App() {
                 setRefreshCommitTree={setRefreshCommitTree}
                 refreshCommitTree={refreshCommitTree}
                 setCurrentCommit={setCurrentCommit}
-                
+                setShowDiff={setShowDiff}
               />
             </div>
             <div className='d-flex'>

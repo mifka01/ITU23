@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from 'react'
-import clsx from 'clsx'
+import CommitDetailFile from 'components/CommitDetailFile'
 
 interface CommitDetailProps {
   currentCommit?: string
@@ -45,7 +45,6 @@ function CommitDetail({ currentCommit }: CommitDetailProps) {
   }
 
   useEffect(() => {
-  
     if (!currentCommit) {
       setCommitDetails({
         commit_detail: [],
@@ -59,82 +58,48 @@ function CommitDetail({ currentCommit }: CommitDetailProps) {
 
   return (
     <>
-      <div
-        style={{
-          overflowY: 'scroll',
-          overflow: 'auto',
-          height: '67.5vh', //TODO: repair height to align with parent content
-          width: '100%',
-          textAlign: 'left',
-          display: 'flex',
-        }}
-      >
-        <pre style={{ width: '100%' }}>
-          {commitDetails.commit_detail.map((commitDetail) => (
-            <div className="container mt-4" key={'detail' + commitDetail.hash}>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="mb-2">
-                    <strong>Hash:</strong> {commitDetail.hash}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Message:</strong> {commitDetail.message}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Author Name:</strong> {commitDetail.author_name}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Author Email:</strong> {commitDetail.author_email}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Body:</strong> {commitDetail.body}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Refs:</strong> {commitDetail.refs}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Date:</strong> {commitDetail.date}
-                  </div>
-                  <div className="mb-2">
-                    <strong>Files:</strong>
-                    {/*TODO move to separate component*/ }
-                    {Array.isArray(commitDetails.changed_files) ? 
-                      commitDetails.changed_files.map((changedFile, index) => (
-                        
-                        <div key={`file${index}`}>
-                          <div>
-                            <span
-                              className={clsx('', {
-                                'text-success': changedFile.operation === 'A',
-                                'text-warning':
-                                  changedFile.operation === 'M' ||
-                                  changedFile.operation === 'R' ||
-                                  changedFile.operation === 'C',
-                                'text-danger': changedFile.operation === 'D',
-                              })}
-                            >
-                              {changedFile.operation}{' '}
-                            </span>
-                            <span>
-                              {changedFile.file}
-                              {changedFile.dir && (
-                                <small className="text-davygray ms-2">
-                                  {' '}
-                                  {changedFile.dir}
-                                </small>
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                      ))
-                     : null}
-                  </div>
-                </div>
+      {commitDetails.commit_detail.map((commitDetail) => (
+        <div className="container mt-4" key={'detail' + commitDetail.hash}>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="mb-2">
+                <strong>Hash:</strong> {commitDetail.hash}
+              </div>
+              <div className="mb-2">
+                <strong>Message:</strong> {commitDetail.message}
+              </div>
+              <div className="mb-2">
+                <strong>Author Name:</strong> {commitDetail.author_name}
+              </div>
+              <div className="mb-2">
+                <strong>Author Email:</strong> {commitDetail.author_email}
+              </div>
+              <div className="mb-2">
+                <strong>Body:</strong> {commitDetail.body}
+              </div>
+              <div className="mb-2">
+                <strong>Refs:</strong> {commitDetail.refs}
+              </div>
+              <div className="mb-2">
+                <strong>Date:</strong> {commitDetail.date}
+              </div>
+              <div className="mb-2">
+                <strong>Files:</strong>
+                {Array.isArray(commitDetails.changed_files)
+                  ? commitDetails.changed_files.map((changedFile, index) => (
+                      <CommitDetailFile
+                        key={'commitdetailfile-' + index}
+                        operation={changedFile.operation}
+                        dir={changedFile.dir}
+                        file={changedFile.file}
+                      />
+                    ))
+                  : null}
               </div>
             </div>
-          ))}
-        </pre>
-      </div>
+          </div>
+        </div>
+      ))}
     </>
   )
 }
