@@ -122,49 +122,47 @@ function Stage({
 
   return (
     <>
-      <div className='col-12 text-start text-beige'>
-        <Commit
-          afterSubmit={() => {
-            fetchStatus()
-            setRefreshCommitTree?.(true)
-          }}
-        />
-        <CollapseList
-          heading={'Staged changes'}
-          className='border-top border-bottom border-davygray'
-          buttons={staged_buttons}
-          items={staged.map((file) => (
-            <File
-              key={file.path}
-              afterAction={fetchStatus}
-              staged={true}
-              full_path={file.path}
-              status={file.status}
-              onClick={() => {
-                setCurrentFile?.(file.path)
-              }}
-            />
-          ))}
-        />
+      <Commit
+        afterSubmit={() => {
+          fetchStatus()
+          setRefreshCommitTree?.(true)
+        }}
+      />
+      <CollapseList
+        heading={'Staged changes'}
+        className='border-top border-bottom border-davygray'
+        buttons={staged_buttons}
+        items={staged.map((file) => (
+          <File
+            key={file.path}
+            afterAction={fetchStatus}
+            staged={true}
+            full_path={file.path}
+            status={file.status}
+            onClick={() => {
+              setCurrentFile?.(file.path)
+            }}
+          />
+        ))}
+      />
 
-        <CollapseList
-          heading={'Changes'}
-          className='border-top border-bottom border-davygray'
-          buttons={notAdded_buttons}
-          items={notAdded.map((file) => (
-            <File
-              key={file.path}
-              afterAction={fetchStatus}
-              staged={false}
-              full_path={file.path}
-              status={file.status}
-              onClick={() => {
-                setCurrentFile?.(file.path)
-              }}
-            />
-          ))}
-        />
-      </div>
+      <CollapseList
+        heading={'Changes'}
+        className='border-top border-bottom border-davygray '
+        buttons={notAdded_buttons}
+        items={notAdded.map((file) => (
+          <File
+            key={file.path}
+            afterAction={fetchStatus}
+            staged={false}
+            full_path={file.path}
+            status={file.status}
+            onClick={() => {
+              setCurrentFile?.(file.path)
+            }}
+          />
+        ))}
+      />
     </>
   )
 }

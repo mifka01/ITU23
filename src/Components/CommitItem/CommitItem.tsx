@@ -12,7 +12,7 @@ interface CommitItemProps {
   message?: ReactNode
 }
 
-function ListItem({ message }: CommitItemProps) {
+function CommitItem({ message }: CommitItemProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleHover = () => {
@@ -20,16 +20,16 @@ function ListItem({ message }: CommitItemProps) {
   }
   return (
     <div
-      className={`row small bg-darkpurple align-items-center`}
+      className={`d-flex flex-fill small bg-darkpurple align-items-center`}
       onMouseEnter={handleHover}
       onMouseLeave={handleHover}
     >
-      <div className="col-1">
-        <GitCommitVertical size={'2em'} viewBox="9 3 6 18" />
+      <div className='text-truncate'>
+        <GitCommitVertical className='me-1' size={'2em'} viewBox='9 3 6 18' />
+        {message}
       </div>
-      <div className="col-11 mt-1 text-truncate">{message}</div>
     </div>
   )
 }
 
-export default ListItem
+export default CommitItem

@@ -11,10 +11,9 @@ interface ListItemProps {
   start?: ReactNode
   end?: ReactNode
   hovered?: ReactNode
-  onClick?: () => void
 }
 
-function ListItem({ start, end, hovered, onClick }: ListItemProps) {
+function ListItem({ start, end, hovered }: ListItemProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const background_color = isHovered ? 'bg-gunmetal' : 'bg-darkpurple'
@@ -25,17 +24,15 @@ function ListItem({ start, end, hovered, onClick }: ListItemProps) {
 
   return (
     <div
-      className={`row small ${background_color}`}
+      className={`d-flex px-2 small ${background_color}`}
       onMouseEnter={handleHover}
       onMouseLeave={handleHover}
     >
-      <div className="col-8 mt-1 ">{start}</div>
-      <div className="col-4">
-        <div className="d-flex justify-content-end">
-          {isHovered && <div className="text-end">{hovered}</div>}
-          <div className={`ps-2 mt-1 text-end`}>{end}</div>
-        </div>
-      </div>
+      <div className='me-auto text-truncate'>{start}</div>
+
+      {isHovered && <div className='text-nowrap px-2'>{hovered}</div>}
+
+      <div className=''>{end}</div>
     </div>
   )
 }
