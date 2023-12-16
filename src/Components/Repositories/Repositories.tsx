@@ -24,6 +24,7 @@ interface RepositoriesProps {
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
   setRefreshStashes?: Dispatch<SetStateAction<boolean>>
   setCurrentFile?: Dispatch<SetStateAction<string | undefined>>
+  setShowDiff?: Dispatch<SetStateAction<boolean>>
 }
 
 type RepositoryEntry = {
@@ -39,7 +40,8 @@ function Repositories({
   setRefreshStage,
   setRefreshBranches,
   setRefreshStashes,
-  setCurrentFile
+  setCurrentFile,
+  setShowDiff
 }: RepositoriesProps) {
   const [repositories, setRepositories] = useState<RepositoryEntry[]>([])
 
@@ -61,6 +63,7 @@ function Repositories({
       fetchRepositories()
       if(response.payload.changeCurrentFile){
         setCurrentFile?.('No file selected')
+        setShowDiff?.(true)
       }
     }
   }
