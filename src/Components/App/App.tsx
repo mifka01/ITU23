@@ -16,6 +16,7 @@ import CommitTree from 'components/CommitTree'
 import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
+import CommitDetail from '../CommitDetail'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
@@ -24,6 +25,8 @@ function App() {
   const [refreshStashes, setRefreshStashes] = useState(false)
   const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [currentCommit, setCurrentCommit] = useState<string | undefined>(undefined)
+  const [showDiff, setShowDiff] = useState(true)
   const [currentFile, setCurrentFile] = useState<string | undefined>(undefined)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
@@ -45,14 +48,15 @@ function App() {
         <div className='d-flex flex-fill flex-row overflow-y-auto overflow-x-hidden'>
           <div className='d-flex w-25 flex-column border border-davygray'>
             <Stage
-              setRefreshLog={setRefreshLog}
-              setRefreshCommitTree={setRefreshCommitTree}
-              setShowModal={setShowModal}
-              setModal={setModal}
-              setRefreshStage={setRefreshStage}
-              refreshStage={refreshStage}
-              setCurrentFile={setCurrentFile}
-              currentFile={currentFile}
+                setRefreshLog={setRefreshLog}
+                setRefreshCommitTree={setRefreshCommitTree}
+                setShowModal={setShowModal}
+                setModal={setModal}
+                setRefreshStage={setRefreshStage}
+                refreshStage={refreshStage}
+                setCurrentFile={setCurrentFile}
+                currentFile={currentFile}
+                setShowDiff={setShowDiff}
             />
             <Branches
               setRefreshLog={setRefreshLog}
@@ -75,7 +79,7 @@ function App() {
           </div>
           <div className='w-50 d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
-              <Diff currentFile={currentFile} />
+              {showDiff ? (<Diff currentFile={currentFile}/>):(<CommitDetail currentCommit={currentCommit}/>)}
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
               <Log
@@ -87,8 +91,10 @@ function App() {
           </div>
           <div className='d-flex w-25 flex-column flex-fill border border-davygray '>
             <CommitTree
-              setRefreshCommitTree={setRefreshCommitTree}
-              refreshCommitTree={refreshCommitTree}
+                      setRefreshCommitTree={setRefreshCommitTree}
+                      refreshCommitTree={refreshCommitTree}
+                      setCurrentCommit={setCurrentCommit}
+                      setShowDiff={setShowDiff}
             />
             <Stashes
               setShowModal={setShowModal}

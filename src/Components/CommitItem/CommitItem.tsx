@@ -9,10 +9,11 @@ import { ReactNode, useState } from 'react'
 import { GitCommitVertical } from 'lucide-react'
 
 interface CommitItemProps {
+  onClick?: () => void
   message?: ReactNode
 }
 
-function CommitItem({ message }: CommitItemProps) {
+function CommitItem({ message, onClick }: CommitItemProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleHover = () => {
@@ -24,10 +25,11 @@ function CommitItem({ message }: CommitItemProps) {
       onMouseEnter={handleHover}
       onMouseLeave={handleHover}
     >
-      <div className='text-truncate'>
+      <div className='text-truncate' onClick={onClick} role={'button'}>
         <GitCommitVertical className='me-1' size={'2em'} viewBox='9 3 6 18' />
         {message}
       </div>
+   
     </div>
   )
 }

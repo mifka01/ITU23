@@ -6,7 +6,7 @@ import { LogController } from '../controllers/LogController'
 import { StageController } from '../controllers/StageController'
 import { BranchController } from '../controllers/BranchController'
 import { DiffController } from '../controllers/DiffController.ts'
-import { CommitTreeController } from '../controllers/CommitTreeController'
+import { CommitHistoryController } from '../controllers/CommitHistoryController.ts'
 import { StashController } from '../controllers/StashController'
 import { createIPCHandlers, createJson } from './utils'
 import { generateMenu } from './menu'
@@ -48,7 +48,7 @@ function createWindow() {
   createIPCHandlers(StageController)
   createIPCHandlers(BranchController)
   createIPCHandlers(DiffController)
-  createIPCHandlers(CommitTreeController)
+  createIPCHandlers(CommitHistoryController)
   createIPCHandlers(StashController)
 
   if (VITE_DEV_SERVER_URL) {

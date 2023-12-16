@@ -42,9 +42,9 @@ function Diff({ currentFile }: Path) {
       </div>
 
       <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
-        {data.map((element) => {
+        {data.map((element,index) => {
           return (
-            <div className='d-flex'>
+            <div className='d-flex' key={"diff-line-"+index}>
               <code className='ms-3 me-auto bg-opacity-50'>
                 {element.line_num}
               </code>

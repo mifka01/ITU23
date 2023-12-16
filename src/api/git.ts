@@ -156,6 +156,15 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:commit_tree`, maxCount)
   },
 
+    /**
+   * Retrieves detail of commit specified by hash
+   * @param hash - The hash of the commit for which you want to retrieve details.
+   * @returns A promise that resolves to the response from the Git commit_detail operation.
+   */
+    commit_detail: (hash: string): Promise<Response> => {
+      return ipcRenderer.invoke(`${git.prefix}:commit_detail`, hash)
+    },
+
   /**
    * Retrieves the stashes in the Git repository.
    * @param name - The name of the stash.

@@ -212,6 +212,24 @@ export class Git {
   }
 
   /**
+   * Retrieves detail of commit specified by hash
+   * @param hash - The hash specifying commit.
+   * @returns A promise that resolves with the commits in the commit tree.
+   */
+  async commit_detail(hash: string) {
+    return this.git.log(['-n', '1', String(hash)])
+  }
+
+  /**
+   * Retrieves changed files in commit
+   * @param hash - The hash specifying commit.
+   * @returns A promise that resolves with the commits in the commit tree.
+   */
+  async commit_changed_files(hash: string) {
+    return this.git.show(['--name-status','--pretty=format:', String(hash)])
+  }
+
+  /**
    * Creates a new branch.
    * @param name - The name of the new branch.
    * @returns A promise that resolves when the branch is created.
