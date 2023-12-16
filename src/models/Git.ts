@@ -296,6 +296,14 @@ export class Git {
   async fetch() {
     return this.git.fetch()
   }
+
+  async amend(message: string){
+    let result = await this.git.status()
+    console.log(result.ahead)
+    if(result.ahead > 0)
+      return this.git.commit(message, {'--amend':null}, (err, summary) => { void err; void summary;})
+    throw Error
+  }
 }
 
 export const git: Git = new Git(options)

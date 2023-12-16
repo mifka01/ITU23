@@ -10,10 +10,11 @@ import {
   ArrowUpFromLine,
   ArrowDownToLine,
   Undo2,
-  GitCompareArrows,
+  GitCompareArrows, RotateCw,
 } from 'lucide-react'
-import { Dispatch, SetStateAction } from 'react'
+import {ChangeEvent, Dispatch, SetStateAction} from 'react'
 import { ModalProps } from 'components/Modal'
+import { useRef } from 'react'
 
 interface Props {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
@@ -23,6 +24,8 @@ interface Props {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
 }
 function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRefreshCommitTree }: Props) {
+  const  commitMessage = useRef<string>('')
+
   const handlePush = async () => {
     await window.git.push()
     setRefreshLog?.(true)
@@ -70,11 +73,56 @@ function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRe
     setRefreshLog?.(true)
   }
 
+  const handleCommitMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    commitMessage.current = value
+  }
+
+  const handleAmend = async () => {
+    if (setModal && setShowModal) {
+      setModal({
+        children: (
+            <>
+              <span>New name of last commit</span>
+              <input
+                  type='text'
+                  name='commit_name'
+                  style={{ resize: 'none' }}
+                  className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
+                  placeholder='Stash name'
+                  defaultValue={commitMessage.current}
+                  onChange={handleCommitMessageChange}
+              />
+            </>
+        ),
+        buttons: [
+          {
+            text: 'Leave',
+            onClick: () => {
+              setShowModal?.(false)
+            },
+          },
+          {
+            text: 'Rename',
+            onClick: async () => {
+              await window.git.amend(commitMessage.current)
+              setRefreshLog?.(true)
+              setShowModal?.(false)
+              setRefreshCommitTree?.(true)
+            },
+          },
+        ],
+      })
+      setShowModal(true)
+    }
+  }
+
   const buttons = [
     { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush },
     { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull },
     { Icon: Undo2, text: 'revert', onClick: handleRevert },
     { Icon: GitCompareArrows, text: 'fetch', onClick: handleFetch },
+    { Icon: RotateCw, text: 'amend', onClick: handleAmend },
   ]
 
   return (
