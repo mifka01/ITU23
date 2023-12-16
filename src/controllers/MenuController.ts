@@ -58,5 +58,16 @@ export const MenuController: IController = {
         return ResponseError()
       }
     },
+
+    async amend(_: IpcMainInvokeEvent, message: string) {
+      try {
+        await git.amend(message)
+        log.append('COMMAND','Successfully renamed last commit')
+        return ResponseSuccess()
+      }catch (error: unknown){
+        log.append('ERROR','Cant rename commit. Only non-pushed commit can be renamed.')
+        return ResponseError()
+      }
+    },
   },
 }

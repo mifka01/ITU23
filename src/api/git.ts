@@ -201,11 +201,26 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:stash_drop`, hash)
   },
 
+  /**
+   *
+   */
   revert: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:revert`)
   },
 
+  /**
+   *
+   */
   fetch: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:fetch`)
+  },
+
+  /**
+   * Renames last commit.
+   * @param message - New commit message.
+   * @returns A promise that resolves to the response from the Git commit --amend operation.
+   */
+  amend: (message: string): Promise<any> => {
+    return ipcRenderer.invoke(`${git.prefix}:amend`, message)
   },
 }
