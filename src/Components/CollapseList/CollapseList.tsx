@@ -10,6 +10,7 @@ import CollapseButton from 'components/CollapseButton'
 import { LucideIcon } from 'lucide-react'
 import clsx from 'clsx'
 import Button from 'components/Button'
+import './CollapseList.css'
 
 interface CollapseListProps {
   heading: String
@@ -68,7 +69,11 @@ function CollapseList({
         </div>
       </div>
 
-      <div className='items d-flex flex-column overflow-auto'>
+      <div
+        className={clsx('d-flex flex-column overflow-auto', {
+          'minimal-item': !collapsed && items.length > 0,
+        })}
+      >
         {!collapsed && items}
       </div>
     </>
