@@ -1,15 +1,29 @@
-// controllers/MenuController.ts
+/**
+ * @file MenuController.ts
+ * @brief Represents the MenuController, which is responsible for logic of buttons in menu.
+ * @author Michal Zapletal (xzaple41)
+ * @date October 2023
+ */
+
 import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { ResponseSuccess, ResponseError } from '../shared/response'
-//import Modal from 'components/Modal'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
 
+/**
+ * The MenuController object that implements the IController interface.
+ */
 export const MenuController: IController = {
   prefix: 'git',
 
   functions: {
+    /**
+     * Pull from git all changes into local branch.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @returns A ResponseSuccess object if the pull is successful.
+     * @returns A ResponseError object if an error occurs.
+     */
     async pull(_: IpcMainInvokeEvent) {
       try {
         await git.pull()
@@ -21,6 +35,12 @@ export const MenuController: IController = {
       }
     },
 
+    /**
+     * Push all local commits into remote branch.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @returns A ResponseSuccess object if the push is successful.
+     * @returns A ResponseError object if an error occurs.
+     */
     async push(_: IpcMainInvokeEvent) {
       try {
         const response = await git.push()
@@ -36,6 +56,12 @@ export const MenuController: IController = {
       }
     },
 
+    /**
+     * Reverts last commit.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @returns A ResponseSuccess object if the revert is successful.
+     * @returns A ResponseError object if an error occurs.
+     */
     async revert(_: IpcMainInvokeEvent) {
       const response = await git.revert()
 
@@ -48,6 +74,12 @@ export const MenuController: IController = {
       return ResponseError()
     },
 
+    /**
+     * Fetch all remote branches into local branches.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @returns A ResponseSuccess object if the fetch is successful.
+     * @returns A ResponseError object if an error occurs.
+     */
     async fetch(_: IpcMainInvokeEvent) {
       try {
         await git.fetch()
@@ -59,6 +91,13 @@ export const MenuController: IController = {
       }
     },
 
+    /**
+     * Renames last commit.
+     * @param _ - The IpcMainInvokeEvent object.
+     * @param message - New commit message.
+     * @returns A ResponseSuccess object if the revert is successful.
+     * @returns A ResponseError object if an error occurs.
+     */
     async amend(_: IpcMainInvokeEvent, message: string) {
       try {
         await git.amend(message)
