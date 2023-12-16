@@ -118,11 +118,11 @@ function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRe
   }
 
   const buttons = [
-    { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush },
-    { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull },
-    { Icon: Undo2, text: 'revert', onClick: handleRevert },
-    { Icon: GitCompareArrows, text: 'fetch', onClick: handleFetch },
-    { Icon: RotateCw, text: 'amend', onClick: handleAmend },
+    { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush, tooltip: "Takes all commited changes and send them to the remote server." },
+    { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull, tooltip: "Takes all changes on current branch that were made on remote and loads them into local." },
+    { Icon: Undo2, text: 'revert', onClick: handleRevert, tooltip: "Remove all changes that were made by last commit." },
+    { Icon: GitCompareArrows, text: 'fetch', onClick: handleFetch, tooltip: "Similar to PULL, but takes all changes on all branches and downloads it into local." },
+    { Icon: RotateCw, text: 'amend', onClick: handleAmend, tooltip: "Renames last commit. Only non-pushed commits can be renamed." },
   ]
 
   return (
@@ -133,7 +133,7 @@ function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRe
             key={index}
             className='list-group-item rounded-0 border-0 bg-transparent p-0 pe-3 py-2'
           >
-            <MenuButton Icon={button.Icon} onClick={button.onClick}>
+            <MenuButton Icon={button.Icon} onClick={button.onClick} title={button.tooltip}>
               {button.text}
             </MenuButton>
           </li>
