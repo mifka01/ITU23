@@ -53,11 +53,10 @@ export const StageController: IController = {
     /**
      * Retrieves the Git status.
      * @param _ - The IpcMainInvokeEvent object.
-     * @param data
      * @returns A ResponseSuccess object containing the status information.
      * @throws A ResponseError object if an error occurs.
      */
-    async status(_: IpcMainInvokeEvent, data: string) {
+    async status(_: IpcMainInvokeEvent) {
       type FileEntry = { path: string; status: string }
       try {
         const response = await git.status()
@@ -78,19 +77,10 @@ export const StageController: IController = {
           else not_added.push(entry)
         })
 
-        let currentFile = 'No file selected'
-        staged_files.forEach((s) => {
-          if(data && s.path === data){
-            currentFile = data
-          }
+        return ResponseSuccess({
+          not_added: not_added,
+          staged: staged_files,
         })
-        not_added.forEach((s) => {
-          if(data && s.path === data){
-            currentFile = data
-          }
-        })
-
-        return ResponseSuccess({ not_added: not_added, staged: staged_files, file: currentFile })
       } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()

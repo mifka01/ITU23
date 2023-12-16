@@ -26,9 +26,9 @@ function App() {
   const [refreshStashes, setRefreshStashes] = useState(false)
   const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [currentFile, setCurrentFile] = useState<string>('No file selected')
   const [currentCommit, setCurrentCommit] = useState<string | undefined>(undefined)
   const [showDiff, setShowDiff] = useState(true)
+  const [currentFile, setCurrentFile] = useState<string | undefined>(undefined)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
