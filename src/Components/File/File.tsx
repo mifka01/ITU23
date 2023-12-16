@@ -18,14 +18,11 @@ interface FileProps {
   onClick?: () => void
   afterAction?: () => void
   staged: boolean
-  full_path: string
+  fileEntry: { filename: string; dirname: string; path: string }
   status: string
 }
 
-function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
-  const name = full_path.split('/').pop()
-  const path = full_path.slice(0, full_path.lastIndexOf('/'))
-
+function File({ afterAction, onClick, staged, fileEntry, status }: FileProps) {
   let status_color = 'text-success'
 
   switch (status) {
@@ -51,16 +48,16 @@ function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
 
   const handleStage = async () => {
     const response = !staged
-      ? await window.git.add(full_path)
-      : await window.git.unstage(full_path)
+      ? await window.git.add(fileEntry.path)
+      : await window.git.unstage(fileEntry.path)
     if (!response.status) afterAction?.()
   }
 
   const handleDiscard = async () => {
     const response =
       status == STATUS_UNTRACKED || status == STATUS_APPENDED
-        ? await window.git.rm(full_path)
-        : await window.git.discard(full_path)
+        ? await window.git.rm(fileEntry.path)
+        : await window.git.discard(fileEntry.path)
     if (!response.status) afterAction?.()
   }
 
@@ -68,8 +65,8 @@ function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
     <ListItem
       start={
         <span onClick={onClick} role={'button'}>
-          {name}
-          <small className='text-davygray ms-2'>{path}</small>
+          {fileEntry.filename}
+          <small className='text-davygray ms-2'>{fileEntry.path}</small>
         </span>
       }
       end={<span className={status_color}> {status}</span>}

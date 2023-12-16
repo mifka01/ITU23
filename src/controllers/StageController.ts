@@ -13,6 +13,7 @@ import { IController } from 'interfaces/IController'
 import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
+import path from 'node:path'
 
 /**
  * Represents the result of the Git status command.
@@ -37,12 +38,12 @@ export const StageController: IController = {
      * @param inputObject - The input object containing the status information.
      * @returns The status letter for the file.
      */
-    getStatusLetter(filename: string, inputObject: StatusResult) {
-      if (inputObject.not_added.includes(filename)) {
+    getStatusLetter(file_path: string, inputObject: StatusResult) {
+      if (inputObject.not_added.includes(file_path)) {
         return 'U'
-      } else if (inputObject.deleted.includes(filename)) {
+      } else if (inputObject.deleted.includes(file_path)) {
         return 'D'
-      } else if (inputObject.created.includes(filename)) {
+      } else if (inputObject.created.includes(file_path)) {
         return 'A'
       }
       return 'M'
@@ -57,7 +58,12 @@ export const StageController: IController = {
      * @throws A ResponseError object if an error occurs.
      */
     async status(_: IpcMainInvokeEvent) {
-      type FileEntry = { path: string; status: string }
+      type FileEntry = {
+        filename: string
+        dirname: string
+        path: string
+        status: string
+      }
       try {
         const response = await git.status()
 
@@ -66,6 +72,8 @@ export const StageController: IController = {
 
         response.files.forEach((file: { path: string }) => {
           const entry: FileEntry = {
+            filename: path.basename(file.path),
+            dirname: path.dirname(file.path),
             path: file.path,
             status: StageController.helpers?.getStatusLetter(
               file.path,

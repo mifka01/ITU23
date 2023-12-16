@@ -25,7 +25,12 @@ interface RepositoriesProps {
   setRefreshStashes?: Dispatch<SetStateAction<boolean>>
 }
 
-type RepositoryEntry = { name: string; path: string; current: boolean }
+type RepositoryEntry = {
+  filename: string
+  dirname: string
+  path: string
+  current: boolean
+}
 
 function Repositories({
   setRefreshLog,
@@ -77,21 +82,21 @@ function Repositories({
       className='border-top border-bottom border-davygray'
       items={repositories.map((repository: RepositoryEntry) => (
         <ListItem
-          key={`${repository.path}/${repository.name}`}
+          key={repository.path}
           start={
             <span
-              data-path={`${repository.path}/${repository.name}`}
+              data-path={repository.path}
               onClick={handleChange}
               role={'button'}
             >
-              {repository.name}
-              <small className='text-davygray ms-2'>{repository.path}</small>
+              {repository.filename}
+              <small className='text-davygray ms-2'>{repository.dirname}</small>
             </span>
           }
           hovered={
             !repository.current && (
               <Button
-                data-path={`${repository.path}/${repository.name}`}
+                data-path={repository.path}
                 className='text-white border-0'
                 onClick={handleDelete}
               >

@@ -12,8 +12,14 @@ import { REPOSITORIES_FILE } from '../shared/constants'
 import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { app } from '../models/App'
+import path from 'node:path'
 
-type RepositoryEntry = { name: string; path: string; current: boolean }
+type RepositoryEntry = {
+  filename: string
+  dirname: string
+  path: string
+  current: boolean
+}
 
 /**
  * AppController is an object that defines the controller for the 'app' prefix.
@@ -74,11 +80,12 @@ export const AppController: IController = {
         let entries: RepositoryEntry[] = []
         let current = git.getCWD()
 
-        for (let path of response) {
+        for (let cur_path of response) {
           const entry: RepositoryEntry = {
-            name: path.split('/').pop(),
-            path: path.slice(0, path.lastIndexOf('/')),
-            current: path == current,
+            filename: path.basename(cur_path),
+            dirname: path.dirname(cur_path),
+            path: cur_path,
+            current: cur_path == current,
           }
           entries.push(entry)
         }

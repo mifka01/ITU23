@@ -12,7 +12,12 @@ import Commit from 'components/Commit'
 import { Plus, Minus, Undo2 } from 'lucide-react'
 import { ModalProps } from 'components/Modal'
 
-type FileEntry = { path: string; status: string }
+type FileEntry = {
+  filename: string
+  dirname: string
+  path: string
+  status: string
+}
 
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
@@ -137,7 +142,7 @@ function Stage({
             key={file.path}
             afterAction={fetchStatus}
             staged={true}
-            full_path={file.path}
+            fileEntry={file}
             status={file.status}
             onClick={() => {
               setCurrentFile?.(file.path)
@@ -155,7 +160,7 @@ function Stage({
             key={file.path}
             afterAction={fetchStatus}
             staged={false}
-            full_path={file.path}
+            fileEntry={file}
             status={file.status}
             onClick={() => {
               setCurrentFile?.(file.path)
