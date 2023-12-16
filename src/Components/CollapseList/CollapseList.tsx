@@ -46,7 +46,7 @@ function CollapseList({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <div className='d-flex'>
+        <div className='d-flex px-2'>
           <span className='me-auto'>{heading}</span>
           {buttons?.map(
             (button, index) =>
