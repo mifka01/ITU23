@@ -2,7 +2,6 @@
  * @file components/App.tsx
  * @brief Main App grid
  * @author Radim Mifka (xmifka00)
- * @author Miroslav Bálek (xbalek02)
  * @date October 2023
  */
 
