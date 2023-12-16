@@ -45,11 +45,16 @@ function Diff({ currentFile }: Path) {
         {data.map((element,index) => {
           return (
             <div className='d-flex' key={"diff-line-"+index}>
-              <code className='ms-3 me-auto bg-opacity-50'>
+              <code
+                className={clsx('ps-3 pe-3 bg-opacity-50', {
+                  'bg-lineok': element.mark === '+',
+                  'bg-linenok': element.mark === '-',
+                })}
+              >
                 {element.line_num}
               </code>
               <code
-                className={clsx('ms-3 flex-fill bg-opacity-50', {
+                className={clsx('flex-fill bg-opacity-50', {
                   'bg-codeok': element.mark === '+',
                   'bg-codenok': element.mark === '-',
                 })}
