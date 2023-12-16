@@ -287,6 +287,11 @@ export class Git {
     return this.git.stash(['apply', `stash@{${index}}`])
   }
 
+  /**
+   * Applies a revert of last commit.
+   * @returns A promise that contains last commit name.
+   * @returns A promise with undefined if there are no commits.
+   */
   async revert() {
     let result = await this.git.log(['-1'])
     if (result.latest !== undefined) {
@@ -298,10 +303,20 @@ export class Git {
     return undefined
   }
 
+  /**
+   * Applies a fetch on current repository.
+   * @returns A promise with FetchResult.
+   */
   async fetch() {
     return this.git.fetch()
   }
 
+  /**
+   * Renames last commit if available. Throws error on failure.
+   * @param message - new commit message.
+   * @returns A promise that contains CommitResult.
+   * @returns On failure returns no value. Throws error.
+   */
   async amend(message: string){
     let result = await this.git.status()
     console.log(result.ahead)

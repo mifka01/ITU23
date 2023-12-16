@@ -211,14 +211,16 @@ export const git = {
   },
 
   /**
-   *
+   * Reverts last commit.
+   * @returns A promise that resolves git revert operation.
    */
   revert: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:revert`)
   },
 
   /**
-   *
+   * Fetch all branches from remote to local.
+   * @returns A promise that resolves git fetch operation.
    */
   fetch: (): Promise<any> => {
     return ipcRenderer.invoke(`${git.prefix}:fetch`)
