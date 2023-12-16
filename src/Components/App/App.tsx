@@ -17,7 +17,6 @@ import CommitTree from 'components/CommitTree'
 import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
-import Main from 'electron/main'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
