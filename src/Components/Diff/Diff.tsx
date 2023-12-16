@@ -49,6 +49,7 @@ function Diff({ currentFile }: Path) {
                 className={clsx('ps-3 pe-3 bg-opacity-50', {
                   'bg-lineok': element.mark === '+',
                   'bg-linenok': element.mark === '-',
+                  'bg-linenochange': element.mark === ' ',
                 })}
               >
                 {element.line_num}
