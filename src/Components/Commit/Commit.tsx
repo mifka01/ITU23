@@ -47,33 +47,32 @@ function Commit({ className, afterSubmit }: CommitProps) {
 
   return (
     <>
-      <div className='row bg-darkpurple'>
-        <form
-          className={clsx('form-floating', className)}
-          onSubmit={handleSubmit}
+      <form
+        className={clsx(
+          'bg-darkpurple form-floating d-flex flex-column m-2 my-4',
+          className,
+        )}
+        onSubmit={handleSubmit}
+      >
+        <div className='flex-fill'>
+          <textarea
+            style={{ resize: 'none' }}
+            className=' form-control bg-gunmetal border border-davygray text-beige shadow-none'
+            placeholder='Commit message...'
+            name='message'
+            value={formData.message}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <Button
+          type='submit'
+          className='mt-4 btn-darkpurple border border-davygray border-3 text-beige h-10 bg-gunmetal py-2'
         >
-          <div className='row mx-2 mt-4'>
-            <textarea
-              style={{ resize: 'none' }}
-              className='form-control bg-gunmetal border border-davygray text-beige shadow-none'
-              placeholder='Commit message...'
-              name='message'
-              value={formData.message}
-              onChange={handleChange}
-            ></textarea>
+          <div className='text-center'>
+            <p className='mb-0 text-beige text-uppercase'>Commit</p>
           </div>
-          <div className='row my-4 mx-2'>
-            <Button
-              type='submit'
-              className='btn-darkpurple border border-davygray border-3 text-beige h-10 w-10 bg-gunmetal py-2'
-            >
-              <div className='text-center'>
-                <p className='mb-0 text-beige text-uppercase'>Commit</p>
-              </div>
-            </Button>
-          </div>
-        </form>
-      </div>
+        </Button>
+      </form>
     </>
   )
 }

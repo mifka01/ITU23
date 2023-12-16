@@ -12,11 +12,12 @@ import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Repositories from 'components/Repositories'
 import Portal from 'components/Portal'
-import MainWindow from 'components/MainWindow'
+import Diff from 'components/Diff'
 import CommitTree from 'components/CommitTree'
 import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
+import CommitDetail from '../CommitDetail'
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
@@ -35,8 +36,8 @@ function App() {
 
   return (
     <>
-      <div className='container-fluid min-vh-100 d-flex flex-column text-beige bg-darkpurple'>
-        <div className='row'>
+      <div className='text-beige bg-darkpurple vh-100 vw-100 d-flex flex-column overflow-hidden'>
+        <div className='flex-shrink-1'>
           <Menu
             setRefreshLog={setRefreshLog}
             setShowModal={setShowModal}
@@ -45,10 +46,9 @@ function App() {
             setRefreshCommitTree={setRefreshCommitTree}
           />
         </div>
-        <div className='row text-center flex-grow-1'>
-          <div className='col-3 border border-davygray'>
-            <div className='d-flex'>
-              <Stage
+        <div className='d-flex flex-fill flex-row overflow-y-auto overflow-x-hidden'>
+          <div className='d-flex w-25 flex-column border border-davygray'>
+            <Stage
                 setRefreshLog={setRefreshLog}
                 setRefreshCommitTree={setRefreshCommitTree}
                 setShowModal={setShowModal}
@@ -58,43 +58,29 @@ function App() {
                 setCurrentFile={setCurrentFile}
                 currentFile={currentFile}
                 setShowDiff={setShowDiff}
-              />
-            </div>
-            <div className='d-flex '>
-              <Branches
-                setRefreshLog={setRefreshLog}
-                setRefreshCommitTree={setRefreshCommitTree}
-                setShowModal={setShowModal}
-                setModal={setModal}
-                setRefreshBranches={setRefreshBranches}
-                refreshBranches={refreshBranches}
-              />
-            </div>
-            <div className='d-flex'>
-              <Repositories
-                setRefreshLog={setRefreshLog}
-                setRefreshCommitTree={setRefreshCommitTree}
-                setRefreshStage={setRefreshStage}
-                setRefreshBranches={setRefreshBranches}
-                setRefreshStashes={setRefreshStashes}
-              />
-            </div>
+            />
+            <Branches
+              setRefreshLog={setRefreshLog}
+              setRefreshCommitTree={setRefreshCommitTree}
+              setShowModal={setShowModal}
+              setModal={setModal}
+              setRefreshBranches={setRefreshBranches}
+              refreshBranches={refreshBranches}
+            />
+            <Repositories
+              setRefreshLog={setRefreshLog}
+              setRefreshCommitTree={setRefreshCommitTree}
+              setRefreshStage={setRefreshStage}
+              setRefreshBranches={setRefreshBranches}
+              setRefreshStashes={setRefreshStashes}
+            />
             <div className='clipping-container'>
               <Portal showModal={showModal} {...modal} />
             </div>
           </div>
-          <div className='col-7 gx-0 border-top border-davygray'>
-            <div className='d-flex flex-column h-75'>
-              <div className='d-flex bg-darkpurple text-beige text-start border-bottom border-davygray'>
-                <span className='ps-2'>{showDiff ? (currentFile):(`Commit detail`)}</span>
-              </div>
-              <div className='d-flex flex-grow-1 h-100 bg-gunmetal '>
-                <MainWindow
-                showDiff={showDiff}
-                currentFile={currentFile}
-                currentCommit={currentCommit}
-                />
-              </div>
+          <div className='w-50 d-flex flex-column border-top border-davygray'>
+            <div className='d-flex flex-column h-75 bg-gunmetal'>
+              {showDiff ? (<Diff currentFile={currentFile}/>):(<CommitDetail currentCommit={currentCommit}/>)}
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
               <Log
@@ -104,25 +90,21 @@ function App() {
               />
             </div>
           </div>
-          <div className='col-2 border border-davygray'>
-            <div className='d-flex'>
-              <CommitTree
-                setRefreshCommitTree={setRefreshCommitTree}
-                refreshCommitTree={refreshCommitTree}
-                setCurrentCommit={setCurrentCommit}
-                setShowDiff={setShowDiff}
-              />
-            </div>
-            <div className='d-flex'>
-              <Stashes
-                setShowModal={setShowModal}
-                setRefreshLog={setRefreshLog}
-                setModal={setModal}
-                setRefreshStage={setRefreshStage}
-                setRefreshStashes={setRefreshStashes}
-                refreshStashes={refreshStashes}
-              />
-            </div>
+          <div className='d-flex w-25 flex-column flex-fill border border-davygray '>
+            <CommitTree
+                      setRefreshCommitTree={setRefreshCommitTree}
+                      refreshCommitTree={refreshCommitTree}
+                      setCurrentCommit={setCurrentCommit}
+                      setShowDiff={setShowDiff}
+            />
+            <Stashes
+              setShowModal={setShowModal}
+              setRefreshLog={setRefreshLog}
+              setModal={setModal}
+              setRefreshStage={setRefreshStage}
+              setRefreshStashes={setRefreshStashes}
+              refreshStashes={refreshStashes}
+            />
           </div>
         </div>
       </div>

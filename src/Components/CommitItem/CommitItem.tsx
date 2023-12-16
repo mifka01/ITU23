@@ -21,14 +21,15 @@ function CommitItem({ message, onClick }: CommitItemProps) {
   }
   return (
     <div
-      className={`row small bg-darkpurple align-items-center`}
+      className={`d-flex flex-fill small bg-darkpurple align-items-center`}
       onMouseEnter={handleHover}
       onMouseLeave={handleHover}
     >
-      <div className="col-1">
-        <GitCommitVertical size={'2em'} viewBox="9 3 6 18" />
+      <div className='text-truncate' onClick={onClick} role={'button'}>
+        <GitCommitVertical className='me-1' size={'2em'} viewBox='9 3 6 18' />
+        {message}
       </div>
-      <div className="col-11 mt-1 text-truncate" onClick={onClick} role={'button'}><span>{message}</span></div>
+   
     </div>
   )
 }

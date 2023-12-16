@@ -39,17 +39,15 @@ function CollapseList({
     <>
       <div
         className={clsx(
-          'heading row bg-darkpurple',
+          'heading bg-darkpurple',
           { ['bg-gunmetal']: isHovered },
           className,
         )}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <div className='col-auto'>
-          <span>{heading}</span>
-        </div>
-        <div className='col text-end'>
+        <div className='d-flex'>
+          <span className='me-auto'>{heading}</span>
           {buttons?.map(
             (button, index) =>
               isHovered && (
@@ -70,7 +68,9 @@ function CollapseList({
         </div>
       </div>
 
-      <div className='items'>{!collapsed && items}</div>
+      <div className='items d-flex flex-column overflow-auto'>
+        {!collapsed && items}
+      </div>
     </>
   )
 }

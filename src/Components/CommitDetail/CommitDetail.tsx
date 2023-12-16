@@ -58,6 +58,12 @@ function CommitDetail({ currentCommit }: CommitDetailProps) {
 
   return (
     <>
+        <div className='bg-darkpurple text-beige text-start border-bottom border-davygray'>
+        <span className='ps-2'>
+          Commit detail
+        </span>
+      </div>
+      <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
       {commitDetails.commit_detail.map((commitDetail) => (
         <div className="container mt-4" key={'detail' + commitDetail.hash}>
           <div className="row">
@@ -100,6 +106,7 @@ function CommitDetail({ currentCommit }: CommitDetailProps) {
           </div>
         </div>
       ))}
+      </pre>
     </>
   )
 }
