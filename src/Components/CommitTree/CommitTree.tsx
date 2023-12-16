@@ -12,8 +12,8 @@ import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 interface CommitTreeProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   refreshCommitTree?: boolean
-  setCurrentCommit: Dispatch<SetStateAction<string>>
-  currentCommit?: string
+  setCurrentCommit?: Dispatch<SetStateAction<string | undefined>>
+  currentCommit?: string | undefined
 }
 
 type CommitEntry = { message: string; hash: string }
@@ -57,7 +57,7 @@ function CommitTree({
             key={commit.hash}
             message={<small>{commit.message}</small>}
             onClick={() => {
-              setCurrentCommit(commit.hash)
+              setCurrentCommit?.(commit.hash)
             }}
           />
         ))}

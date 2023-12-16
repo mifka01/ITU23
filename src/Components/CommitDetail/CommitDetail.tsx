@@ -45,8 +45,8 @@ function CommitDetail({ currentCommit }: CommitDetailProps) {
   }
 
   useEffect(() => {
-    // TODO
-    if (!currentCommit || (currentCommit && currentCommit === '')) {
+  
+    if (!currentCommit) {
       setCommitDetails({
         commit_detail: [],
         changed_files: [],

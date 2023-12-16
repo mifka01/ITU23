@@ -26,7 +26,7 @@ function App() {
   const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [currentFile, setCurrentFile] = useState<string>('No file selected')
-  const [currentCommit, setCurrentCommit] = useState<string>('')
+  const [currentCommit, setCurrentCommit] =  useState<string | undefined>(undefined)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -102,14 +102,15 @@ function App() {
             </div>
           </div>
           <div className='col-2 border border-davygray'>
-            <div className='row h-50 border-bottom border-davygray bg-darkpurple'>
+            <div className='d-flex'>
               <CommitTree
                 setRefreshCommitTree={setRefreshCommitTree}
                 refreshCommitTree={refreshCommitTree}
                 setCurrentCommit={setCurrentCommit}
+                
               />
             </div>
-            <div className='row h-50 bg-darkpurple text-beige'>
+            <div className='d-flex'>
               <Stashes
                 setShowModal={setShowModal}
                 setRefreshLog={setRefreshLog}
