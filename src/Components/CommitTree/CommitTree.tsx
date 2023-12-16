@@ -45,18 +45,16 @@ function CommitTree({
   }, [])
 
   return (
-    <div className='col-12 text-start text-beige'>
-      <CollapseList
-        heading={'Commit Tree'}
-        className='border-top border-bottom border-davygray'
-        items={committree.map((commit: CommitEntry) => (
-          <CommitItem
-            key={commit.hash}
-            message={<small>{commit.message}</small>}
-          />
-        ))}
-      />
-    </div>
+    <CollapseList
+      heading={'Commit Tree'}
+      className='border-top border-bottom border-davygray'
+      items={committree.map((commit: CommitEntry) => (
+        <CommitItem
+          key={commit.hash}
+          message={<small>{commit.message}</small>}
+        />
+      ))}
+    />
   )
 }
 

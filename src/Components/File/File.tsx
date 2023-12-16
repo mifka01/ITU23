@@ -75,10 +75,10 @@ function File({ afterAction, onClick, staged, full_path, status }: FileProps) {
       end={<span className={status_color}> {status}</span>}
       hovered={
         <>
-          <Button onClick={handleDiscard} className='text-end border-0'>
+          <Button onClick={handleDiscard} className='border-0'>
             <Undo2 size={15} color='white' />
           </Button>
-          <Button onClick={handleStage} className='text-end border-0 ps-2'>
+          <Button onClick={handleStage} className='border-0 ps-2'>
             {icon}
           </Button>
         </>

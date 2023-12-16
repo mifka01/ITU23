@@ -156,39 +156,37 @@ function Branches({
   }, [])
 
   return (
-    <div className='col-12 text-start text-beige'>
-      <CollapseList
-        heading={'Branches'}
-        buttons={[{ text: Plus, onClick: handleCreate }]}
-        className='border-top border-bottom border-davygray'
-        items={branches.map((branch: BranchEntry) => (
-          <ListItem
-            key={branch.name}
-            start={
+    <CollapseList
+      heading={'Branches'}
+      buttons={[{ text: Plus, onClick: handleCreate }]}
+      className='border-top border-bottom border-davygray'
+      items={branches.map((branch: BranchEntry) => (
+        <ListItem
+          key={branch.name}
+          start={
+            <Button
+              data-name={branch.name}
+              onClick={handleCheckout}
+              className='text-end text-beige border-0'
+            >
+              <small>{branch.name}</small>
+            </Button>
+          }
+          hovered={
+            !branch.current && (
               <Button
                 data-name={branch.name}
-                onClick={handleCheckout}
-                className='text-end text-beige border-0'
+                className='text-white border-0'
+                onClick={handleDelete}
               >
-                <small>{branch.name}</small>
+                <Minus size={15} />
               </Button>
-            }
-            hovered={
-              !branch.current && (
-                <Button
-                  data-name={branch.name}
-                  className='text-white border-0'
-                  onClick={handleDelete}
-                >
-                  <Minus size={15} />
-                </Button>
-              )
-            }
-            end={branch.current && <span className='text-ecru'>CURRENT</span>}
-          />
-        ))}
-      />
-    </div>
+            )
+          }
+          end={branch.current && <span className='text-ecru'>CURRENT</span>}
+        />
+      ))}
+    />
   )
 }
 

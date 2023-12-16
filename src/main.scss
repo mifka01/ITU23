@@ -34,9 +34,13 @@ $theme-colors: map_merge($theme-colors, $custom-colors);
 // Scrollbar
 ::-webkit-scrollbar {
   width: 9px;
+  height: 9px;
 }
 
 ::-webkit-scrollbar-track {
+  background-color: map-get($custom-colors, 'gunmetal');
+}
+::-webkit-scrollbar-corner {
   background-color: map-get($custom-colors, 'gunmetal');
 }
 

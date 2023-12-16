@@ -64,16 +64,18 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
   return (
     <>
       <div className={clsx('d-flex bg-darkpurple text-start', className)}>
-        <div className='col-11'>
+        <div className='me-auto flex-fill'>
           <span className='ps-2'>LOG</span>
         </div>
-        <div className='col-1 d-flex align-items-center'>
+
+        <div className='d-flex align-items-center'>
           <Button onClick={handleClear} className='text-beige ms-auto border-0'>
             <Trash2 size={18} className='mb-1 me-2' />
           </Button>
         </div>
       </div>
-      <div className='d-flex bg-gunmetal flex-column flex-grow-1 text-start h-100 overflow-auto'>
+
+      <div className='d-flex bg-gunmetal flex-column flex-fill text-start h-100 overflow-auto'>
         {messages.map((message, index) => (
           <LogMessage
             key={index}
