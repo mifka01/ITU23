@@ -10,7 +10,7 @@ import { IController } from 'interfaces/IController'
 import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
-import path from 'path';
+import path from 'path'
 
 const HISTORY_MAX_COUNT = 7
 
@@ -69,29 +69,31 @@ export const CommitHistoryController: IController = {
       try {
         const response = await git.commit_detail(hash)
         const changedFiles = await git.commit_changed_files(hash)
+        let filesArrayNotSorted: ChangedFileEntry[] = []
         let changedFilesArray: ChangedFileEntry[] = []
-       
-       
-        if (changedFiles){
-        const lines = changedFiles.trim().split('\n')
-      
-        // Extract operation and file paths into an array of objects
-        lines.map((line) => {
-          const [operation, fullPath] = line.trim().split(/\s+/);
-          const file = path.basename(String(fullPath)); 
-          const dir = path.dirname(String(fullPath));
-          changedFilesArray.push({
-            operation: operation,
-            file: file,
-            dir: dir,
+
+        if (changedFiles) {
+          const lines = changedFiles.trim().split('\n')
+
+          // Extract operation and file paths into an array of objects
+          lines.map((line) => {
+            const [operation, fullPath] = line.trim().split(/\s+/)
+            const file = path.basename(String(fullPath))
+            const dir = path.dirname(String(fullPath))
+            filesArrayNotSorted.push({
+              operation: operation,
+              file: file,
+              dir: dir,
+            })
           })
-        })
-      }
-      
+          changedFilesArray = filesArrayNotSorted
+            .slice()
+            .sort((a, b) => a.file.localeCompare(b.file))
+        }
 
         let entries: CommitDetailEntry[] = []
         response.all.forEach((entry: CommitDetailEntry) => {
-          const parsedDate = new Date(entry.date);
+          const parsedDate = new Date(entry.date)
 
           const formattedDate = parsedDate.toLocaleString('en-US', {
             year: 'numeric',
@@ -101,7 +103,7 @@ export const CommitHistoryController: IController = {
             minute: '2-digit',
             second: '2-digit',
             timeZoneName: 'short',
-          });
+          })
 
           entries.push({
             message: entry.message,

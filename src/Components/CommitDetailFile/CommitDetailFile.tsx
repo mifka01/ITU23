@@ -21,7 +21,7 @@ function CommitDetailFile({ operation, file, dir }: CommitDetailProps) {
           className={clsx('', {
             'text-success': operation === 'A',
             'text-warning':
-              operation === 'M' || operation === 'R' || operation === 'C',
+              operation === 'M' || operation === 'R' || operation === 'C' || operation === 'MM',
             'text-danger': operation === 'D',
           })}
         >
