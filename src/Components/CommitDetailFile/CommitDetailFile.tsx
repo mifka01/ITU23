@@ -7,13 +7,13 @@
 
 import clsx from 'clsx'
 
-interface CommitDetailProps {
+interface CommitDetailFileProps {
   operation?: string
   file?: string
   dir?: string
 }
 
-function CommitDetailFile({ operation, file, dir }: CommitDetailProps) {
+function CommitDetailFile({ operation, file, dir }: CommitDetailFileProps) {
   return (
     <>
       <div>
