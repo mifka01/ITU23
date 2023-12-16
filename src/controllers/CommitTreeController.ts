@@ -11,7 +11,7 @@ import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
 
-const HISTORY_MAX_COUNT = 50
+const HISTORY_MAX_COUNT = 10
 
 type CommitEntry = { message: string; hash: string }
 
