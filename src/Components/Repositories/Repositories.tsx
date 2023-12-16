@@ -23,6 +23,7 @@ interface RepositoriesProps {
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
   setRefreshStashes?: Dispatch<SetStateAction<boolean>>
+  setCurrentFile?: Dispatch<SetStateAction<string | undefined>>
 }
 
 type RepositoryEntry = {
@@ -38,6 +39,7 @@ function Repositories({
   setRefreshStage,
   setRefreshBranches,
   setRefreshStashes,
+  setCurrentFile
 }: RepositoriesProps) {
   const [repositories, setRepositories] = useState<RepositoryEntry[]>([])
 
@@ -55,7 +57,12 @@ function Repositories({
   const handleChange = async (event: MouseEvent<HTMLButtonElement>) => {
     const path = event.currentTarget.dataset['path']
     const response = await window.app.setCWD(path)
-    if (!response.status) fetchRepositories()
+    if (!response.status && response.payload) {
+      fetchRepositories()
+      if(response.payload.changeCurrentFile){
+        setCurrentFile?.('No file selected')
+      }
+    }
   }
 
   const fetchRepositories = async () => {

@@ -44,8 +44,13 @@ export class Git {
    * @param directoryPath - The path to the directory.
    */
   async setCWD(directoryPath: string) {
+    let isSame = false
+    if(this.options.baseDir === directoryPath){
+      isSame = true
+    }
     this.options.baseDir = directoryPath
     this.git = simpleGit(this.options)
+    return isSame
   }
 
   /**

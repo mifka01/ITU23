@@ -72,6 +72,7 @@ function App() {
               setRefreshStage={setRefreshStage}
               setRefreshBranches={setRefreshBranches}
               setRefreshStashes={setRefreshStashes}
+              setCurrentFile={setCurrentFile}
             />
             <div className='clipping-container'>
               <Portal showModal={showModal} {...modal} />

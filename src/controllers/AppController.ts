@@ -61,8 +61,8 @@ export const AppController: IController = {
      */
     async setCWD(_: IpcMainInvokeEvent, path: string) {
       try {
-        await git.setCWD(path)
-        return ResponseSuccess()
+        let sameDir = await git.setCWD(path)
+        return ResponseSuccess({changeCurrentFile: !sameDir})
       } catch {
         return ResponseError()
       }
