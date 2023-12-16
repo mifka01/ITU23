@@ -12,7 +12,7 @@ import { git } from '../models/Git'
 import { log } from '../models/Log'
 import path from 'path'
 
-const HISTORY_MAX_COUNT = 50
+const HISTORY_MAX_COUNT = 10
 
 type CommitEntry = { message: string; hash: string }
 type CommitDetailEntry = {
