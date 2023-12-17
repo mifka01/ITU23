@@ -20,14 +20,22 @@ function Button({
   title,
   ...props
 }: ComponentPropsWithoutRef<'button'>) {
-  const tooltip = <Tooltip id='tooltip'>{title}</Tooltip>
+  const tooltip = (
+    <Tooltip id='tooltip' style={{ position: 'fixed' }}>
+      {title}
+    </Tooltip>
+  )
   const button = (
     <button className={clsx('btn m-0 p-0', className)} {...props}>
       {children}
     </button>
   )
   return title ? (
-    <OverlayTrigger placement='auto' overlay={tooltip} delay={{show: 1000, hide:500}}>
+    <OverlayTrigger
+      placement='auto'
+      overlay={tooltip}
+      delay={{ show: 1000, hide: 500 }}
+    >
       {button}
     </OverlayTrigger>
   ) : (
