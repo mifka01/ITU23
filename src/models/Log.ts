@@ -1,8 +1,7 @@
 /**
  * @file Log.ts
  * @brief Model for managing logging
- * @author Radim Mifka (xmifka00)
- * @author Miroslav Bálek (xbalek02)
+ * @author Michal Zapletal (xzaple41)
  * @date October 2023
  */
 

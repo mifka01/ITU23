@@ -32,6 +32,8 @@ function Diff({ currentFile, setWindowData, setRefreshLog }: Path) {
     if (!response.status && response.payload) {
       setData(response.payload.data)
       setRefreshLog?.(true)
+    }else {
+      setRefreshLog?.(true)
     }
   }
 

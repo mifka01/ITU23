@@ -3,6 +3,7 @@
  * @brief API for the Git object.
  * @author Radim Mifka (xmifka00)
  * @author Miroslav Bálek (xbalek02)
+ * @author Michal Zapletal (xzaple41)
  * @date October 2023
  */
 
@@ -35,6 +36,7 @@ export const git = {
 
   /**
    * Pushes changes to the remote Git repository.
+   * @author Michal Zapletal (xzaple41)
    * @param data - The path to the repository.
    * @returns A promise that resolves to the response from the Git push operation.
    */
@@ -44,6 +46,7 @@ export const git = {
 
   /**
    * Pulls changes from the remote Git repository.
+   * @author Michal Zapletal (xzaple41)
    * @param data - The path to the repository.
    * @returns A promise that resolves to the response from the Git pull operation.
    */
@@ -131,6 +134,7 @@ export const git = {
 
   /**
    * Retrieves the diff of a file in the Git repository.
+   * @author Michal Zapletal (xzaple41)
    * @param path - The path to the file.
    * @returns A promise that resolves to the response from the Git getDiff operation.
    */
@@ -212,6 +216,7 @@ export const git = {
 
   /**
    * Reverts last commit.
+   * @author Michal Zapletal (xzaple41)
    * @returns A promise that resolves git revert operation.
    */
   revert: (): Promise<any> => {
@@ -220,6 +225,7 @@ export const git = {
 
   /**
    * Fetch all branches from remote to local.
+   * @author Michal Zapletal (xzaple41)
    * @returns A promise that resolves git fetch operation.
    */
   fetch: (): Promise<any> => {
@@ -228,6 +234,7 @@ export const git = {
 
   /**
    * Renames last commit.
+   * @author Michal Zapletal (xzaple41)
    * @param message - New commit message.
    * @returns A promise that resolves to the response from the Git commit --amend operation.
    */

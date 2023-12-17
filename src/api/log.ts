@@ -1,7 +1,7 @@
 /**
  * @file api/log.ts
  * @brief API for the Log object.
- * @author Miroslav Bálek (xbalek02)
+ * @author Michal Zapletal (xzaple41)
  * @date October 2023
  */
 
