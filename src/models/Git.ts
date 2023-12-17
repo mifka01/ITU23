@@ -204,6 +204,7 @@ export class Git {
 
   /**
    * Commits in the commit history.
+   * @author Miroslav Bálek (xbalek02)
    * @param maxCount - The maximum number of commits to retrieve.
    * @returns A promise that resolves with the commits in the commit history.
    */
@@ -213,6 +214,7 @@ export class Git {
 
   /**
    * Retrieves detail of commit specified by hash
+   * @author Miroslav Bálek (xbalek02)
    * @param hash - The hash specifying commit.
    * @returns A promise that resolves with the commits in the commit history.
    */
@@ -222,6 +224,7 @@ export class Git {
 
   /**
    * Retrieves changed files in commit
+   * @author Miroslav Bálek (xbalek02)
    * @param hash - The hash specifying commit.
    * @returns A promise that resolves with the commits in the commit history.
    */
@@ -231,6 +234,7 @@ export class Git {
 
   /**
    * Creates a new branch.
+   * @author Miroslav Bálek (xbalek02)
    * @param name - The name of the new branch.
    * @returns A promise that resolves when the branch is created.
    */
@@ -240,6 +244,7 @@ export class Git {
 
   /**
    * Gets the list of stashes.
+   * @author Miroslav Bálek (xbalek02)
    * @returns A promise that resolves with the list of stashes.
    */
   async stashes() {
@@ -248,6 +253,7 @@ export class Git {
 
   /**
    * Stashes changes.
+   * @author Miroslav Bálek (xbalek02)
    * @param message - The stash message.
    * @returns A promise that resolves when the stash operation is complete.
    */
@@ -257,6 +263,7 @@ export class Git {
 
   /**
    * Drops a stash.
+   * @author Miroslav Bálek (xbalek02)
    * @param index - The index of the stash to drop.
    * @returns A promise that resolves when the stash is dropped.
    */
@@ -266,6 +273,7 @@ export class Git {
 
   /**
    * Pops a stash.
+   * @author Miroslav Bálek (xbalek02)
    * @param index - The index of the stash to pop.
    * @returns A promise that resolves when the stash is popped.
    */
@@ -275,6 +283,7 @@ export class Git {
 
   /**
    * Applies a stash.
+   * @author Miroslav Bálek (xbalek02)
    * @param index - The index of the stash to apply.
    * @returns A promise that resolves when the stash is applied.
    */

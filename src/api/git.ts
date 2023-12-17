@@ -153,6 +153,7 @@ export const git = {
 
   /**
    * Commits the history of changes in the Git repository.
+   * @author Miroslav Bálek (xbalek02)
    * @param maxCount - The maximum number of commits to include in the history.
    * @returns A promise that resolves to the response from the Git history operation.
    */
@@ -162,6 +163,7 @@ export const git = {
 
   /**
    * Retrieves detail of commit specified by hash
+   * @author Miroslav Bálek (xbalek02)
    * @param hash - The hash of the commit for which you want to retrieve details.
    * @returns A promise that resolves to the response from the Git commit_detail operation.
    */
@@ -171,6 +173,7 @@ export const git = {
 
   /**
    * Retrieves the stashes in the Git repository.
+   * @author Miroslav Bálek (xbalek02)
    * @param name - The name of the stash.
    * @returns A promise that resolves to the response from the Git stashes operation.
    */
@@ -180,6 +183,7 @@ export const git = {
 
   /**
    * Pushes changes to a stash in the Git repository.
+   * @author Miroslav Bálek (xbalek02)
    * @param name - The name of the stash.
    * @returns A promise that resolves to the response from the Git stash_push operation.
    */
@@ -189,6 +193,7 @@ export const git = {
 
   /**
    * Applies changes from a stash in the Git repository.
+   * @author Miroslav Bálek (xbalek02)
    * @param hash - The hash of the stash.
    * @returns A promise that resolves to the response from the Git stash_apply operation.
    */
@@ -198,6 +203,7 @@ export const git = {
 
   /**
    * Pops changes from a stash in the Git repository.
+   * @author Miroslav Bálek (xbalek02)
    * @param hash - The hash of the stash.
    * @returns A promise that resolves to the response from the Git stash_pop operation.
    */
@@ -207,6 +213,7 @@ export const git = {
 
   /**
    * Drops a stash from the Git repository.
+   * @author Miroslav Bálek (xbalek02)
    * @param hash - The hash of the stash.
    * @returns A promise that resolves to the response from the Git stash_drop operation.
    */
