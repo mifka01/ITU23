@@ -54,11 +54,11 @@ function Stashes({
           <>
             <span>Please provide a stash name</span>
             <input
-              type='text'
-              name='stash'
+              type="text"
+              name="stash"
               style={{ resize: 'none' }}
-              className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
-              placeholder='Stash name'
+              className="form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3"
+              placeholder="Stash name"
               defaultValue={newStashRef.current}
               onChange={handleChange}
             />
@@ -164,11 +164,18 @@ function Stashes({
   }, [])
 
   return (
-    <div className='col-12 text-start text-beige'>
+    <div className="col-12 text-start text-beige">
       <CollapseList
         heading={'Stashes'}
-        buttons={[{ text: Plus, onClick: handleCreate }]}
-        className='border-top border-bottom border-davygray'
+        buttons={[
+          {
+            text: Plus,
+            onClick: handleCreate,
+            tooltip:
+              'Save staged changes to the stash. This action allows you to temporarily store your staged changes for later use or switching branches without committing.',
+          },
+        ]}
+        className="border-top border-bottom border-davygray"
         items={stashes.map((stash: StashEntry, index: number) => (
           <ListItem
             key={stash.message}
@@ -178,27 +185,27 @@ function Stashes({
                 <Button
                   data-message={stash.message}
                   data-index={index}
-                  className='text-white border-0 pe-1'
+                  className="text-white border-0 pe-1"
                   onClick={handlePop}
-                  title='pop stash'
+                  title="Apply changes from the stash and remove them from the stash stack."
                 >
                   <ArchiveRestore size={15} />
                 </Button>
                 <Button
                   data-message={stash.message}
                   data-index={index}
-                  className='text-white border-0 pe-1'
+                  className="text-white border-0 pe-1"
                   onClick={handleApply}
-                  title='apply stash'
+                  title="Apply changes from the stash to the working directory without removing them from the stash stack."
                 >
                   <Archive size={15} />
                 </Button>
                 <Button
                   data-message={stash.message}
                   data-index={index}
-                  className='text-white border-0'
+                  className="text-white border-0"
                   onClick={handleDrop}
-                  title='drop stash'
+                  title="Remove changes from the stash without applying them to the working directory."
                 >
                   <Minus size={15} />
                 </Button>
