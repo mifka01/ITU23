@@ -172,7 +172,7 @@ function Stashes({
             text: Plus,
             onClick: handleCreate,
             tooltip:
-              'Save staged changes to the stash. This action allows you to temporarily store your staged changes for later use or switching branches without committing.',
+              'Stash save - Save staged changes to the stash. This action allows you to temporarily store your staged changes for later use or switching branches without committing.',
           },
         ]}
         className="border-top border-bottom border-davygray"
@@ -187,7 +187,7 @@ function Stashes({
                   data-index={index}
                   className="text-white border-0 pe-1"
                   onClick={handlePop}
-                  title="Apply changes from the stash and remove them from the stash stack."
+                  title="Stash pop - Apply changes from the stash and remove them from the stash stack."
                 >
                   <ArchiveRestore size={15} />
                 </Button>
@@ -196,7 +196,7 @@ function Stashes({
                   data-index={index}
                   className="text-white border-0 pe-1"
                   onClick={handleApply}
-                  title="Apply changes from the stash to the working directory without removing them from the stash stack."
+                  title="Stash apply - Apply changes from the stash to the working directory without removing them from the stash stack."
                 >
                   <Archive size={15} />
                 </Button>
@@ -205,7 +205,7 @@ function Stashes({
                   data-index={index}
                   className="text-white border-0"
                   onClick={handleDrop}
-                  title="Remove changes from the stash without applying them to the working directory."
+                  title="Stash drop - Remove changes from the stash without applying them to the working directory."
                 >
                   <Minus size={15} />
                 </Button>
