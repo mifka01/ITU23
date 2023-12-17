@@ -90,15 +90,16 @@ function Menu({
       setModal({
         children: (
           <>
-            <span>New name of last commit</span><br/>
-            <span className={'text-danger'}>WARNING: </span>
-            <span>On rename commits all staged changes.</span>
+            <span>Change last commit message</span>
+            <br />
+            <span className={'text-danger small'}>WARNING: </span>
+            <span className='small'>Includes all staged changes.</span>
             <input
               type='text'
               name='commit_name'
               style={{ resize: 'none' }}
               className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
-              placeholder='Stash name'
+              placeholder='New commit message'
               defaultValue={commitMessage.current}
               onChange={handleCommitMessageChange}
             />
@@ -157,7 +158,8 @@ function Menu({
       Icon: RotateCw,
       text: 'amend',
       onClick: handleAmend,
-      tooltip: 'Renames last commit. Only non-pushed commits can be renamed. Into renamed commit adds all actually staged changes.',
+      tooltip:
+        'Renames last commit. Only non-pushed commits can be renamed. Into renamed commit adds all actually staged changes.',
     },
   ]
 
