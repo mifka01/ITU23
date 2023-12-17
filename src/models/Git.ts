@@ -3,6 +3,7 @@
  * @brief Wrapper for SimpleGit Model
  * @author Radim Mifka (xmifka00)
  * @author Miroslav Bálek (xbalek02)
+ * @author Michal Zapletal (xzaple41)
  * @date October 2023
  */
 
@@ -84,6 +85,7 @@ export class Git {
 
   /**
    * Pulls changes from the remote repository.
+   * @author Michal Zapletal (xzaple41)
    * @returns A promise that resolves with the result of the pull operation.
    */
   async pull(): Promise<PullResult> {
@@ -94,6 +96,7 @@ export class Git {
 
   /**
    * Pushes changes to the remote repository.
+   * @author Michal Zapletal (xzaple41)
    * @returns A promise that resolves with the result of the push operation.
    */
   async push(): Promise<PushResult> {
@@ -195,6 +198,7 @@ export class Git {
 
   /**
    * Gets the diff of a file.
+   * @author Michal Zapletal (xzaple41)
    * @param path - The path of the file to get the diff for.
    * @returns A promise that resolves with the diff of the file.
    */
@@ -293,6 +297,7 @@ export class Git {
 
   /**
    * Applies a revert of last commit.
+   * @author Michal Zapletal (xzaple41)
    * @returns A promise that contains last commit name.
    * @returns A promise with undefined if there are no commits.
    */
@@ -310,6 +315,7 @@ export class Git {
 
   /**
    * Applies a fetch on current repository.
+   * @author Michal Zapletal (xzaple41)
    * @returns A promise with FetchResult.
    */
   async fetch() {
@@ -318,6 +324,7 @@ export class Git {
 
   /**
    * Renames last commit if available. Throws error on failure.
+   * @author Michal Zapletal (xzaple41)
    * @param message - new commit message.
    * @returns A promise that contains CommitResult.
    * @returns On failure returns no value. Throws error.
