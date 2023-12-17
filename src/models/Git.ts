@@ -33,6 +33,7 @@ export class Git {
 
   /**
    * Creates a new instance of the Git class.
+   * @author Radim Mifka (xmifka00)
    * @param options - The options for configuring the Git instance.
    */
   constructor(options: Partial<SimpleGitOptions>) {
@@ -42,6 +43,7 @@ export class Git {
 
   /**
    * Sets the current working directory for the Git instance.
+   * @author Radim Mifka (xmifka00)
    * @param directoryPath - The path to the directory.
    */
   async setCWD(directoryPath: string) {
@@ -51,6 +53,7 @@ export class Git {
 
   /**
    * Gets the current working directory for the Git instance.
+   * @author Radim Mifka (xmifka00)
    * @returns The current working directory path.
    */
   getCWD(): string | undefined {
@@ -59,6 +62,7 @@ export class Git {
 
   /**
    * Clones a repository from the specified URL to the specified destination.
+   * @author Radim Mifka (xmifka00)
    * @param repositoryUrl - The URL of the repository to clone.
    * @param destination - The destination path where the repository will be cloned.
    * @returns A promise that resolves when the clone operation is complete.
@@ -69,6 +73,7 @@ export class Git {
 
   /**
    * Gets the current branch of the repository.
+   * @author Radim Mifka (xmifka00)
    * @returns A promise that resolves with the name of the current branch.
    */
   async getCurrentBranch(): Promise<string> {
@@ -77,6 +82,7 @@ export class Git {
 
   /**
    * Gets the remote origins of the repository.
+   * @author Radim Mifka (xmifka00)
    * @returns A promise that resolves with an array of remote origins.
    */
   async getOrigins(): Promise<RemoteWithoutRefs[]> {
@@ -107,6 +113,7 @@ export class Git {
 
   /**
    * Gets the status of the repository.
+   * @author Radim Mifka (xmifka00)
    * @returns A promise that resolves with the status of the repository.
    */
   async status(): Promise<StatusResult> {
@@ -115,6 +122,7 @@ export class Git {
 
   /**
    * Adds a file or all files to the staging area.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path of the file to add. If not specified, all files will be added.
    * @returns A promise that resolves with the result of the add operation.
    */
@@ -124,6 +132,7 @@ export class Git {
 
   /**
    * Unstages a file or all files from the staging area.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path of the file to unstage. If not specified, all files will be unstaged.
    * @returns A promise that resolves with the result of the unstage operation.
    */
@@ -134,6 +143,7 @@ export class Git {
 
   /**
    * Discards changes to a file by unstaging it and checking out the file from the HEAD commit.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path of the file to discard changes for.
    * @returns A promise that resolves when the discard operation is complete.
    */
@@ -144,6 +154,7 @@ export class Git {
 
   /**
    * Discards all unstaged changes in the repository.
+   * @author Radim Mifka (xmifka00)
    * @returns A promise that resolves when the discard operation is complete.
    */
   async discard_unstaged() {
@@ -153,6 +164,7 @@ export class Git {
 
   /**
    * Removes a file from the repository.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path of the file to remove.
    * @returns A promise that resolves when the remove operation is complete.
    */
@@ -163,6 +175,7 @@ export class Git {
 
   /**
    * Commits changes to the repository.
+   * @author Radim Mifka (xmifka00)
    * @param message - The commit message.
    * @returns A promise that resolves when the commit operation is complete.
    */
@@ -172,6 +185,7 @@ export class Git {
 
   /**
    * Gets the local branches of the repository.
+   * @author Radim Mifka (xmifka00)
    * @returns A promise that resolves with an array of local branches.
    */
   async branches() {
@@ -180,6 +194,7 @@ export class Git {
 
   /**
    * Checks out the specified branch.
+   * @author Radim Mifka (xmifka00)
    * @param name - The name of the branch to checkout.
    * @returns A promise that resolves when the checkout operation is complete.
    */
@@ -189,6 +204,7 @@ export class Git {
 
   /**
    * Deletes the specified branch.
+   * @author Radim Mifka (xmifka00)
    * @param name - The name of the branch to delete.
    * @returns A promise that resolves when the delete operation is complete.
    */
@@ -341,6 +357,7 @@ export class Git {
 
   /**
    * Initialize directory
+   * @author Radim Mifka (xmifka00)
    * @param path - Directory to initialize
    * @returns A promise with git init result
    */

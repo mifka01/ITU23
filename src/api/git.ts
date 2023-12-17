@@ -18,6 +18,7 @@ export const git = {
 
   /**
    * Commits changes to the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param data - The commit message.
    * @returns A promise that resolves to the response from the Git commit operation.
    */
@@ -27,6 +28,7 @@ export const git = {
 
   /**
    * Retrieves the status of the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param data - The path to the repository.
    * @returns A promise that resolves to the response from the Git status operation.
    */
@@ -56,6 +58,7 @@ export const git = {
 
   /**
    * Adds a file to the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path to the file.
    * @returns A promise that resolves to the response from the Git add operation.
    */
@@ -65,6 +68,7 @@ export const git = {
 
   /**
    * Unstages a file in the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path to the file.
    * @returns A promise that resolves to the response from the Git unstage operation.
    */
@@ -74,6 +78,7 @@ export const git = {
 
   /**
    * Discards changes to a file in the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path to the file.
    * @returns A promise that resolves to the response from the Git discard operation.
    */
@@ -83,6 +88,7 @@ export const git = {
 
   /**
    * Discards all unstaged changes in the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @returns A promise that resolves to the response from the Git discard_unstaged operation.
    */
   discard_unstaged: (): Promise<Response> => {
@@ -91,6 +97,7 @@ export const git = {
 
   /**
    * Removes a file from the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param file - The path to the file.
    * @returns A promise that resolves to the response from the Git rm operation.
    */
@@ -99,15 +106,8 @@ export const git = {
   },
 
   /**
-   * Retrieves the current working directory of the Git repository.
-   * @returns A promise that resolves to the response from the Git cwd operation.
-   */
-  cwd: (): Promise<Response> => {
-    return ipcRenderer.invoke(`${git.prefix}:cwd`)
-  },
-
-  /**
    * Retrieves the branches in the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @returns A promise that resolves to the response from the Git branches operation.
    */
   branches: (): Promise<Response> => {
@@ -116,6 +116,7 @@ export const git = {
 
   /**
    * Checks out a branch in the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param name - The name of the branch.
    * @returns A promise that resolves to the response from the Git checkout_branch operation.
    */
@@ -125,6 +126,7 @@ export const git = {
 
   /**
    * Deletes a branch in the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param name - The name of the branch.
    * @returns A promise that resolves to the response from the Git delete_branch operation.
    */
@@ -144,6 +146,7 @@ export const git = {
 
   /**
    * Creates a new branch in the Git repository.
+   * @author Radim Mifka (xmifka00)
    * @param name - The name of the branch.
    * @returns A promise that resolves to the response from the Git create_branch operation.
    */

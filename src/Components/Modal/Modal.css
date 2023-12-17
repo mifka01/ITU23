@@ -1,3 +1,10 @@
+/**
+ * @file components/Modal.css
+ * @brief CSS for Modal 
+ * @author Radim Mifka (xmifka00)
+ * @date December 2023
+ */
+
 .backdrop {
   background: rgba(0, 0, 0, 0.5);
   animation: fadeIn 0.5s;

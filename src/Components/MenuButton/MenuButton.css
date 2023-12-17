@@ -3,12 +3,6 @@
 /* @author Michal Zapletal (xzaple41) */
 /* @date October 2023 */
 
-/* 
-* TODO:
-* Add media queries so its responsive
-* 
-* */
-
 .btn-square {
   max-width: 100% !important;
   max-height: 100% !important;
