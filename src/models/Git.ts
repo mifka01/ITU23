@@ -315,13 +315,21 @@ export class Git {
    */
   async amend(message: string) {
     let result = await this.git.status()
-    console.log(result.ahead)
     if (result.ahead > 0)
       return this.git.commit(message, { '--amend': null }, (err, summary) => {
         void err
         void summary
       })
     throw Error
+  }
+
+  /**
+   * Initialize directory
+   * @param path - Directory to initialize
+   * @returns A promise with git init result
+   */
+  async init(path: string) {
+    return this.git.init([path])
   }
 }
 

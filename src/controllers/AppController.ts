@@ -7,7 +7,7 @@
 
 import { BrowserWindow, IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
-import { openFolderDialog, writeJson } from '../electron/utils'
+import { openFolderDialog, hasGitFolder, writeJson } from '../electron/utils'
 import { REPOSITORIES_FILE } from '../shared/constants'
 import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
@@ -40,6 +40,9 @@ export const AppController: IController = {
       await openFolderDialog(win)
         .then((selectedDirectory: string | undefined) => {
           if (selectedDirectory) {
+            if (!hasGitFolder(selectedDirectory)) {
+              git.init(selectedDirectory)
+            }
             git.setCWD(selectedDirectory)
             writeJson(REPOSITORIES_FILE, selectedDirectory)
           } else {

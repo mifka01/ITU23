@@ -7,7 +7,7 @@
 
 import { ipcMain, IpcMainInvokeEvent, BrowserWindow, dialog } from 'electron'
 import { IController } from 'interfaces/IController'
-import { readFileSync, existsSync, writeFileSync } from 'fs'
+import { readFileSync, existsSync, writeFileSync, statSync } from 'fs'
 
 /**
  * Removes duplicate elements from an array.
@@ -62,6 +62,19 @@ export function openFolderDialog(
         reject(err)
       })
   })
+}
+
+export function hasGitFolder(path: string): boolean {
+  const gitFolderPath = `${path}/.git`
+
+  try {
+    const isGitFolder =
+      existsSync(gitFolderPath) && statSync(gitFolderPath).isDirectory()
+    return isGitFolder
+  } catch (error: unknown) {
+    console.error(`Error checking for .git folder: ${String(error)}`)
+    return false
+  }
 }
 
 /**
