@@ -90,7 +90,9 @@ function Menu({
       setModal({
         children: (
           <>
-            <span>New name of last commit</span>
+            <span>New name of last commit</span><br/>
+            <span className={'text-danger'}>WARNING: </span>
+            <span>On rename commits all staged changes.</span>
             <input
               type='text'
               name='commit_name'
@@ -155,7 +157,7 @@ function Menu({
       Icon: RotateCw,
       text: 'amend',
       onClick: handleAmend,
-      tooltip: 'Renames last commit. Only non-pushed commits can be renamed.',
+      tooltip: 'Renames last commit. Only non-pushed commits can be renamed. Into renamed commit adds all actually staged changes.',
     },
   ]
 
