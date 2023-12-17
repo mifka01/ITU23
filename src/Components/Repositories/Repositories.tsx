@@ -19,7 +19,7 @@ import {
 
 interface RepositoriesProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
   setRefreshStashes?: Dispatch<SetStateAction<boolean>>
@@ -34,7 +34,7 @@ type RepositoryEntry = {
 
 function Repositories({
   setRefreshLog,
-  setRefreshCommitTree,
+  setRefreshCommitHistory,
   setRefreshStage,
   setRefreshBranches,
   setRefreshStashes,
@@ -63,7 +63,7 @@ function Repositories({
 
     if (!response.status && response.payload) {
       setRepositories(response.payload.repositories)
-      setRefreshCommitTree?.(true)
+      setRefreshCommitHistory?.(true)
       setRefreshStage?.(true)
       setRefreshBranches?.(true)
       setRefreshStashes?.(true)

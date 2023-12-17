@@ -22,14 +22,14 @@ interface Props {
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
 }
 function Menu({
   setRefreshLog,
   setShowModal,
   setModal,
   setRefreshBranches,
-  setRefreshCommitTree,
+  setRefreshCommitHistory: setRefreshCommitHistory,
 }: Props) {
   const commitMessage = useRef<string>('')
 
@@ -63,7 +63,7 @@ function Menu({
               await window.git.revert()
               setRefreshLog?.(true)
               setShowModal?.(false)
-              setRefreshCommitTree?.(true)
+              setRefreshCommitHistory?.(true)
             },
           },
         ],
@@ -118,7 +118,7 @@ function Menu({
               await window.git.amend(commitMessage.current)
               setRefreshLog?.(true)
               setShowModal?.(false)
-              setRefreshCommitTree?.(true)
+              setRefreshCommitHistory?.(true)
             },
           },
         ],

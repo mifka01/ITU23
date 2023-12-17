@@ -1,6 +1,6 @@
 /**
- * @file components/CommitTree.tsx
- * @brief Commit tree component
+ * @file components/CommmitHistory.tsx
+ * @brief Commit history component
  * @author Bálek Miroslav (xbalek02)
  * @date December 2023
  */
@@ -9,9 +9,9 @@ import CollapseList from 'components/CollapseList'
 import CommitItem from 'components/CommitItem'
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 
-interface CommitTreeProps {
-  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
-  refreshCommitTree?: boolean
+interface CommitHistoryProps {
+  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
+  refreshCommitHistory?: boolean
   setWindowData?: Dispatch<SetStateAction<WindowData>>
 }
 
@@ -24,40 +24,40 @@ enum WindowDataType {
 
 type WindowData = { value: string; type: WindowDataType } | undefined
 
-function CommitTree({
-  setRefreshCommitTree,
-  refreshCommitTree,
+function CommitHistory({
+  setRefreshCommitHistory,
+  refreshCommitHistory,
   setWindowData,
-}: CommitTreeProps) {
-  const [committree, setCommitTree] = useState<CommitEntry[]>([])
+}: CommitHistoryProps) {
+  const [commithistory, setCommitHistory] = useState<CommitEntry[]>([])
 
-  const fetchCommitTree = async () => {
-    const response = await window.git.commit_tree()
+  const fetchCommitHistory = async () => {
+    const response = await window.git.commit_history()
 
     if (!response.status && response.payload)
-      setCommitTree(response.payload.commit_tree)
+      setCommitHistory(response.payload.commit_history)
   }
 
   useEffect(() => {
-    if (refreshCommitTree) {
-      fetchCommitTree()
-      setRefreshCommitTree?.(false)
+    if (refreshCommitHistory) {
+      fetchCommitHistory()
+      setRefreshCommitHistory?.(false)
     }
-  }, [refreshCommitTree])
+  }, [refreshCommitHistory])
 
   useEffect(() => {
-    window.app.request_refresh(fetchCommitTree)
-    fetchCommitTree()
+    window.app.request_refresh(fetchCommitHistory)
+    fetchCommitHistory()
     return () => {
-      window.app.request_refresh(fetchCommitTree, true)
+      window.app.request_refresh(fetchCommitHistory, true)
     }
   }, [])
 
   return (
     <CollapseList
-      heading={'Commit Tree'}
+      heading={'Commit History'}
       className='border-top border-bottom border-davygray'
-      items={committree.map((commit: CommitEntry) => (
+      items={commithistory.map((commit: CommitEntry) => (
         <CommitItem
           key={commit.hash}
           message={<small>{commit.message}</small>}
@@ -73,4 +73,4 @@ function CommitTree({
   )
 }
 
-export default CommitTree
+export default CommitHistory

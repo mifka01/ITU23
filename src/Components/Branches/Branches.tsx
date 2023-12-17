@@ -22,7 +22,7 @@ import {
 
 interface BranchesProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
@@ -33,7 +33,7 @@ type BranchEntry = { name: string; current: boolean }
 
 function Branches({
   setRefreshLog,
-  setRefreshCommitTree,
+  setRefreshCommitHistory,
   setModal,
   setShowModal,
   setRefreshBranches,
@@ -135,7 +135,7 @@ function Branches({
 
     if (!response.status && response.payload) {
       setBranches(response.payload.branches)
-      setRefreshCommitTree?.(true)
+      setRefreshCommitHistory?.(true)
     }
     setRefreshLog?.(true)
   }

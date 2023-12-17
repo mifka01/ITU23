@@ -34,7 +34,7 @@ type Buttons = {
 
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
   setShowModal?: Dispatch<SetStateAction<boolean>>
   setModal?: Dispatch<SetStateAction<ModalProps>>
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
@@ -46,7 +46,7 @@ interface StageProps {
 
 function Stage({
   setRefreshLog,
-  setRefreshCommitTree,
+  setRefreshCommitHistory,
   setShowModal,
   setModal,
   setRefreshStage,
@@ -150,7 +150,7 @@ function Stage({
       <Commit
         afterSubmit={() => {
           fetchStatus()
-          setRefreshCommitTree?.(true)
+          setRefreshCommitHistory?.(true)
         }}
       />
       <CollapseList

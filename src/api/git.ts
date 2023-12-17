@@ -148,12 +148,12 @@ export const git = {
   },
 
   /**
-   * Commits the tree of changes in the Git repository.
-   * @param maxCount - The maximum number of commits to include in the tree.
-   * @returns A promise that resolves to the response from the Git commit_tree operation.
+   * Commits the history of changes in the Git repository.
+   * @param maxCount - The maximum number of commits to include in the history.
+   * @returns A promise that resolves to the response from the Git history operation.
    */
-  commit_tree: (maxCount: number): Promise<Response> => {
-    return ipcRenderer.invoke(`${git.prefix}:commit_tree`, maxCount)
+  commit_history: (maxCount: number): Promise<Response> => {
+    return ipcRenderer.invoke(`${git.prefix}:commit_history`, maxCount)
   },
 
     /**

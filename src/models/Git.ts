@@ -203,18 +203,18 @@ export class Git {
   }
 
   /**
-   * Commits in the commit tree.
+   * Commits in the commit history.
    * @param maxCount - The maximum number of commits to retrieve.
-   * @returns A promise that resolves with the commits in the commit tree.
+   * @returns A promise that resolves with the commits in the commit history.
    */
-  async commit_tree(maxCount: number) {
+  async commit_history(maxCount: number) {
     return this.git.log(['--max-count', String(maxCount)])
   }
 
   /**
    * Retrieves detail of commit specified by hash
    * @param hash - The hash specifying commit.
-   * @returns A promise that resolves with the commits in the commit tree.
+   * @returns A promise that resolves with the commits in the commit history.
    */
   async commit_detail(hash: string) {
     return this.git.log(['-n', '1', String(hash)])
@@ -223,7 +223,7 @@ export class Git {
   /**
    * Retrieves changed files in commit
    * @param hash - The hash specifying commit.
-   * @returns A promise that resolves with the commits in the commit tree.
+   * @returns A promise that resolves with the commits in the commit history.
    */
   async commit_changed_files(hash: string) {
     return this.git.show(['--name-status', '--pretty=format:', String(hash)])

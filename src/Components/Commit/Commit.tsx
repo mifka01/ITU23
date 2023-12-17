@@ -16,8 +16,8 @@ import {
 } from 'react'
 
 interface CommitProps {
-  setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
-  refreshCommitTree?: Dispatch<SetStateAction<boolean>>
+  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
+  refreshCommitHistory?: Dispatch<SetStateAction<boolean>>
   className?: String
   afterSubmit?: () => void
 }

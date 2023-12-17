@@ -12,7 +12,7 @@ import Branches from 'components/Branches'
 import Repositories from 'components/Repositories'
 import Portal from 'components/Portal'
 import Diff from 'components/Diff'
-import CommitTree from 'components/CommitTree'
+import CommitHistory from '@/Components/CommitHistory'
 import Stashes from 'components/Stashes'
 import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
@@ -27,7 +27,7 @@ type WindowData = { value: string; type: WindowDataType } | undefined
 
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
-  const [refreshCommitTree, setRefreshCommitTree] = useState(false)
+  const [refreshCommitHistory, setRefreshCommitHistory] = useState(false)
   const [refreshStage, setRefreshStage] = useState(false)
   const [refreshStashes, setRefreshStashes] = useState(false)
   const [refreshBranches, setRefreshBranches] = useState(false)
@@ -47,14 +47,14 @@ function App() {
             setShowModal={setShowModal}
             setRefreshBranches={setRefreshBranches}
             setModal={setModal}
-            setRefreshCommitTree={setRefreshCommitTree}
+            setRefreshCommitHistory={setRefreshCommitHistory}
           />
         </div>
         <div className='d-flex flex-fill flex-row overflow-y-auto overflow-x-hidden'>
           <div className='d-flex w-25 flex-column border border-davygray'>
             <Stage
               setRefreshLog={setRefreshLog}
-              setRefreshCommitTree={setRefreshCommitTree}
+              setRefreshCommitHistory={setRefreshCommitHistory}
               setShowModal={setShowModal}
               setModal={setModal}
               setRefreshStage={setRefreshStage}
@@ -64,7 +64,7 @@ function App() {
             />
             <Branches
               setRefreshLog={setRefreshLog}
-              setRefreshCommitTree={setRefreshCommitTree}
+              setRefreshCommitHistory={setRefreshCommitHistory}
               setShowModal={setShowModal}
               setModal={setModal}
               setRefreshBranches={setRefreshBranches}
@@ -72,7 +72,7 @@ function App() {
             />
             <Repositories
               setRefreshLog={setRefreshLog}
-              setRefreshCommitTree={setRefreshCommitTree}
+              setRefreshCommitHistory={setRefreshCommitHistory}
               setRefreshStage={setRefreshStage}
               setRefreshBranches={setRefreshBranches}
               setRefreshStashes={setRefreshStashes}
@@ -98,9 +98,9 @@ function App() {
             </div>
           </div>
           <div className='d-flex w-25 flex-column flex-fill border border-davygray border-top-0'>
-            <CommitTree
-              setRefreshCommitTree={setRefreshCommitTree}
-              refreshCommitTree={refreshCommitTree}
+            <CommitHistory
+              setRefreshCommitHistory={setRefreshCommitHistory}
+              refreshCommitHistory={refreshCommitHistory}
               setWindowData={setWindowData}
             />
             <Stashes

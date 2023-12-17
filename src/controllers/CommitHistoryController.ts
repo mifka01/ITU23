@@ -38,21 +38,21 @@ export const CommitHistoryController: IController = {
   prefix: 'git',
   functions: {
     /**
-     * Retrieves the commit tree.
+     * Retrieves the commit history.
      * @param _ The IpcMainInvokeEvent object.
-     * @returns A ResponseSuccess object containing the commit tree entries.
+     * @returns A ResponseSuccess object containing the commit history entries.
      *          If an error occurs, a ResponseError object is returned.
      */
-    async commit_tree(_: IpcMainInvokeEvent) {
+    async commit_history(_: IpcMainInvokeEvent) {
       try {
-        const response = await git.commit_tree(HISTORY_MAX_COUNT)
+        const response = await git.commit_history(HISTORY_MAX_COUNT)
 
         let entries: CommitEntry[] = []
         response.all.forEach((entry: CommitEntry) => {
           entries.push({ message: entry.message, hash: entry.hash })
         })
 
-        return ResponseSuccess({ commit_tree: entries })
+        return ResponseSuccess({ commit_history: entries })
       } catch (error: unknown) {
         log.append('ERROR', String(error))
         return ResponseError()
