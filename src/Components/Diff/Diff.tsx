@@ -80,7 +80,7 @@ function Diff({ currentFile, setWindowData, setRefreshLog }: Path) {
                 {element.line_num}
               </code>
               <code
-                className={clsx('flex-fill bg-opacity-50', {
+                className={clsx('flex-fill bg-opacity-50 ps-1', {
                   'bg-codeok': element.mark === '+',
                   'bg-codenok': element.mark === '-',
                 })}
