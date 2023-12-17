@@ -49,6 +49,11 @@ $theme-colors: map_merge($theme-colors, $custom-colors);
   border-radius: 100px;
 }
 
+.btn {
+  --bs-btn-font-size: none;
+  vertical-align: initial;
+}
+
 .form-control::placeholder {
   color: map-get($custom-colors, 'davygray');
   opacity: 1;
