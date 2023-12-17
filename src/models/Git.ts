@@ -289,7 +289,8 @@ export class Git {
    */
   async revert() {
     let result = await this.git.log(['-1'])
-    if (result.latest !== undefined) {
+    let status = await git.status()
+    if (result.latest !== undefined && status.modified.length === 0) {
       let hash = result.latest?.hash ? result.latest.hash : ''
       this.git.revert(hash)
       return result.latest?.message

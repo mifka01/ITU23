@@ -70,7 +70,7 @@ export const MenuController: IController = {
         return ResponseSuccess()
       }
 
-      log.append('ERROR', 'No existing commits to revert')
+      log.append('ERROR', 'No existing commits to revert or uncommited changes.')
       return ResponseError()
     },
 
