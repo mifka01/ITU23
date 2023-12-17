@@ -1,7 +1,7 @@
 /**
  * @file components/Log.ts
  * @brief Component for command log
- * @author Miroslav Bálek (xbalek02)
+ * @author Michal Zapletal (xzaple41)
  * @date November 2023
  */
 

@@ -1,7 +1,7 @@
 /**
  * @file components/LogMessage.tsx
  * @brief Component for command log message
- * @author Miroslav Bálek (xbalek02)
+ * @author Michal Zapletal (xzaple41)
  * @date November 2023
  */
 
