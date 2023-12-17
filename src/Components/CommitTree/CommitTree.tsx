@@ -12,18 +12,22 @@ import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 interface CommitTreeProps {
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
   refreshCommitTree?: boolean
-  setCurrentCommit?: Dispatch<SetStateAction<string | undefined>>
-  currentCommit?: string | undefined
-  setShowDiff: Dispatch<SetStateAction<boolean>>
+  setWindowData?: Dispatch<SetStateAction<WindowData>>
 }
 
 type CommitEntry = { message: string; hash: string }
 
+enum WindowDataType {
+  TYPE_FILE = 0,
+  TYPE_COMMIT,
+}
+
+type WindowData = { value: string; type: WindowDataType } | undefined
+
 function CommitTree({
   setRefreshCommitTree,
   refreshCommitTree,
-  setCurrentCommit,
-  setShowDiff,
+  setWindowData,
 }: CommitTreeProps) {
   const [committree, setCommitTree] = useState<CommitEntry[]>([])
 
@@ -58,8 +62,10 @@ function CommitTree({
           key={commit.hash}
           message={<small>{commit.message}</small>}
           onClick={() => {
-            setCurrentCommit?.(commit.hash)
-            setShowDiff?.(false)
+            setWindowData?.({
+              value: commit.hash,
+              type: WindowDataType.TYPE_COMMIT,
+            })
           }}
         />
       ))}

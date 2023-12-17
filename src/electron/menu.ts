@@ -25,7 +25,8 @@ export const generateMenu = (win: BrowserWindow) => {
           label: 'Open',
           click: () => {
             openFolderDialog(win)
-              .then((selectedDirectory: string) => {
+              .then((selectedDirectory: string | undefined) => {
+                if (!selectedDirectory) return
                 git.setCWD(selectedDirectory)
                 writeJson(REPOSITORIES_FILE, selectedDirectory)
                 win.reload()

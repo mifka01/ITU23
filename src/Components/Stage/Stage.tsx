@@ -19,6 +19,13 @@ type FileEntry = {
   status: string
 }
 
+enum WindowDataType {
+  TYPE_FILE = 0,
+  TYPE_COMMIT,
+}
+
+type WindowData = { value: string; type: WindowDataType } | undefined
+
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
@@ -27,8 +34,8 @@ interface StageProps {
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   setShowDiff?: Dispatch<SetStateAction<boolean>>
   refreshStage?: boolean
-  setCurrentFile?: Dispatch<SetStateAction<string | undefined>>
-  currentFile?: string | undefined
+  setWindowData?: Dispatch<SetStateAction<WindowData>>
+  windowData?: WindowData
 }
 
 function Stage({
@@ -38,9 +45,8 @@ function Stage({
   setModal,
   setRefreshStage,
   refreshStage,
-  setCurrentFile,
-  currentFile,
-  setShowDiff
+  setWindowData,
+  windowData,
 }: StageProps) {
   const [notAdded, setNotAdded] = useState<FileEntry[]>([])
   const [staged, setStaged] = useState<FileEntry[]>([])
@@ -106,8 +112,14 @@ function Stage({
       setStaged(response.payload.staged)
       setNotAdded(response.payload.not_added)
 
-      if (currentFile && !notAdded.some((entry) => entry.path === currentFile))
-        setCurrentFile?.(undefined)
+      if (
+        windowData &&
+        (!response.payload.not_added.some(
+          (entry: FileEntry) => entry.path === windowData.value,
+        ) ||
+          windowData.type == WindowDataType.TYPE_COMMIT)
+      )
+        setWindowData?.(undefined)
     }
     setRefreshLog?.(true)
   }
@@ -147,8 +159,10 @@ function Stage({
             fileEntry={file}
             status={file.status}
             onClick={() => {
-              setCurrentFile?.(file.path)
-              setShowDiff?.(true)
+              setWindowData?.({
+                value: file.path,
+                type: WindowDataType.TYPE_FILE,
+              })
             }}
           />
         ))}
@@ -166,8 +180,10 @@ function Stage({
             fileEntry={file}
             status={file.status}
             onClick={() => {
-              setCurrentFile?.(file.path)
-              setShowDiff?.(true)
+              setWindowData?.({
+                value: file.path,
+                type: WindowDataType.TYPE_FILE,
+              })
             }}
           />
         ))}

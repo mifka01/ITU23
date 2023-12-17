@@ -44,13 +44,8 @@ export class Git {
    * @param directoryPath - The path to the directory.
    */
   async setCWD(directoryPath: string) {
-    let isSame = false
-    if(this.options.baseDir === directoryPath){
-      isSame = true
-    }
     this.options.baseDir = directoryPath
     this.git = simpleGit(this.options)
-    return isSame
   }
 
   /**
@@ -231,7 +226,7 @@ export class Git {
    * @returns A promise that resolves with the commits in the commit tree.
    */
   async commit_changed_files(hash: string) {
-    return this.git.show(['--name-status','--pretty=format:', String(hash)])
+    return this.git.show(['--name-status', '--pretty=format:', String(hash)])
   }
 
   /**
@@ -317,11 +312,14 @@ export class Git {
    * @returns A promise that contains CommitResult.
    * @returns On failure returns no value. Throws error.
    */
-  async amend(message: string){
+  async amend(message: string) {
     let result = await this.git.status()
     console.log(result.ahead)
-    if(result.ahead > 0)
-      return this.git.commit(message, {'--amend':null}, (err, summary) => { void err; void summary;})
+    if (result.ahead > 0)
+      return this.git.commit(message, { '--amend': null }, (err, summary) => {
+        void err
+        void summary
+      })
     throw Error
   }
 }

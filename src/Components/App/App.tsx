@@ -18,6 +18,13 @@ import { ModalProps } from 'components/Modal'
 import { useState } from 'react'
 import CommitDetail from '../CommitDetail'
 
+enum WindowDataType {
+  TYPE_FILE = 0,
+  TYPE_COMMIT,
+}
+
+type WindowData = { value: string; type: WindowDataType } | undefined
+
 function App() {
   const [refreshLog, setRefreshLog] = useState(false)
   const [refreshCommitTree, setRefreshCommitTree] = useState(false)
@@ -25,9 +32,7 @@ function App() {
   const [refreshStashes, setRefreshStashes] = useState(false)
   const [refreshBranches, setRefreshBranches] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [currentCommit, setCurrentCommit] = useState<string | undefined>(undefined)
-  const [showDiff, setShowDiff] = useState(true)
-  const [currentFile, setCurrentFile] = useState<string | undefined>(undefined)
+  const [windowData, setWindowData] = useState<WindowData>(undefined)
   const [modal, setModal] = useState<ModalProps>({
     children: undefined,
     buttons: [],
@@ -48,15 +53,14 @@ function App() {
         <div className='d-flex flex-fill flex-row overflow-y-auto overflow-x-hidden'>
           <div className='d-flex w-25 flex-column border border-davygray'>
             <Stage
-                setRefreshLog={setRefreshLog}
-                setRefreshCommitTree={setRefreshCommitTree}
-                setShowModal={setShowModal}
-                setModal={setModal}
-                setRefreshStage={setRefreshStage}
-                refreshStage={refreshStage}
-                setCurrentFile={setCurrentFile}
-                currentFile={currentFile}
-                setShowDiff={setShowDiff}
+              setRefreshLog={setRefreshLog}
+              setRefreshCommitTree={setRefreshCommitTree}
+              setShowModal={setShowModal}
+              setModal={setModal}
+              setRefreshStage={setRefreshStage}
+              refreshStage={refreshStage}
+              setWindowData={setWindowData}
+              windowData={windowData}
             />
             <Branches
               setRefreshLog={setRefreshLog}
@@ -72,8 +76,6 @@ function App() {
               setRefreshStage={setRefreshStage}
               setRefreshBranches={setRefreshBranches}
               setRefreshStashes={setRefreshStashes}
-              setCurrentFile={setCurrentFile}
-              setShowDiff={setShowDiff}
             />
             <div className='clipping-container'>
               <Portal showModal={showModal} {...modal} />
@@ -81,7 +83,11 @@ function App() {
           </div>
           <div className='w-50 d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
-              {showDiff ? (<Diff currentFile={currentFile}/>):(<CommitDetail currentCommit={currentCommit}/>)}
+              {windowData?.type == WindowDataType.TYPE_COMMIT ? (
+                <CommitDetail currentCommit={windowData?.value} />
+              ) : (
+                <Diff currentFile={windowData?.value} />
+              )}
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
               <Log
@@ -93,10 +99,9 @@ function App() {
           </div>
           <div className='d-flex w-25 flex-column flex-fill border border-davygray '>
             <CommitTree
-                      setRefreshCommitTree={setRefreshCommitTree}
-                      refreshCommitTree={refreshCommitTree}
-                      setCurrentCommit={setCurrentCommit}
-                      setShowDiff={setShowDiff}
+              setRefreshCommitTree={setRefreshCommitTree}
+              refreshCommitTree={refreshCommitTree}
+              setWindowData={setWindowData}
             />
             <Stashes
               setShowModal={setShowModal}

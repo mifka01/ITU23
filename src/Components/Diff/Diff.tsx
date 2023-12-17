@@ -37,14 +37,14 @@ function Diff({ currentFile }: Path) {
     <>
       <div className='bg-darkpurple text-beige text-start border-bottom border-davygray'>
         <span className='ps-2'>
-          {currentFile ? currentFile : 'No file selected'}
+          {currentFile ? currentFile : 'Neither file nor commit selected'}
         </span>
       </div>
 
       <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
-        {data.map((element,index) => {
+        {data.map((element, index) => {
           return (
-            <div className='d-flex' key={"diff-line-"+index}>
+            <div className='d-flex' key={'diff-line-' + index}>
               <code
                 className={clsx('ps-3 pe-3 bg-opacity-50', {
                   'bg-lineok': element.mark === '+',
