@@ -27,7 +27,7 @@ export const MenuController: IController = {
     async pull(_: IpcMainInvokeEvent) {
       try {
         await git.pull()
-        log.append('COMMAND', `Succesfully Pulled`)
+        log.append('COMMAND', `git pull`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
@@ -46,8 +46,8 @@ export const MenuController: IController = {
         const response = await git.push()
 
         if (response.pushed.pop()?.alreadyUpdated)
-          log.append('COMMAND', `Everything up-to-date`)
-        else log.append('COMMAND', `Pushed to:${response.repo}`)
+          log.append('COMMAND', `git push - Everything up-to-date`)
+        else log.append('COMMAND', `git push - ${response.repo}`)
 
         return ResponseSuccess()
       } catch (error: unknown) {
@@ -66,7 +66,7 @@ export const MenuController: IController = {
       const response = await git.revert()
 
       if(response !== undefined){
-        log.append('COMMAND',`Successfully reverted commit "${response}"`)
+        log.append('COMMAND',`git revert "${response}"`)
         return ResponseSuccess()
       }
 
@@ -83,7 +83,7 @@ export const MenuController: IController = {
     async fetch(_: IpcMainInvokeEvent) {
       try {
         await git.fetch()
-        log.append('COMMAND','Successfully fetched')
+        log.append('COMMAND','git fetch')
         return ResponseSuccess()
       }catch (error: unknown){
         log.append('ERROR',String(error))
@@ -101,7 +101,7 @@ export const MenuController: IController = {
     async amend(_: IpcMainInvokeEvent, message: string) {
       try {
         await git.amend(message)
-        log.append('COMMAND','Successfully renamed last commit')
+        log.append('COMMAND',`git commit --amend -m ${message}`)
         return ResponseSuccess()
       }catch (error: unknown){
         log.append('ERROR','Cant rename commit. Only non-pushed commit can be renamed.')

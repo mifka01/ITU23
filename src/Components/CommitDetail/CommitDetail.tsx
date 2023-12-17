@@ -12,6 +12,7 @@ import { X } from 'lucide-react'
 interface CommitDetailProps {
   currentCommit?: string
   setWindowData?: Dispatch<SetStateAction<WindowData>>
+  setRefreshLog?: Dispatch<SetStateAction<boolean>>
 }
 
 type CommitDetailEntry = {
@@ -36,7 +37,7 @@ enum WindowDataType {
 
 type WindowData = { value: string; type: WindowDataType } | undefined
 
-function CommitDetail({ currentCommit, setWindowData }: CommitDetailProps) {
+function CommitDetail({ currentCommit, setWindowData, setRefreshLog }: CommitDetailProps) {
   const [commitDetails, setCommitDetails] = useState<{
     commit_detail: CommitDetailEntry[]
     changed_files: ChangedFileEntry[]
@@ -50,6 +51,7 @@ function CommitDetail({ currentCommit, setWindowData }: CommitDetailProps) {
 
     if (!response.status && response.payload) {
       setCommitDetails(response.payload)
+      setRefreshLog?.(true)
     }
   }
 

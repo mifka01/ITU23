@@ -12,6 +12,7 @@ import { X } from 'lucide-react'
 interface Path {
   currentFile?: string
   setWindowData?: Dispatch<SetStateAction<WindowData>>
+  setRefreshLog?: Dispatch<SetStateAction<boolean>>
 }
 
 type DiffEntry = { mark: string; line_num: string; line: string }
@@ -23,13 +24,14 @@ enum WindowDataType {
 
 type WindowData = { value: string; type: WindowDataType } | undefined
 
-function Diff({ currentFile, setWindowData }: Path) {
+function Diff({ currentFile, setWindowData, setRefreshLog }: Path) {
   const [data, setData] = useState<DiffEntry[]>([])
 
   const fetchData = async () => {
     const response = await window.git.getDiff(currentFile)
     if (!response.status && response.payload) {
       setData(response.payload.data)
+      setRefreshLog?.(true)
     }
   }
 

@@ -9,6 +9,7 @@ import { IpcMainInvokeEvent } from 'electron'
 import { IController } from 'interfaces/IController'
 import { git } from '../models/Git'
 import { ResponseSuccess, ResponseError } from '../shared/response.ts'
+import { log } from '../models/Log.ts'
 
 /**
  * Represents the processed result od git diff command.
@@ -81,8 +82,10 @@ export const DiffController: IController = {
           res.push(record)
         }
 
+        log.append('COMMAND',`git diff HEAD ${path}`)
         return ResponseSuccess({ data: res })
-      } catch (e) {
+      } catch (error: unknown) {
+        log.append('ERROR',String(error))
         return ResponseError()
       }
     },

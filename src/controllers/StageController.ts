@@ -111,9 +111,9 @@ export const StageController: IController = {
           !response.summary.deletions &&
           !response.summary.insertions
         ) {
-          log.append('COMMAND', `nothing to commit, working tree clean`)
+          log.append('ERROR', `Nothing to commit, working tree clean`)
         } else {
-          log.append('COMMAND', `Commited`)
+          log.append('COMMAND', `git commit -m "${message}" - Successfully commited`)
         }
         return ResponseSuccess()
       } catch (error: unknown) {
@@ -132,7 +132,7 @@ export const StageController: IController = {
     async add(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.add(file)
-        log.append('COMMAND', `Added`)
+        log.append('COMMAND', `git add ${file}`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
@@ -150,7 +150,7 @@ export const StageController: IController = {
     async unstage(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.unstage(file)
-        log.append('COMMAND', `Unstaged`)
+        log.append('COMMAND', `git reset ${file}`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
@@ -168,7 +168,8 @@ export const StageController: IController = {
     async discard(_: IpcMainInvokeEvent, file: string) {
       try {
         await git.discard(file)
-        log.append('COMMAND', `Discard`)
+        log.append('COMMAND', `git reset ${file}`)
+        log.append('COMMAND', `git checkout HEAD -f -- ${file}`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
@@ -185,7 +186,8 @@ export const StageController: IController = {
     async discard_unstaged(_: IpcMainInvokeEvent) {
       try {
         await git.discard_unstaged()
-        log.append('COMMAND', `Discard unstaged`)
+        log.append('COMMAND', `git stash push --keep-index --include untracked`)
+        log.append('COMMAND', `git stash drop 0`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
@@ -203,7 +205,8 @@ export const StageController: IController = {
     async rm(_: IpcMainInvokeEvent, file: string) {
       try {
         await git.rm(file)
-        log.append('COMMAND', `Remove file`)
+        log.append('COMMAND', `git reset ${file}`)
+        log.append('COMMAND', `git clean -f -- ${file}`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
