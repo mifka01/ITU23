@@ -76,6 +76,8 @@ function App() {
               setRefreshStage={setRefreshStage}
               setRefreshBranches={setRefreshBranches}
               setRefreshStashes={setRefreshStashes}
+              setShowModal={setShowModal}
+              setModal={setModal}
             />
             <div className='clipping-container'>
               <Portal showModal={showModal} {...modal} />
@@ -84,9 +86,17 @@ function App() {
           <div className='w-50 d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
               {windowData?.type == WindowDataType.TYPE_COMMIT ? (
-                <CommitDetail currentCommit={windowData?.value} setWindowData={setWindowData} setRefreshLog={setRefreshLog}/>
+                <CommitDetail
+                  currentCommit={windowData?.value}
+                  setWindowData={setWindowData}
+                  setRefreshLog={setRefreshLog}
+                />
               ) : (
-                <Diff currentFile={windowData?.value} setWindowData={setWindowData} setRefreshLog={setRefreshLog}/>
+                <Diff
+                  currentFile={windowData?.value}
+                  setWindowData={setWindowData}
+                  setRefreshLog={setRefreshLog}
+                />
               )}
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>

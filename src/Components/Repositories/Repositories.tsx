@@ -8,6 +8,7 @@
 import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
+import { ModalProps } from 'components/Modal'
 import { Minus, Plus } from 'lucide-react'
 import {
   useState,
@@ -23,6 +24,8 @@ interface RepositoriesProps {
   setRefreshStage?: Dispatch<SetStateAction<boolean>>
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
   setRefreshStashes?: Dispatch<SetStateAction<boolean>>
+  setShowModal?: Dispatch<SetStateAction<boolean>>
+  setModal?: Dispatch<SetStateAction<ModalProps>>
 }
 
 type RepositoryEntry = {
@@ -38,8 +41,12 @@ function Repositories({
   setRefreshStage,
   setRefreshBranches,
   setRefreshStashes,
+  setShowModal,
+  setModal,
 }: RepositoriesProps) {
-  const [repositories, setRepositories] = useState<RepositoryEntry[]>([])
+  const [repositories, setRepositories] = useState<
+    RepositoryEntry[] | undefined
+  >(undefined)
 
   const handleAdd = async () => {
     const response = await window.app.open()
@@ -64,50 +71,76 @@ function Repositories({
       setRepositories(response.payload.repositories)
     setRefreshLog?.(true)
   }
+  useEffect(() => {
+    fetchRepositories()
+  }, [])
 
   useEffect(() => {
     setRefreshStage?.(true)
     setRefreshBranches?.(true)
     setRefreshStashes?.(true)
     setRefreshCommitHistory?.(true)
+    if (repositories?.length == 0) {
+      if (setModal && setShowModal) {
+        setModal({
+          children: <span>First you have to add a repository</span>,
+          buttons: [
+            {
+              text: 'Open',
+              onClick: async () => {
+                handleAdd()
+                setShowModal(false)
+              },
+            },
+          ],
+        })
+        setShowModal(true)
+      }
+    }
   }, [repositories])
-
-  useEffect(() => {
-    fetchRepositories()
-  }, [])
 
   return (
     <CollapseList
       heading={'Repositories'}
       buttons={[{ text: Plus, onClick: handleAdd }]}
       className='border-top border-bottom border-davygray'
-      items={repositories.map((repository: RepositoryEntry) => (
-        <ListItem
-          key={repository.path}
-          start={
-            <span
-              data-path={repository.path}
-              onClick={handleChange}
-              role={'button'}
-            >
-              {repository.filename}
-              <small className='text-davygray ms-2'>{repository.dirname}</small>
-            </span>
-          }
-          hovered={
-            !repository.current && (
-              <Button
-                data-path={repository.path}
-                className='text-white border-0'
-                onClick={handleDelete}
-              >
-                <Minus size={15} />
-              </Button>
-            )
-          }
-          end={repository.current && <span className='text-ecru'>CURRENT</span>}
-        />
-      ))}
+      items={
+        repositories
+          ? repositories.map((repository: RepositoryEntry) => (
+            <ListItem
+              key={repository.path}
+              start={
+                <span
+                  data-path={repository.path}
+                  onClick={handleChange}
+                  role={'button'}
+                >
+                  {repository.filename}
+                  <small className='text-davygray ms-2'>
+                    {repository.dirname}
+                  </small>
+                </span>
+              }
+              hovered={
+                !repository.current && (
+                  <Button
+                    data-path={repository.path}
+                    className='text-white border-0'
+                    onClick={handleDelete}
+                  >
+                    <Minus size={15} />
+                  </Button>
+                )
+              }
+              end={
+                repository.current && (
+                  <span className='text-ecru'>CURRENT</span>
+                )
+              }
+            />
+          ))
+          : []
+      }
     />
   )
 }
