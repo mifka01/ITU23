@@ -50,7 +50,7 @@ export const StashController: IController = {
       try {
         let response = await git.stash_push(message)
 
-        log.append('COMMAND', `git stash push -m ${response}`)
+        log.append('COMMAND', `git stash push -m ${message} - ${response}`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
