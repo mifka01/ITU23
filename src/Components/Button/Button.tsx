@@ -34,7 +34,7 @@ function Button({
     <OverlayTrigger
       placement='auto'
       overlay={tooltip}
-      delay={{ show: 1000, hide: 500 }}
+      delay={{ show: 1000, hide: 0 }}
     >
       {button}
     </OverlayTrigger>
