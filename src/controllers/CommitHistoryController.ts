@@ -59,7 +59,6 @@ export const CommitHistoryController: IController = {
         if (String(error).includes(EMPTY_LOG_ERROR)) {
           return ResponseSuccess({ commit_history: [] })
         }
-        log.append('ERROR', String(error))
         return ResponseError()
       }
     },

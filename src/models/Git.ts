@@ -209,7 +209,7 @@ export class Git {
    * @returns A promise that resolves when the delete operation is complete.
    */
   async delete_branch(name: string) {
-    return this.git.deleteLocalBranch(name)
+    return this.git.deleteLocalBranch(name, true)
   }
 
   /**

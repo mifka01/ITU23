@@ -11,7 +11,7 @@ import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { log } from '../models/Log'
 
-type StashEntry = { message: string; }
+type StashEntry = { message: string }
 
 /**
  * StashController is responsible for handling stash-related operations.
@@ -35,7 +35,6 @@ export const StashController: IController = {
 
         return ResponseSuccess({ stashes: entries })
       } catch (error: unknown) {
-        log.append('ERROR', String(error))
         return ResponseError()
       }
     },

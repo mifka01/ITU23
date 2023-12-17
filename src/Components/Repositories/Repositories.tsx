@@ -62,7 +62,13 @@ function Repositories({
   const handleChange = async (event: MouseEvent<HTMLButtonElement>) => {
     const path = event.currentTarget.dataset['path']
     const response = await window.app.setCWD(path)
-    if (!response.status) fetchRepositories()
+    if (!response.status) {
+      fetchRepositories()
+      setRefreshStage?.(true)
+      setRefreshBranches?.(true)
+      setRefreshStashes?.(true)
+      setRefreshCommitHistory?.(true)
+    }
   }
 
   const fetchRepositories = async () => {
@@ -107,38 +113,38 @@ function Repositories({
       items={
         repositories
           ? repositories.map((repository: RepositoryEntry) => (
-            <ListItem
-              key={repository.path}
-              start={
-                <span
-                  data-path={repository.path}
-                  onClick={handleChange}
-                  role={'button'}
-                >
-                  {repository.filename}
-                  <small className='text-davygray ms-2'>
-                    {repository.dirname}
-                  </small>
-                </span>
-              }
-              hovered={
-                !repository.current && (
-                  <Button
+              <ListItem
+                key={repository.path}
+                start={
+                  <span
                     data-path={repository.path}
-                    className='text-white border-0'
-                    onClick={handleDelete}
+                    onClick={handleChange}
+                    role={'button'}
                   >
-                    <Minus size={15} />
-                  </Button>
-                )
-              }
-              end={
-                repository.current && (
-                  <span className='text-ecru'>CURRENT</span>
-                )
-              }
-            />
-          ))
+                    {repository.filename}
+                    <small className='text-davygray ms-2'>
+                      {repository.dirname}
+                    </small>
+                  </span>
+                }
+                hovered={
+                  !repository.current && (
+                    <Button
+                      data-path={repository.path}
+                      className='text-white border-0'
+                      onClick={handleDelete}
+                    >
+                      <Minus size={15} />
+                    </Button>
+                  )
+                }
+                end={
+                  repository.current && (
+                    <span className='text-ecru'>CURRENT</span>
+                  )
+                }
+              />
+            ))
           : []
       }
     />

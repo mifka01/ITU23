@@ -15,7 +15,7 @@ import { log } from '../models/Log'
  * Represents an entry in the list of Git branches.
  */
 type BranchEntry = {
-  name: string;
+  name: string
   current: boolean
 }
 
@@ -48,7 +48,6 @@ export const BranchController: IController = {
 
         return ResponseSuccess({ branches: entries })
       } catch (error: unknown) {
-        log.append('ERROR', String(error))
         return ResponseError()
       }
     },

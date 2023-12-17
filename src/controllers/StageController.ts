@@ -90,7 +90,6 @@ export const StageController: IController = {
           staged: staged_files,
         })
       } catch (error: unknown) {
-        log.append('ERROR', String(error))
         return ResponseError()
       }
     },
@@ -113,7 +112,10 @@ export const StageController: IController = {
         ) {
           log.append('ERROR', `Nothing to commit, working tree clean`)
         } else {
-          log.append('COMMAND', `git commit -m "${message}" - Successfully commited`)
+          log.append(
+            'COMMAND',
+            `git commit -m "${message}" - Successfully commited`,
+          )
         }
         return ResponseSuccess()
       } catch (error: unknown) {

@@ -95,7 +95,6 @@ export const AppController: IController = {
 
         return ResponseSuccess({ repositories: entries })
       } catch (error: unknown) {
-        console.log(error)
         return ResponseError()
       }
     },
