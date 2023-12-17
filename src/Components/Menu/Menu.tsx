@@ -10,9 +10,10 @@ import {
   ArrowUpFromLine,
   ArrowDownToLine,
   Undo2,
-  GitCompareArrows, RotateCw,
+  GitCompareArrows,
+  RotateCw,
 } from 'lucide-react'
-import {ChangeEvent, Dispatch, SetStateAction} from 'react'
+import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { ModalProps } from 'components/Modal'
 import { useRef } from 'react'
 
@@ -23,8 +24,14 @@ interface Props {
   setRefreshBranches?: Dispatch<SetStateAction<boolean>>
   setRefreshCommitTree?: Dispatch<SetStateAction<boolean>>
 }
-function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRefreshCommitTree }: Props) {
-  const  commitMessage = useRef<string>('')
+function Menu({
+  setRefreshLog,
+  setShowModal,
+  setModal,
+  setRefreshBranches,
+  setRefreshCommitTree,
+}: Props) {
+  const commitMessage = useRef<string>('')
 
   const handlePush = async () => {
     await window.git.push()
@@ -82,18 +89,18 @@ function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRe
     if (setModal && setShowModal) {
       setModal({
         children: (
-            <>
-              <span>New name of last commit</span>
-              <input
-                  type='text'
-                  name='commit_name'
-                  style={{ resize: 'none' }}
-                  className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
-                  placeholder='Stash name'
-                  defaultValue={commitMessage.current}
-                  onChange={handleCommitMessageChange}
-              />
-            </>
+          <>
+            <span>New name of last commit</span>
+            <input
+              type='text'
+              name='commit_name'
+              style={{ resize: 'none' }}
+              className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
+              placeholder='Stash name'
+              defaultValue={commitMessage.current}
+              onChange={handleCommitMessageChange}
+            />
+          </>
         ),
         buttons: [
           {
@@ -118,11 +125,38 @@ function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRe
   }
 
   const buttons = [
-    { Icon: ArrowUpFromLine, text: 'push', onClick: handlePush, tooltip: "Takes all commited changes and send them to the remote server." },
-    { Icon: ArrowDownToLine, text: 'pull', onClick: handlePull, tooltip: "Takes all changes on current branch that were made on remote and loads them into local." },
-    { Icon: Undo2, text: 'revert', onClick: handleRevert, tooltip: "Remove all changes that were made by last commit." },
-    { Icon: GitCompareArrows, text: 'fetch', onClick: handleFetch, tooltip: "Similar to PULL, but takes all changes on all branches and downloads it into local." },
-    { Icon: RotateCw, text: 'amend', onClick: handleAmend, tooltip: "Renames last commit. Only non-pushed commits can be renamed." },
+    {
+      Icon: ArrowUpFromLine,
+      text: 'push',
+      onClick: handlePush,
+      tooltip: 'Takes all commited changes and send them to the remote server.',
+    },
+    {
+      Icon: ArrowDownToLine,
+      text: 'pull',
+      onClick: handlePull,
+      tooltip:
+        'Takes all changes on current branch that were made on remote and loads them into local.',
+    },
+    {
+      Icon: Undo2,
+      text: 'revert',
+      onClick: handleRevert,
+      tooltip: 'Remove all changes that were made by last commit.',
+    },
+    {
+      Icon: GitCompareArrows,
+      text: 'fetch',
+      onClick: handleFetch,
+      tooltip:
+        'Similar to PULL, but takes all changes on all branches and downloads it into local.',
+    },
+    {
+      Icon: RotateCw,
+      text: 'amend',
+      onClick: handleAmend,
+      tooltip: 'Renames last commit. Only non-pushed commits can be renamed.',
+    },
   ]
 
   return (
@@ -133,7 +167,11 @@ function Menu({ setRefreshLog, setShowModal, setModal, setRefreshBranches, setRe
             key={index}
             className='list-group-item rounded-0 border-0 bg-transparent p-0 pe-3 py-2'
           >
-            <MenuButton Icon={button.Icon} onClick={button.onClick} title={button.tooltip}>
+            <MenuButton
+              Icon={button.Icon}
+              onClick={button.onClick}
+              title={button.tooltip}
+            >
               {button.text}
             </MenuButton>
           </li>

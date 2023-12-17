@@ -12,11 +12,17 @@ import clsx from 'clsx'
 import Button from 'components/Button'
 import './CollapseList.css'
 
+type Buttons = {
+  text: LucideIcon | string
+  tooltip?: string
+  onClick: () => void
+}[]
+
 interface CollapseListProps {
   heading: String
   items: ReactNode[]
   className?: String
-  buttons?: { text: LucideIcon | string; onClick: () => void }[]
+  buttons?: Buttons
 }
 
 function CollapseList({
@@ -55,6 +61,7 @@ function CollapseList({
                 <Button
                   key={index}
                   onClick={button.onClick}
+                  title={button.tooltip}
                   className='text-beige border-0 pe-2'
                 >
                   {typeof button.text === 'string' ? (

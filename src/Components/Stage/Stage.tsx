@@ -9,7 +9,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import File from 'components/File'
 import CollapseList from 'components/CollapseList'
 import Commit from 'components/Commit'
-import { Plus, Minus, Undo2 } from 'lucide-react'
+import { Plus, Minus, Undo2, LucideIcon } from 'lucide-react'
 import { ModalProps } from 'components/Modal'
 
 type FileEntry = {
@@ -25,6 +25,12 @@ enum WindowDataType {
 }
 
 type WindowData = { value: string; type: WindowDataType } | undefined
+
+type Buttons = {
+  text: LucideIcon | string
+  tooltip?: string
+  onClick: () => void
+}[]
 
 interface StageProps {
   setRefreshLog?: Dispatch<SetStateAction<boolean>>
@@ -88,7 +94,7 @@ function Stage({
     }
   }
 
-  const notAdded_buttons = [
+  const notAdded_buttons: Buttons = [
     {
       text: Undo2,
       onClick: handleDiscardAll,
@@ -98,7 +104,7 @@ function Stage({
       onClick: handleStageAll,
     },
   ]
-  const staged_buttons = [
+  const staged_buttons: Buttons = [
     {
       text: Minus,
       onClick: handleUnstageAll,

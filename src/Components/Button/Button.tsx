@@ -7,6 +7,7 @@
 
 import clsx from 'clsx'
 import { ComponentPropsWithoutRef } from 'react'
+import { Tooltip, OverlayTrigger } from 'react-bootstrap'
 
 /**
  * Button component.
@@ -16,12 +17,21 @@ import { ComponentPropsWithoutRef } from 'react'
 function Button({
   children,
   className,
+  title,
   ...props
 }: ComponentPropsWithoutRef<'button'>) {
-  return (
+  const tooltip = <Tooltip id='tooltip'>{title}</Tooltip>
+  const button = (
     <button className={clsx('btn m-0 p-0', className)} {...props}>
       {children}
     </button>
+  )
+  return title ? (
+    <OverlayTrigger placement='auto' overlay={tooltip}>
+      {button}
+    </OverlayTrigger>
+  ) : (
+    button
   )
 }
 
