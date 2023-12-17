@@ -7,6 +7,7 @@
 
 import { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import CommitDetailFile from 'components/CommitDetailFile'
+import { X } from 'lucide-react'
 
 interface CommitDetailProps {
   currentCommit?: string
@@ -66,19 +67,19 @@ function CommitDetail({ currentCommit, setWindowData }: CommitDetailProps) {
 
   return (
     <>
-      <div className='bg-darkpurple text-beige text-start border-bottom border-davygray'>
-        <span className='ps-2'>
-          {currentCommit ? 'Commit detail' : 'Neither file nor commit selected'}
+      <div className="heading bg-darkpurple text-beige d-flex justify-content-between align-items-center border-bottom border-davygray">
+        <span className="ps-2">
+          {currentCommit ? "Commit Detail" : 'Neither file nor commit selected'}
         </span>
         {currentCommit ? (
           <span
             role="button"
+            className=""
             onClick={() => {
               setWindowData?.(undefined)
             }}
-            className="text-davygray ms-2"
           >
-            X
+            <X size={20} className="me-2" />
           </span>
         ) : null}
       </div>

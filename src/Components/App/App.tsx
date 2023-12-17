@@ -97,7 +97,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='d-flex w-25 flex-column flex-fill border border-davygray '>
+          <div className='d-flex w-25 flex-column flex-fill border border-davygray border-top-0'>
             <CommitTree
               setRefreshCommitTree={setRefreshCommitTree}
               refreshCommitTree={refreshCommitTree}

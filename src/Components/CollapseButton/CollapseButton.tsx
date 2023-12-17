@@ -15,7 +15,7 @@ interface CollapseButtonProps extends ComponentPropsWithoutRef<'button'> {
 }
 
 function CollapseButton({ collapsed, setCollapsed }: CollapseButtonProps) {
-  let collapsed_icon = collapsed ? <ChevronUp /> : <ChevronDown />
+  let collapsed_icon = collapsed ? <ChevronUp viewBox="3 12 18 6" size={20}/> : <ChevronDown viewBox="3 12 18 6" size={20}/>
 
   return (
     <Button

@@ -7,6 +7,7 @@
 
 import { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import clsx from 'clsx'
+import { X } from 'lucide-react'
 
 interface Path {
   currentFile?: string
@@ -43,27 +44,27 @@ function Diff({ currentFile, setWindowData }: Path) {
 
   return (
     <>
-      <div className='bg-darkpurple text-beige text-start border-bottom border-davygray'>
-        <span className='ps-2'>
+      <div className="heading bg-darkpurple text-beige d-flex justify-content-between align-items-center border-bottom border-davygray">
+        <span className="ps-2">
           {currentFile ? currentFile : 'Neither file nor commit selected'}
         </span>
         {currentFile ? (
           <span
             role="button"
+            className=""
             onClick={() => {
               setWindowData?.(undefined)
             }}
-            className="text-davygray ms-2"
           >
-            X
+            <X size={20} className="me-2" />
           </span>
         ) : null}
       </div>
 
-      <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
+      <pre className="d-flex bg-gunmetal flex-column overflow-auto m-0">
         {data.map((element, index) => {
           return (
-            <div className='d-flex' key={'diff-line-' + index}>
+            <div className="d-flex" key={'diff-line-' + index}>
               <code
                 className={clsx('ps-3 pe-3 bg-opacity-50', {
                   'bg-lineok': element.mark === '+',
