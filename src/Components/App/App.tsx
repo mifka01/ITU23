@@ -84,9 +84,9 @@ function App() {
           <div className='w-50 d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
               {windowData?.type == WindowDataType.TYPE_COMMIT ? (
-                <CommitDetail currentCommit={windowData?.value} />
+                <CommitDetail currentCommit={windowData?.value} setWindowData={setWindowData}/>
               ) : (
-                <Diff currentFile={windowData?.value} />
+                <Diff currentFile={windowData?.value} setWindowData={setWindowData}/>
               )}
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>

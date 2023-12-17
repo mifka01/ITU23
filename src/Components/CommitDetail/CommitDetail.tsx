@@ -5,11 +5,12 @@
  * @date October 2023
  */
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import CommitDetailFile from 'components/CommitDetailFile'
 
 interface CommitDetailProps {
   currentCommit?: string
+  setWindowData?: Dispatch<SetStateAction<WindowData>>
 }
 
 type CommitDetailEntry = {
@@ -27,7 +28,14 @@ type ChangedFileEntry = {
   dir: string
 }
 
-function CommitDetail({ currentCommit }: CommitDetailProps) {
+enum WindowDataType {
+  TYPE_FILE = 0,
+  TYPE_COMMIT,
+}
+
+type WindowData = { value: string; type: WindowDataType } | undefined
+
+function CommitDetail({ currentCommit, setWindowData }: CommitDetailProps) {
   const [commitDetails, setCommitDetails] = useState<{
     commit_detail: CommitDetailEntry[]
     changed_files: ChangedFileEntry[]
@@ -59,37 +67,48 @@ function CommitDetail({ currentCommit }: CommitDetailProps) {
   return (
     <>
       <div className='bg-darkpurple text-beige text-start border-bottom border-davygray'>
-        <span className='ps-2 pt-1'>
+        <span className='ps-2'>
           {currentCommit ? 'Commit detail' : 'Neither file nor commit selected'}
         </span>
+        {currentCommit ? (
+          <span
+            role="button"
+            onClick={() => {
+              setWindowData?.(undefined)
+            }}
+            className="text-davygray ms-2"
+          >
+            X
+          </span>
+        ) : null}
       </div>
-      <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
+      <pre className="d-flex bg-gunmetal flex-column overflow-auto m-0">
         {commitDetails.commit_detail.map((commitDetail) => (
-          <div className='container mt-4' key={'detail' + commitDetail.hash}>
-            <div className='row'>
-              <div className='col-md-6'>
-                <div className='mb-2'>
+          <div className="container mt-4" key={'detail' + commitDetail.hash}>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="mb-2">
                   <strong>Hash:</strong> {commitDetail.hash}
                 </div>
-                <div className='mb-2'>
+                <div className="mb-2">
                   <strong>Message:</strong> {commitDetail.message}
                 </div>
-                <div className='mb-2'>
+                <div className="mb-2">
                   <strong>Author Name:</strong> {commitDetail.author_name}
                 </div>
-                <div className='mb-2'>
+                <div className="mb-2">
                   <strong>Author Email:</strong> {commitDetail.author_email}
                 </div>
-                <div className='mb-2'>
+                <div className="mb-2">
                   <strong>Body:</strong> {commitDetail.body}
                 </div>
-                <div className='mb-2'>
+                <div className="mb-2">
                   <strong>Refs:</strong> {commitDetail.refs}
                 </div>
-                <div className='mb-2'>
+                <div className="mb-2">
                   <strong>Date:</strong> {commitDetail.date}
                 </div>
-                <div className='mb-2'>
+                <div className="mb-2">
                   <strong>Files:</strong>
                   {Array.isArray(commitDetails.changed_files)
                     ? commitDetails.changed_files.map((changedFile, index) => (

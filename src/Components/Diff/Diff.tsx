@@ -5,16 +5,24 @@
  * @date October 2023
  */
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import clsx from 'clsx'
 
 interface Path {
   currentFile?: string
+  setWindowData?: Dispatch<SetStateAction<WindowData>>
 }
 
 type DiffEntry = { mark: string; line_num: string; line: string }
 
-function Diff({ currentFile }: Path) {
+enum WindowDataType {
+  TYPE_FILE = 0,
+  TYPE_COMMIT,
+}
+
+type WindowData = { value: string; type: WindowDataType } | undefined
+
+function Diff({ currentFile, setWindowData }: Path) {
   const [data, setData] = useState<DiffEntry[]>([])
 
   const fetchData = async () => {
@@ -39,6 +47,17 @@ function Diff({ currentFile }: Path) {
         <span className='ps-2'>
           {currentFile ? currentFile : 'Neither file nor commit selected'}
         </span>
+        {currentFile ? (
+          <span
+            role="button"
+            onClick={() => {
+              setWindowData?.(undefined)
+            }}
+            className="text-davygray ms-2"
+          >
+            X
+          </span>
+        ) : null}
       </div>
 
       <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
