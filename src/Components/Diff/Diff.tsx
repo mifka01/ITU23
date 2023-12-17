@@ -75,6 +75,7 @@ function Diff({ currentFile, setWindowData, setRefreshLog }: Path) {
                   'bg-linenok': element.mark === '-',
                   'bg-linenochange': element.mark === ' ',
                 })}
+                style={{width:"50px", minWidth:"50px"}}
               >
                 {element.line_num}
               </code>
