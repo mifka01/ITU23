@@ -135,7 +135,6 @@ function Branches({
 
     if (!response.status && response.payload) {
       setBranches(response.payload.branches)
-      setRefreshCommitHistory?.(true)
     }
     setRefreshLog?.(true)
   }
@@ -146,6 +145,10 @@ function Branches({
       setRefreshBranches?.(false)
     }
   }, [refreshBranches])
+
+  useEffect(() => {
+    setRefreshCommitHistory?.(true)
+  }, [branches])
 
   useEffect(() => {
     window.app.request_refresh(fetchBranches)

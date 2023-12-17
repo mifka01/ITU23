@@ -160,14 +160,14 @@ export const git = {
     return ipcRenderer.invoke(`${git.prefix}:commit_history`, maxCount)
   },
 
-    /**
+  /**
    * Retrieves detail of commit specified by hash
    * @param hash - The hash of the commit for which you want to retrieve details.
    * @returns A promise that resolves to the response from the Git commit_detail operation.
    */
-    commit_detail: (hash: string): Promise<Response> => {
-      return ipcRenderer.invoke(`${git.prefix}:commit_detail`, hash)
-    },
+  commit_detail: (hash: string): Promise<Response> => {
+    return ipcRenderer.invoke(`${git.prefix}:commit_detail`, hash)
+  },
 
   /**
    * Retrieves the stashes in the Git repository.
@@ -219,7 +219,7 @@ export const git = {
    * @author Michal Zapletal (xzaple41)
    * @returns A promise that resolves git revert operation.
    */
-  revert: (): Promise<any> => {
+  revert: (): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:revert`)
   },
 
@@ -228,7 +228,7 @@ export const git = {
    * @author Michal Zapletal (xzaple41)
    * @returns A promise that resolves git fetch operation.
    */
-  fetch: (): Promise<any> => {
+  fetch: (): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:fetch`)
   },
 
@@ -238,7 +238,7 @@ export const git = {
    * @param message - New commit message.
    * @returns A promise that resolves to the response from the Git commit --amend operation.
    */
-  amend: (message: string): Promise<any> => {
+  amend: (message: string): Promise<Response> => {
     return ipcRenderer.invoke(`${git.prefix}:amend`, message)
   },
 }

@@ -29,7 +29,7 @@ function CommitHistory({
   refreshCommitHistory,
   setWindowData,
 }: CommitHistoryProps) {
-  const [commithistory, setCommitHistory] = useState<CommitEntry[]>([])
+  const [commitHistory, setCommitHistory] = useState<CommitEntry[]>([])
 
   const fetchCommitHistory = async () => {
     const response = await window.git.commit_history()
@@ -57,7 +57,7 @@ function CommitHistory({
     <CollapseList
       heading={'Commit History'}
       className='border-top border-bottom border-davygray'
-      items={commithistory.map((commit: CommitEntry) => (
+      items={commitHistory.map((commit: CommitEntry) => (
         <CommitItem
           key={commit.hash}
           message={<small>{commit.message}</small>}

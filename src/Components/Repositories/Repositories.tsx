@@ -60,16 +60,17 @@ function Repositories({
 
   const fetchRepositories = async () => {
     const response = await window.app.repositories()
-
-    if (!response.status && response.payload) {
+    if (!response.status && response.payload)
       setRepositories(response.payload.repositories)
-      setRefreshCommitHistory?.(true)
-      setRefreshStage?.(true)
-      setRefreshBranches?.(true)
-      setRefreshStashes?.(true)
-    }
     setRefreshLog?.(true)
   }
+
+  useEffect(() => {
+    setRefreshStage?.(true)
+    setRefreshBranches?.(true)
+    setRefreshStashes?.(true)
+    setRefreshCommitHistory?.(true)
+  }, [repositories])
 
   useEffect(() => {
     fetchRepositories()

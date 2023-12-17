@@ -31,6 +31,8 @@ type ChangedFileEntry = {
   dir: string
 }
 
+const EMPTY_LOG_ERROR = 'does not have any commits yet'
+
 /**
  * Commit Controller
  */
@@ -54,6 +56,9 @@ export const CommitHistoryController: IController = {
 
         return ResponseSuccess({ commit_history: entries })
       } catch (error: unknown) {
+        if (String(error).includes(EMPTY_LOG_ERROR)) {
+          return ResponseSuccess({ commit_history: [] })
+        }
         log.append('ERROR', String(error))
         return ResponseError()
       }
@@ -116,7 +121,7 @@ export const CommitHistoryController: IController = {
           })
         })
 
-        log.append('COMMAND',`git log -n 1 ${hash}`)
+        log.append('COMMAND', `git log -n 1 ${hash}`)
         return ResponseSuccess({
           commit_detail: entries,
           changed_files: changedFilesArray,
