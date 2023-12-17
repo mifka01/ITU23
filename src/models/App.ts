@@ -1,6 +1,6 @@
 /**
  * @file App.ts
- * @brief Represents the App class, which is responsible for managing Git branch operations.
+ * @brief Represents the App class, which is responsible for operations with repository.
  * @author Radim Mifka (xmifka00)
  * @date December 2023
  */

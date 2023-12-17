@@ -1,3 +1,10 @@
+/**
+ * @file components/CollapseList.css
+ * @brief CSS for CollapseList
+ * @author Radim Mifka (xmifka00)
+ * @date December 2023
+ */
+
 .minimal-item {
   min-height: 23px;
 }

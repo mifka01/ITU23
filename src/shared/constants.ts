@@ -6,8 +6,12 @@
  */
 
 import path from 'node:path'
+import { app } from 'electron'
 
 /**
  * The file path of the repositories JSON file.
  */
-export const REPOSITORIES_FILE = path.join(__dirname, 'repositories.json')
+export const REPOSITORIES_FILE = path.join(
+  app.getPath('userData'),
+  'repositories.json',
+)

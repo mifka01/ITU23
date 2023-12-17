@@ -1,5 +1,4 @@
 import { app, BrowserWindow, Menu } from 'electron'
-import { GitController } from '../controllers/GitController'
 import { AppController } from '../controllers/AppController'
 import { MenuController } from '../controllers/MenuController'
 import { LogController } from '../controllers/LogController'
@@ -43,7 +42,6 @@ function createWindow() {
 
   Menu.setApplicationMenu(generateMenu(win))
 
-  createIPCHandlers(GitController)
   createIPCHandlers(AppController)
   createIPCHandlers(MenuController)
   createIPCHandlers(LogController)
