@@ -1,11 +1,11 @@
 {
     "name": "itu23",
     "private": true,
-    "version": "0.0.0",
-    "authors": [{
+    "version": "1.0.0",
+    "description": "A simple Git GUI for streamlined repository management.",
+    "author": [{
         "name": "Bálek Miroslav"
-      },
-      {
+      },{
         "name": "Mifka Radim"
       },{
         "name": "Zapletal Michal"
