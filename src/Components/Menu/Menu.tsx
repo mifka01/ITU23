@@ -139,7 +139,7 @@ function Menu({
       text: 'pull',
       onClick: handlePull,
       tooltip:
-        'Takes all changes on current branch that were made on remote and loads them into local.',
+        'Takes all remote changes on this branch and pulls them.',
     },
     {
       Icon: Undo2,
@@ -152,14 +152,14 @@ function Menu({
       text: 'fetch',
       onClick: handleFetch,
       tooltip:
-        'Similar to PULL, but takes all changes on all branches and downloads it into local.',
+        'Same as PULL, but for all local branches.',
     },
     {
       Icon: RotateCw,
       text: 'amend',
       onClick: handleAmend,
       tooltip:
-        'Renames last commit. Only non-pushed commits can be renamed. Into renamed commit adds all actually staged changes.',
+        'Renames last commit. Only non-pushed commits. Staged change are added, too.',
     },
   ]
 
