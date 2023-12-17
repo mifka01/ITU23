@@ -11,6 +11,7 @@ interface LogMessageProps {
   text: string
 }
 
+
 function LogMessage({ type, time, text }: LogMessageProps) {
   return (
     <>
@@ -18,12 +19,18 @@ function LogMessage({ type, time, text }: LogMessageProps) {
         className={`row gx-0 ${type === 'COMMAND' ? 'text-success' : 'text-danger'
           }`}
       >
-        <div className='col-10 text-start'>
-          <span className='ms-2'>{text}</span>
-        </div>
-        <div className='col-2 text-end'>
-          <span className='me-2'>{time}</span>
-        </div>
+      <div className='col-10'>
+          <pre className='text-start ms-1 mb-0'
+               style={{whiteSpace: "pre-wrap", wordWrap:"break-word", overflowWrap:"break-word", lineHeight: "inherit"}}
+          >
+              <code>{text}</code>
+          </pre>
+      </div>
+          <div className='col-2'>
+            <pre className='text-end mb-0'>
+              <code className='me-2 mb-0'>{time}</code>
+            </pre>
+          </div>
       </div>
     </>
   )
