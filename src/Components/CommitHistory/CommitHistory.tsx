@@ -7,43 +7,34 @@
 
 import CollapseList from 'components/CollapseList'
 import CommitItem from 'components/CommitItem'
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useEffect, Dispatch } from 'react'
 
 interface CommitHistoryProps {
-  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
-  refreshCommitHistory?: boolean
-  setWindowData?: Dispatch<SetStateAction<WindowData>>
+  commitHistory: CommitHistory
+  refresh: number
+  dispatch: Dispatch<Actions>
 }
 
 type CommitEntry = { message: string; hash: string }
 
-enum WindowDataType {
-  TYPE_FILE = 0,
-  TYPE_COMMIT,
-}
-
-type WindowData = { value: string; type: WindowDataType } | undefined
-
 function CommitHistory({
-  setRefreshCommitHistory,
-  refreshCommitHistory,
-  setWindowData,
+  commitHistory,
+  refresh,
+  dispatch,
 }: CommitHistoryProps) {
-  const [commitHistory, setCommitHistory] = useState<CommitEntry[]>([])
-
   const fetchCommitHistory = async () => {
     const response = await window.git.commit_history()
-
-    if (!response.status && response.payload)
-      setCommitHistory(response.payload.commit_history)
+    if (!response.status && response.payload) {
+      dispatch({
+        type: 'SET_COMMIT_HISTORY',
+        payload: response.payload.commit_history,
+      })
+    }
   }
 
   useEffect(() => {
-    if (refreshCommitHistory) {
-      fetchCommitHistory()
-      setRefreshCommitHistory?.(false)
-    }
-  }, [refreshCommitHistory])
+    fetchCommitHistory()
+  }, [refresh])
 
   useEffect(() => {
     window.app.request_refresh(fetchCommitHistory)
@@ -62,9 +53,9 @@ function CommitHistory({
           key={commit.hash}
           message={<small>{commit.message}</small>}
           onClick={() => {
-            setWindowData?.({
-              value: commit.hash,
-              type: WindowDataType.TYPE_COMMIT,
+            dispatch({
+              type: 'SET_CURRENT_COMMIT',
+              payload: commit.hash,
             })
           }}
         />

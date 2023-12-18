@@ -33,8 +33,8 @@ export const StageController: IController = {
 
   helpers: {
     /**
-     * Gets the status letter for a given filename based on the input object.
-     * @param filename - The name of the file.
+     * Gets the status letter for a given basename based on the input object.
+     * @param basename - The name of the file.
      * @param inputObject - The input object containing the status information.
      * @returns The status letter for the file.
      */
@@ -59,7 +59,7 @@ export const StageController: IController = {
      */
     async status(_: IpcMainInvokeEvent) {
       type FileEntry = {
-        filename: string
+        basename: string
         dirname: string
         path: string
         status: string
@@ -72,7 +72,7 @@ export const StageController: IController = {
 
         response.files.forEach((file: { path: string }) => {
           const entry: FileEntry = {
-            filename: path.basename(file.path),
+            basename: path.basename(file.path),
             dirname: path.dirname(file.path),
             path: file.path,
             status: StageController.helpers?.getStatusLetter(

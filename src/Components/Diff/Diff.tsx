@@ -5,36 +5,24 @@
  * @date October 2023
  */
 
-import { useEffect, useState, Dispatch, SetStateAction } from 'react'
+import { useEffect, useState, Dispatch } from 'react'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
 
 interface Path {
   currentFile?: string
-  setWindowData?: Dispatch<SetStateAction<WindowData>>
-  setRefreshLog?: Dispatch<SetStateAction<boolean>>
+  dispatch: Dispatch<Actions>
 }
 
 type DiffEntry = { mark: string; line_num: string; line: string }
 
-enum WindowDataType {
-  TYPE_FILE = 0,
-  TYPE_COMMIT,
-}
-
-type WindowData = { value: string; type: WindowDataType } | undefined
-
-function Diff({ currentFile, setWindowData, setRefreshLog }: Path) {
+function Diff({ currentFile, dispatch }: Path) {
   const [data, setData] = useState<DiffEntry[]>([])
 
   const fetchData = async () => {
     const response = await window.git.getDiff(currentFile)
-    if (!response.status && response.payload) {
-      setData(response.payload.data)
-      setRefreshLog?.(true)
-    }else {
-      setRefreshLog?.(true)
-    }
+    if (!response.status && response.payload) setData(response.payload.data)
+    dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   useEffect(() => {
@@ -48,34 +36,33 @@ function Diff({ currentFile, setWindowData, setRefreshLog }: Path) {
 
   return (
     <>
-      <div className="heading bg-darkpurple text-beige d-flex justify-content-between align-items-center border-bottom border-davygray">
-        <span className="ps-2">
+      <div className='heading bg-darkpurple text-beige d-flex justify-content-between align-items-center border-bottom border-davygray'>
+        <span className='ps-2'>
           {currentFile ? currentFile : 'Neither file nor commit selected'}
         </span>
         {currentFile ? (
           <span
-            role="button"
-            className=""
+            role='button'
             onClick={() => {
-              setWindowData?.(undefined)
+              dispatch({ type: 'RESET_CURRENT_FILE' })
             }}
           >
-            <X size={20} className="me-2" />
+            <X size={20} className='me-2' />
           </span>
         ) : null}
       </div>
 
-      <pre className="d-flex bg-gunmetal flex-column overflow-auto m-0">
+      <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
         {data.map((element, index) => {
           return (
-            <div className="d-flex" key={'diff-line-' + index}>
+            <div className='d-flex' key={'diff-line-' + index}>
               <code
                 className={clsx('ps-3 pe-3 bg-opacity-50', {
                   'bg-lineok': element.mark === '+',
                   'bg-linenok': element.mark === '-',
                   'bg-linenochange': element.mark === ' ',
                 })}
-                style={{width:"50px", minWidth:"50px"}}
+                style={{ width: '50px', minWidth: '50px' }}
               >
                 {element.line_num}
               </code>

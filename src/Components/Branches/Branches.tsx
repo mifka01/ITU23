@@ -8,38 +8,16 @@
 import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
-import { ModalProps } from 'components/Modal'
 import { Minus, Plus } from 'lucide-react'
-import {
-  useState,
-  useRef,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  ChangeEvent,
-  MouseEvent,
-} from 'react'
+import { useRef, useEffect, Dispatch, ChangeEvent, MouseEvent } from 'react'
 
 interface BranchesProps {
-  setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
-  setShowModal?: Dispatch<SetStateAction<boolean>>
-  setModal?: Dispatch<SetStateAction<ModalProps>>
-  setRefreshBranches?: Dispatch<SetStateAction<boolean>>
-  refreshBranches?: boolean
+  dispatch: Dispatch<Actions>
+  branches: Branches
+  refresh: number
 }
 
-type BranchEntry = { name: string; current: boolean }
-
-function Branches({
-  setRefreshLog,
-  setRefreshCommitHistory,
-  setModal,
-  setShowModal,
-  setRefreshBranches,
-  refreshBranches,
-}: BranchesProps) {
-  const [branches, setBranches] = useState<BranchEntry[]>([])
+function Branches({ dispatch, branches, refresh }: BranchesProps) {
   const newBranchRef = useRef<string>('')
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,8 +26,9 @@ function Branches({
   }
 
   const handleCreate = async () => {
-    if (setModal && setShowModal) {
-      setModal({
+    dispatch({
+      type: 'SET_MODAL',
+      payload: {
         children: (
           <>
             <span>Please provide a branch name</span>
@@ -69,7 +48,6 @@ function Branches({
             text: 'Abort',
             onClick: () => {
               newBranchRef.current = ''
-              setShowModal?.(false)
             },
           },
           {
@@ -82,28 +60,24 @@ function Branches({
                 fetchBranches()
                 newBranchRef.current = ''
               }
-              setShowModal?.(false)
-              setRefreshLog?.(true)
             },
           },
         ],
-      })
-      setShowModal(true)
-    }
+      },
+    })
   }
 
   const handleDelete = async (event: MouseEvent<HTMLButtonElement>) => {
-    if (setModal && setShowModal) {
-      let name = event.currentTarget.dataset['name']
+    let name = event.currentTarget.dataset['name']
 
-      setModal({
+    dispatch({
+      type: 'SET_MODAL',
+      payload: {
         children: <span>Are you sure you want to delete branch: {name}?</span>,
         buttons: [
           {
             text: 'No',
-            onClick: () => {
-              setShowModal?.(false)
-            },
+            onClick: () => {},
           },
           {
             text: 'Yes',
@@ -112,14 +86,11 @@ function Branches({
               if (!response.status) {
                 fetchBranches()
               }
-              setShowModal?.(false)
-              setRefreshLog?.(true)
             },
           },
         ],
-      })
-      setShowModal(true)
-    }
+      },
+    })
   }
 
   const handleCheckout = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -127,28 +98,18 @@ function Branches({
     const response = await window.git.checkout_branch(name)
 
     if (!response.status) fetchBranches()
-    setRefreshLog?.(true)
   }
 
   const fetchBranches = async () => {
     const response = await window.git.branches()
 
-    if (!response.status && response.payload) {
-      setBranches(response.payload.branches)
-    }
-    setRefreshLog?.(true)
+    if (!response.status && response.payload)
+      dispatch({ type: 'SET_BRANCHES', payload: response.payload.branches })
   }
 
   useEffect(() => {
-    if (refreshBranches) {
-      fetchBranches()
-      setRefreshBranches?.(false)
-    }
-  }, [refreshBranches])
-
-  useEffect(() => {
-    setRefreshCommitHistory?.(true)
-  }, [branches])
+    fetchBranches()
+  }, [refresh])
 
   useEffect(() => {
     window.app.request_refresh(fetchBranches)

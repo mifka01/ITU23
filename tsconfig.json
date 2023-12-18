@@ -22,6 +22,10 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "forceConsistentCasingInFileNames": true,
+        "typeRoots": [
+            "./node_modules/@types",
+            "./src/types"
+        ],
         "paths": {
             "@/*": [
                 "./src/*"

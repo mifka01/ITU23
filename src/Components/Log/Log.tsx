@@ -5,14 +5,7 @@
  * @date November 2023
  */
 
-import {
-  useState,
-  useEffect,
-  useRef,
-  Dispatch,
-  SetStateAction,
-  ComponentProps,
-} from 'react'
+import { useEffect, useRef, Dispatch } from 'react'
 import { Trash2 } from 'lucide-react'
 
 import LogMessage from 'components/LogMessage'
@@ -20,15 +13,13 @@ import Button from 'components/Button'
 import clsx from 'clsx'
 
 interface LogProps {
-  setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  refreshLog?: boolean
   className?: String
+  dispatch: Dispatch<Actions>
+  refresh: number
+  messages: LogMessages
 }
 
-function Log({ refreshLog, setRefreshLog, className }: LogProps) {
-  const [messages, setMessages] = useState<ComponentProps<typeof LogMessage>[]>(
-    [],
-  )
+function Log({ className, dispatch, refresh, messages }: LogProps) {
   // scroll to bottom
   const Bottom = () => {
     const bottom = useRef<HTMLDivElement>(null)
@@ -43,23 +34,19 @@ function Log({ refreshLog, setRefreshLog, className }: LogProps) {
   const fetch = async () => {
     const response = await window.log.get()
     if (!response.status && response.payload) {
-      setMessages(response.payload.messages)
-      setRefreshLog?.(false)
+      dispatch({ type: 'SET_MESSAGES', payload: response.payload.messages })
     }
   }
 
   const handleClear = async () => {
     const response = await window.log.clear()
     if (!response.status && response.payload)
-      setMessages(response.payload.messages)
+      dispatch({ type: 'SET_MESSAGES', payload: response.payload.messages })
   }
 
   useEffect(() => {
-    if (refreshLog) {
-      fetch()
-      setRefreshLog?.(false)
-    }
-  }, [refreshLog])
+    if (refresh) fetch()
+  }, [refresh])
 
   return (
     <>

@@ -14,112 +14,75 @@ import Portal from 'components/Portal'
 import Diff from 'components/Diff'
 import CommitHistory from '@/Components/CommitHistory'
 import Stashes from 'components/Stashes'
-import { ModalProps } from 'components/Modal'
-import { useState } from 'react'
+import { useReducer } from 'react'
 import CommitDetail from '../CommitDetail'
+import { reducer, initialState } from '../../reducer'
 
-enum WindowDataType {
-  TYPE_FILE = 0,
-  TYPE_COMMIT,
-}
-
-type WindowData = { value: string; type: WindowDataType } | undefined
+// const TYPE_FILE = 0
+const TYPE_COMMIT = 1
 
 function App() {
-  const [refreshLog, setRefreshLog] = useState(false)
-  const [refreshCommitHistory, setRefreshCommitHistory] = useState(false)
-  const [refreshStage, setRefreshStage] = useState(false)
-  const [refreshStashes, setRefreshStashes] = useState(false)
-  const [refreshBranches, setRefreshBranches] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const [windowData, setWindowData] = useState<WindowData>(undefined)
-  const [modal, setModal] = useState<ModalProps>({
-    children: undefined,
-    buttons: [],
-  })
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
     <>
       <div className='text-beige bg-darkpurple vh-100 vw-100 d-flex flex-column overflow-hidden'>
         <div className='flex-shrink-1'>
-          <Menu
-            setRefreshLog={setRefreshLog}
-            setShowModal={setShowModal}
-            setRefreshBranches={setRefreshBranches}
-            setModal={setModal}
-            setRefreshCommitHistory={setRefreshCommitHistory}
-          />
+          <Menu dispatch={dispatch} />
         </div>
         <div className='d-flex flex-fill flex-row overflow-y-auto overflow-x-hidden'>
           <div className='d-flex w-25 flex-column border border-davygray'>
             <Stage
-              setRefreshLog={setRefreshLog}
-              setRefreshCommitHistory={setRefreshCommitHistory}
-              setShowModal={setShowModal}
-              setModal={setModal}
-              setRefreshStage={setRefreshStage}
-              refreshStage={refreshStage}
-              setWindowData={setWindowData}
-              windowData={windowData}
+              refresh={state.refreshStage}
+              dispatch={dispatch}
+              stage={state.stage}
             />
             <Branches
-              setRefreshLog={setRefreshLog}
-              setRefreshCommitHistory={setRefreshCommitHistory}
-              setShowModal={setShowModal}
-              setModal={setModal}
-              setRefreshBranches={setRefreshBranches}
-              refreshBranches={refreshBranches}
+              dispatch={dispatch}
+              branches={state.branches}
+              refresh={state.refreshBranches}
             />
             <Repositories
-              setRefreshLog={setRefreshLog}
-              setRefreshCommitHistory={setRefreshCommitHistory}
-              setRefreshStage={setRefreshStage}
-              setRefreshBranches={setRefreshBranches}
-              setRefreshStashes={setRefreshStashes}
-              setShowModal={setShowModal}
-              setModal={setModal}
+              repositories={state.repositories}
+              dispatch={dispatch}
             />
             <div className='clipping-container'>
-              <Portal showModal={showModal} {...modal} />
+              <Portal modal={state.modal} dispatch={dispatch} />
             </div>
           </div>
           <div className='w-50 d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
-              {windowData?.type == WindowDataType.TYPE_COMMIT ? (
+              {state.windowData?.type == TYPE_COMMIT ? (
                 <CommitDetail
-                  currentCommit={windowData?.value}
-                  setWindowData={setWindowData}
-                  setRefreshLog={setRefreshLog}
+                  currentCommit={state.windowData?.value}
+                  dispatch={dispatch}
                 />
               ) : (
                 <Diff
-                  currentFile={windowData?.value}
-                  setWindowData={setWindowData}
-                  setRefreshLog={setRefreshLog}
+                  currentFile={state.windowData?.value}
+                  dispatch={dispatch}
                 />
               )}
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
               <Log
-                refreshLog={refreshLog}
-                setRefreshLog={setRefreshLog}
                 className='border-top border-bottom border-davygray'
+                dispatch={dispatch}
+                refresh={state.refreshMessages}
+                messages={state.messages}
               />
             </div>
           </div>
           <div className='d-flex w-25 flex-column flex-fill border border-davygray border-top-0'>
             <CommitHistory
-              setRefreshCommitHistory={setRefreshCommitHistory}
-              refreshCommitHistory={refreshCommitHistory}
-              setWindowData={setWindowData}
+              refresh={state.refreshCommitHistory}
+              dispatch={dispatch}
+              commitHistory={state.commitHistory}
             />
             <Stashes
-              setShowModal={setShowModal}
-              setRefreshLog={setRefreshLog}
-              setModal={setModal}
-              setRefreshStage={setRefreshStage}
-              setRefreshStashes={setRefreshStashes}
-              refreshStashes={refreshStashes}
+              refresh={state.refreshStashes}
+              dispatch={dispatch}
+              stashes={state.stashes}
             />
           </div>
         </div>
