@@ -38,6 +38,7 @@ function Stashes({ stashes, refresh, dispatch }: StashesProps) {
               type='text'
               name='stash'
               style={{ resize: 'none' }}
+              autoFocus
               className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
               placeholder='Stash name'
               defaultValue={newStashRef.current}

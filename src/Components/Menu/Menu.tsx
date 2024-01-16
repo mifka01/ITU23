@@ -85,6 +85,7 @@ function Menu({ dispatch }: Props) {
               type='text'
               name='commit_name'
               style={{ resize: 'none' }}
+              autoFocus
               className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
               placeholder='New commit message'
               defaultValue={commitMessage.current}

@@ -35,6 +35,7 @@ function Branches({ dispatch, branches, refresh }: BranchesProps) {
             <input
               type='text'
               name='branch'
+              autoFocus
               style={{ resize: 'none' }}
               className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
               placeholder='Branch name'
