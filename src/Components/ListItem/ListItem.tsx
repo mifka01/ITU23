@@ -6,6 +6,7 @@
  */
 
 import { ReactNode, useState } from 'react'
+import clsx from 'clsx'
 
 interface ListItemProps {
   start?: ReactNode
@@ -16,17 +17,17 @@ interface ListItemProps {
 function ListItem({ start, end, hovered }: ListItemProps) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const background_color = isHovered ? 'bg-gunmetal' : 'bg-darkpurple'
-
-  const handleHover = () => {
-    setIsHovered(!isHovered)
-  }
-
   return (
     <div
-      className={`d-flex px-2 small ${background_color}`}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleHover}
+      className={clsx('d-flex px-2 small bg-darkpurple', {
+        'bg-gunmetal': isHovered,
+      })}
+      onMouseOver={() => {
+        setIsHovered(true)
+      }}
+      onMouseOut={() => {
+        setIsHovered(false)
+      }}
     >
       <div className='me-auto text-truncate'>{start}</div>
 
