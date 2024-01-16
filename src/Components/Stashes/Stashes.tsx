@@ -9,18 +9,26 @@ import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
 import { Minus, Plus, ArchiveRestore, Archive } from 'lucide-react'
-import { useRef, useEffect, Dispatch, MouseEvent, ChangeEvent } from 'react'
+import {
+  useRef,
+  useState,
+  useEffect,
+  Dispatch,
+  MouseEvent,
+  ChangeEvent,
+} from 'react'
 
 interface StashesProps {
   refresh: number
   dispatch: Dispatch<Actions>
-  stashes: Stashes
 }
 
 type StashEntry = { message: string; hash: string }
+type Stashes = StashEntry[]
 
-function Stashes({ stashes, refresh, dispatch }: StashesProps) {
+function Stashes({ refresh, dispatch }: StashesProps) {
   const newStashRef = useRef<string>('')
+  const [stashes, setStashes] = useState<Stashes>([])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -59,7 +67,7 @@ function Stashes({ stashes, refresh, dispatch }: StashesProps) {
               const response = await window.git.stash_push(newStashRef.current)
               if (!response.status) {
                 fetchStashes()
-              }
+              } else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
               newStashRef.current = ''
             },
           },
@@ -86,9 +94,8 @@ function Stashes({ stashes, refresh, dispatch }: StashesProps) {
             text: 'Yes',
             onClick: async () => {
               const response = await window.git.stash_drop(index)
-              if (!response.status) {
-                fetchStashes()
-              }
+              if (!response.status) fetchStashes()
+              else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
             },
           },
         ],
@@ -98,25 +105,24 @@ function Stashes({ stashes, refresh, dispatch }: StashesProps) {
   const handleApply = async (event: MouseEvent<HTMLButtonElement>) => {
     let index = event.currentTarget.dataset['index']
     const response = await window.git.stash_apply(index)
-    if (!response.status) {
-      fetchStashes()
-    }
+    if (!response.status) fetchStashes()
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handlePop = async (event: MouseEvent<HTMLButtonElement>) => {
     let index = event.currentTarget.dataset['index']
     const response = await window.git.stash_pop(index)
-    if (!response.status) {
-      fetchStashes()
-    }
+    if (!response.status) fetchStashes()
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const fetchStashes = async () => {
     const response = await window.git.stashes()
 
     if (!response.status && response.payload) {
-      dispatch({ type: 'SET_STASHES', payload: response.payload.stashes })
-    }
+      setStashes(response.payload.stashes)
+      dispatch({ type: 'STASHES_SET' })
+    } else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   useEffect(() => {

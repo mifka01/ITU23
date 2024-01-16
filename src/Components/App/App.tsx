@@ -32,20 +32,9 @@ function App() {
         </div>
         <div className='d-flex flex-fill flex-row overflow-y-auto overflow-x-hidden'>
           <div className='d-flex w-25 flex-column border border-davygray'>
-            <Stage
-              refresh={state.refreshStage}
-              dispatch={dispatch}
-              stage={state.stage}
-            />
-            <Branches
-              dispatch={dispatch}
-              branches={state.branches}
-              refresh={state.refreshBranches}
-            />
-            <Repositories
-              repositories={state.repositories}
-              dispatch={dispatch}
-            />
+            <Stage refresh={state.refreshStage} dispatch={dispatch} />
+            <Branches dispatch={dispatch} refresh={state.refreshBranches} />
+            <Repositories dispatch={dispatch} />
             <div className='clipping-container'>
               <Portal modal={state.modal} dispatch={dispatch} />
             </div>
@@ -67,9 +56,7 @@ function App() {
             <div className='d-flex flex-column h-25 overflow-hidden'>
               <Log
                 className='border-top border-bottom border-davygray'
-                dispatch={dispatch}
                 refresh={state.refreshMessages}
-                messages={state.messages}
               />
             </div>
           </div>
@@ -77,13 +64,8 @@ function App() {
             <CommitHistory
               refresh={state.refreshCommitHistory}
               dispatch={dispatch}
-              commitHistory={state.commitHistory}
             />
-            <Stashes
-              refresh={state.refreshStashes}
-              dispatch={dispatch}
-              stashes={state.stashes}
-            />
+            <Stashes refresh={state.refreshStashes} dispatch={dispatch} />
           </div>
         </div>
       </div>

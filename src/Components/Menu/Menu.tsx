@@ -59,11 +59,8 @@ function Menu({ dispatch }: Props) {
 
   const handleFetch = async () => {
     const response = await window.git.fetch()
-    if (!response.status) {
-      dispatch({ type: 'REFRESH_BRANCHES' })
-      return
-    }
-    dispatch({ type: 'REFRESH_LOG_MESSAGES' })
+    if (!response.status) dispatch({ type: 'REFRESH_BRANCHES' })
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handleCommitMessageChange = (event: ChangeEvent<HTMLInputElement>) => {

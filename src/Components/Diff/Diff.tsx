@@ -81,5 +81,4 @@ function Diff({ currentFile, dispatch }: Path) {
     </>
   )
 }
-// {result.map((element) => (<code>{element}</code>))}
 export default Diff

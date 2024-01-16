@@ -5,7 +5,7 @@
  * @date November 2023
  */
 
-import { useEffect, Dispatch } from 'react'
+import { useEffect, useState, Dispatch } from 'react'
 import File from 'components/File'
 import CollapseList from 'components/CollapseList'
 import Commit from 'components/Commit'
@@ -20,18 +20,26 @@ type Buttons = {
 interface StageProps {
   refresh: number
   dispatch: Dispatch<Actions>
-  stage: Stage
 }
 
-function Stage({ refresh, dispatch, stage }: StageProps) {
+type FileEntry = Path & {
+  status: string
+}
+type Files = FileEntry[]
+type Stage = { not_added: Files; staged: Files }
+
+function Stage({ refresh, dispatch }: StageProps) {
+  const [stage, setStage] = useState<Stage>({ not_added: [], staged: [] })
   const handleStageAll = async () => {
     const response = await window.git.add()
     if (!response.status) fetchStatus()
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handleUnstageAll = async () => {
     const response = await window.git.unstage()
     if (!response.status) fetchStatus()
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handleDiscardAll = async () => {
@@ -47,9 +55,8 @@ function Stage({ refresh, dispatch, stage }: StageProps) {
             text: 'Yes',
             onClick: async () => {
               const response = await window.git.discard_unstaged()
-              if (!response.status) {
-                fetchStatus()
-              }
+              if (!response.status) fetchStatus()
+              else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
             },
           },
         ],
@@ -78,14 +85,15 @@ function Stage({ refresh, dispatch, stage }: StageProps) {
     const response = await window.git.status()
 
     if (!response.status && response.payload) {
-      dispatch({
-        type: 'SET_STAGE',
-        payload: {
-          staged: response.payload.staged,
-          not_added: response.payload.not_added,
-        },
+      setStage({
+        staged: response.payload.staged,
+        not_added: response.payload.not_added,
       })
-    }
+
+      dispatch({
+        type: 'STAGE_SET',
+      })
+    } else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   useEffect(() => {

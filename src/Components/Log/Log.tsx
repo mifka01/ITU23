@@ -5,7 +5,7 @@
  * @date November 2023
  */
 
-import { useEffect, useRef, Dispatch } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Trash2 } from 'lucide-react'
 
 import LogMessage from 'components/LogMessage'
@@ -14,12 +14,18 @@ import clsx from 'clsx'
 
 interface LogProps {
   className?: String
-  dispatch: Dispatch<Actions>
   refresh: number
-  messages: LogMessages
 }
 
-function Log({ className, dispatch, refresh, messages }: LogProps) {
+type LogMessage = {
+  type: string
+  time: string
+  text: string
+}
+type LogMessages = LogMessage[]
+
+function Log({ className, refresh }: LogProps) {
+  const [messages, setMessages] = useState<LogMessages>([])
   // scroll to bottom
   const Bottom = () => {
     const bottom = useRef<HTMLDivElement>(null)
@@ -34,18 +40,18 @@ function Log({ className, dispatch, refresh, messages }: LogProps) {
   const fetch = async () => {
     const response = await window.log.get()
     if (!response.status && response.payload) {
-      dispatch({ type: 'SET_MESSAGES', payload: response.payload.messages })
+      setMessages(response.payload.messages)
     }
   }
 
   const handleClear = async () => {
     const response = await window.log.clear()
     if (!response.status && response.payload)
-      dispatch({ type: 'SET_MESSAGES', payload: response.payload.messages })
+      setMessages(response.payload.messages)
   }
 
   useEffect(() => {
-    if (refresh) fetch()
+    fetch()
   }, [refresh])
 
   return (

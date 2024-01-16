@@ -9,16 +9,26 @@ import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
 import { Minus, Plus } from 'lucide-react'
-import { useRef, useEffect, Dispatch, ChangeEvent, MouseEvent } from 'react'
+import {
+  useRef,
+  useState,
+  useEffect,
+  Dispatch,
+  ChangeEvent,
+  MouseEvent,
+} from 'react'
+
+type BranchEntry = { name: string; current: boolean }
+type Branches = BranchEntry[]
 
 interface BranchesProps {
   dispatch: Dispatch<Actions>
-  branches: Branches
   refresh: number
 }
 
-function Branches({ dispatch, branches, refresh }: BranchesProps) {
+function Branches({ dispatch, refresh }: BranchesProps) {
   const newBranchRef = useRef<string>('')
+  const [branches, setBranches] = useState<Branches>([])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -60,7 +70,7 @@ function Branches({ dispatch, branches, refresh }: BranchesProps) {
               if (!response.status) {
                 fetchBranches()
                 newBranchRef.current = ''
-              }
+              } else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
             },
           },
         ],
@@ -84,9 +94,8 @@ function Branches({ dispatch, branches, refresh }: BranchesProps) {
             text: 'Yes',
             onClick: async () => {
               const response = await window.git.delete_branch(name)
-              if (!response.status) {
-                fetchBranches()
-              }
+              if (!response.status) fetchBranches()
+              else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
             },
           },
         ],
@@ -99,13 +108,16 @@ function Branches({ dispatch, branches, refresh }: BranchesProps) {
     const response = await window.git.checkout_branch(name)
 
     if (!response.status) fetchBranches()
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const fetchBranches = async () => {
     const response = await window.git.branches()
 
-    if (!response.status && response.payload)
-      dispatch({ type: 'SET_BRANCHES', payload: response.payload.branches })
+    if (!response.status && response.payload) {
+      setBranches(response.payload.branches)
+      dispatch({ type: 'BRANCHES_SET' })
+    } else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   useEffect(() => {

@@ -9,14 +9,19 @@ import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
 import { Minus, Plus } from 'lucide-react'
-import { useEffect, Dispatch, MouseEvent } from 'react'
+import { useEffect, useState, Dispatch, MouseEvent } from 'react'
+
+type RepositoryEntry = Path & {
+  current: boolean
+}
+type Repositories = RepositoryEntry[]
 
 interface RepositoriesProps {
-  repositories: Repositories
   dispatch: Dispatch<Actions>
 }
 
-function Repositories({ repositories, dispatch }: RepositoriesProps) {
+function Repositories({ dispatch }: RepositoriesProps) {
+  const [repositories, setRepositories] = useState<Repositories>([])
   const handleAdd = async () => {
     const response = await window.app.open()
     if (!response.status) fetchRepositories()
@@ -39,9 +44,9 @@ function Repositories({ repositories, dispatch }: RepositoriesProps) {
   const fetchRepositories = async () => {
     const response = await window.app.repositories()
     if (!response.status && response.payload) {
+      setRepositories(response.payload.repositories)
       dispatch({
-        type: 'SET_REPOSITORIES',
-        payload: response.payload.repositories,
+        type: 'REPOSITORIES_SET',
       })
 
       if (response.payload.repositories.length == 0) {

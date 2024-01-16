@@ -1,10 +1,4 @@
 type State = {
-  repositories: Repositories
-  branches: Branches
-  commitHistory: CommitHistory
-  stashes: Stashes
-  stage: Stage
-  messages: LogMessages
   windowData: WindowData
   modal: Modal | undefined
   refreshBranches: number
@@ -15,12 +9,6 @@ type State = {
 }
 
 export const initialState: State = {
-  repositories: [],
-  branches: [],
-  commitHistory: [],
-  stashes: [],
-  stage: { staged: [], not_added: [] },
-  messages: [],
   windowData: undefined,
   modal: undefined,
   refreshBranches: 0,
@@ -42,42 +30,30 @@ enum WindowDataType {
 
 export function reducer(state: State, action: Actions): State {
   switch (action.type) {
-    case 'SET_REPOSITORIES':
+    case 'REPOSITORIES_SET':
       return {
         ...state,
-        repositories: action.payload,
         refreshBranches: state.refreshBranches + 1,
         refreshStashes: state.refreshStashes + 1,
       }
-    case 'SET_BRANCHES':
+    case 'BRANCHES_SET':
       return {
         ...state,
-        branches: action.payload,
         refreshStage: state.refreshStage + 1,
       }
-    case 'SET_COMMIT_HISTORY':
-      return { ...state, commitHistory: action.payload }
-    case 'SET_STASHES':
+    case 'COMMIT_HISTORY_SET':
+      return { ...state }
+    case 'STASHES_SET':
       return {
         ...state,
-        stashes: action.payload,
         refreshMessages: state.refreshMessages + 1,
       }
-    case 'SET_STAGE':
-      const isWindowDataReset =
-        !action.payload.not_added.some(
-          (entry: FileEntry) => entry.path === state.windowData?.value,
-        ) || state.windowData?.type === WindowDataType.TYPE_COMMIT
-
+    case 'STAGE_SET':
       return {
         ...state,
-        stage: action.payload,
         refreshCommitHistory: state.refreshCommitHistory + 1,
         refreshMessages: state.refreshMessages + 1,
-        windowData: isWindowDataReset ? undefined : state.windowData,
       }
-    case 'SET_MESSAGES':
-      return { ...state, messages: action.payload }
     case 'SET_CURRENT_FILE':
       return {
         ...state,

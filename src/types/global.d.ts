@@ -13,26 +13,6 @@ declare global {
     path: string
   }
 
-  type RepositoryEntry = Path & {
-    current: boolean
-  }
-  type Repositories = RepositoryEntry[]
-
-  type FileEntry = Path & {
-    status: string
-  }
-  type Files = FileEntry[]
-  type Stage = { not_added: Files; staged: Files }
-
-  type BranchEntry = { name: string; current: boolean }
-  type Branches = BranchEntry[]
-
-  type CommitEntry = { message: string; hash: string }
-  type CommitHistory = CommitEntry[]
-
-  type StashEntry = { message: string; hash: string }
-  type Stashes = StashEntry[]
-
   type WindowData = { value: string; type: WindowDataType } | undefined
 
   interface Modal {
@@ -44,20 +24,12 @@ declare global {
     children?: ReactNode
   }
 
-  type LogMessage = {
-    type: string
-    time: string
-    text: string
-  }
-  type LogMessages = LogMessage[]
-
   type Actions =
-    | { type: 'SET_REPOSITORIES'; payload: Repositories }
-    | { type: 'SET_BRANCHES'; payload: Branches }
-    | { type: 'SET_COMMIT_HISTORY'; payload: CommitHistory }
-    | { type: 'SET_STASHES'; payload: Stashes }
-    | { type: 'SET_STAGE'; payload: Stage }
-    | { type: 'SET_MESSAGES'; payload: LogMessages }
+    | { type: 'REPOSITORIES_SET' }
+    | { type: 'BRANCHES_SET' }
+    | { type: 'COMMIT_HISTORY_SET' }
+    | { type: 'STASHES_SET' }
+    | { type: 'STAGE_SET' }
     | { type: 'SET_CURRENT_FILE'; payload: string }
     | { type: 'RESET_CURRENT_FILE' }
     | { type: 'SET_CURRENT_COMMIT'; payload: string }

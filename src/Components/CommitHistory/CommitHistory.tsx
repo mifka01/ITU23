@@ -7,27 +7,25 @@
 
 import CollapseList from 'components/CollapseList'
 import CommitItem from 'components/CommitItem'
-import { useEffect, Dispatch } from 'react'
+import { useEffect, useState, Dispatch } from 'react'
 
 interface CommitHistoryProps {
-  commitHistory: CommitHistory
   refresh: number
   dispatch: Dispatch<Actions>
 }
 
 type CommitEntry = { message: string; hash: string }
+type CommitHistory = CommitEntry[]
 
-function CommitHistory({
-  commitHistory,
-  refresh,
-  dispatch,
-}: CommitHistoryProps) {
+function CommitHistory({ refresh, dispatch }: CommitHistoryProps) {
+  const [commitHistory, setCommitHistory] = useState<CommitHistory>([])
+
   const fetchCommitHistory = async () => {
     const response = await window.git.commit_history()
     if (!response.status && response.payload) {
+      setCommitHistory(response.payload.commit_history)
       dispatch({
-        type: 'SET_COMMIT_HISTORY',
-        payload: response.payload.commit_history,
+        type: 'COMMIT_HISTORY_SET',
       })
     }
   }
