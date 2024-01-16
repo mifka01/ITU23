@@ -134,7 +134,7 @@ export const StageController: IController = {
     async add(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.add(file)
-        log.append('COMMAND', `git add ${file}`)
+        log.append('COMMAND', `git add ${file ? file : '.'}`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
@@ -152,7 +152,7 @@ export const StageController: IController = {
     async unstage(_: IpcMainInvokeEvent, file?: string) {
       try {
         await git.unstage(file)
-        log.append('COMMAND', `git reset ${file}`)
+        log.append('COMMAND', `git reset ${file ? file : '.'}`)
         return ResponseSuccess()
       } catch (error: unknown) {
         log.append('ERROR', String(error))
