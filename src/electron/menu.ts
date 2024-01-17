@@ -16,13 +16,8 @@ export const generateMenu = (win: BrowserWindow) => {
       label: 'Repository',
       submenu: [
         {
-          label: 'New',
-          click: () => {
-            // Implement the 'New' action here
-          },
-        },
-        {
           label: 'Open',
+          accelerator: 'CmdOrCtrl+O',
           click: () => {
             openFolderDialog(win)
               .then((selectedDirectory: string | undefined) => {
@@ -46,8 +41,9 @@ export const generateMenu = (win: BrowserWindow) => {
         { type: 'separator' },
         {
           label: 'Exit',
+          accelerator: 'CmdOrCtrl+Q',
           click: () => {
-            app.quit() // Exit the application
+            app.quit()
           },
         },
       ],

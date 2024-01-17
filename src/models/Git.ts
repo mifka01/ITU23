@@ -17,8 +17,10 @@ import {
   PullResult,
 } from 'simple-git'
 
+import { app } from './App'
+
 const options: Partial<SimpleGitOptions> = {
-  baseDir: '',
+  baseDir: app.get_last_repository(),
   binary: 'git',
   maxConcurrentProcesses: 6,
   trimmed: false,

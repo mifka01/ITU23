@@ -18,6 +18,13 @@ export class App {
     return readFileSync(REPOSITORIES_FILE, 'utf-8')
   }
 
+  get_last_repository(): string {
+    const repos = JSON.parse(readFileSync(REPOSITORIES_FILE, 'utf-8'))
+
+    if (repos) return repos[0]
+    return ''
+  }
+
   /**
    * Deletes a repository from the JSON file at the specified path.
    * @param path - The path to the JSON file.
