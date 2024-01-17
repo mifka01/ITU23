@@ -5,7 +5,13 @@
  * @date November 2023
  */
 
-function LogMessage({ type, time, text }: LogMessage) {
+type LogMessageProps = {
+  type: string
+  time: string
+  text: string
+}
+
+function LogMessage({ type, time, text }: LogMessageProps) {
   return (
     <>
       <div

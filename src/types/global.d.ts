@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 export {}
 
-enum WindowDataType {
+enum PreviewDataType {
   TYPE_FILE = 0,
   TYPE_COMMIT = 1,
 }
@@ -13,7 +13,7 @@ declare global {
     path: string
   }
 
-  type WindowData = { value: string; type: WindowDataType } | undefined
+  type PreviewData = { value: string; type: PreviewDataType } | undefined
 
   interface Modal {
     buttons?: {
@@ -33,7 +33,7 @@ declare global {
     | { type: 'SET_CURRENT_FILE'; payload: string }
     | { type: 'RESET_CURRENT_FILE' }
     | { type: 'SET_CURRENT_COMMIT'; payload: string }
-    | { type: 'RESET_CURRENT_COMMIT' }
+    | { type: 'RESET_PREVIEW' }
     | { type: 'REFRESH_COMMIT_HISTORY' }
     | { type: 'REFRESH_BRANCHES' }
     | { type: 'REFRESH_LOG_MESSAGES' }

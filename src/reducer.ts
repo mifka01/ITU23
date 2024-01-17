@@ -1,5 +1,5 @@
 type State = {
-  windowData: WindowData
+  previewData: PreviewData
   modal: Modal | undefined
   refreshBranches: number
   refreshCommitHistory: number
@@ -9,7 +9,7 @@ type State = {
 }
 
 export const initialState: State = {
-  windowData: undefined,
+  previewData: undefined,
   modal: undefined,
   refreshBranches: 0,
   refreshCommitHistory: 0,
@@ -23,7 +23,7 @@ export const initialState: State = {
 // fetch_stage -> commitHistory
 //
 
-enum WindowDataType {
+enum PreviewDataType {
   TYPE_FILE = 0,
   TYPE_COMMIT = 1,
 }
@@ -57,16 +57,18 @@ export function reducer(state: State, action: Actions): State {
     case 'SET_CURRENT_FILE':
       return {
         ...state,
-        windowData: { value: action.payload, type: WindowDataType.TYPE_FILE },
+        previewData: { value: action.payload, type: PreviewDataType.TYPE_FILE },
       }
     case 'SET_CURRENT_COMMIT':
       return {
         ...state,
-        windowData: { value: action.payload, type: WindowDataType.TYPE_COMMIT },
+        previewData: {
+          value: action.payload,
+          type: PreviewDataType.TYPE_COMMIT,
+        },
       }
-    case 'RESET_CURRENT_COMMIT':
-    case 'RESET_CURRENT_FILE':
-      return { ...state, windowData: undefined }
+    case 'RESET_PREVIEW':
+      return { ...state, previewData: undefined }
     case 'REFRESH_BRANCHES':
       return { ...state, refreshBranches: state.refreshBranches + 1 }
     case 'REFRESH_COMMIT_HISTORY':

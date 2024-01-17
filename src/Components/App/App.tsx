@@ -11,15 +11,11 @@ import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Repositories from 'components/Repositories'
 import Portal from 'components/Portal'
-import Diff from 'components/Diff'
+import Preview from 'components/Preview'
 import CommitHistory from '@/Components/CommitHistory'
 import Stashes from 'components/Stashes'
 import { useReducer } from 'react'
-import CommitDetail from '../CommitDetail'
 import { reducer, initialState } from '../../reducer'
-
-// const TYPE_FILE = 0
-const TYPE_COMMIT = 1
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -41,17 +37,7 @@ function App() {
           </div>
           <div className='w-50 d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
-              {state.windowData?.type == TYPE_COMMIT ? (
-                <CommitDetail
-                  currentCommit={state.windowData?.value}
-                  dispatch={dispatch}
-                />
-              ) : (
-                <Diff
-                  currentFile={state.windowData?.value}
-                  dispatch={dispatch}
-                />
-              )}
+              <Preview preview={state.previewData} dispatch={dispatch} />
             </div>
             <div className='d-flex flex-column h-25 overflow-hidden'>
               <Log

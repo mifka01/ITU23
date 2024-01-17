@@ -5,62 +5,46 @@
  * @date October 2023
  */
 
-import { useEffect, useState, Dispatch } from 'react'
 import clsx from 'clsx'
-import { X } from 'lucide-react'
+import { useState, useEffect, Dispatch } from 'react'
 
-interface Path {
-  currentFile?: string
+interface DiffProps {
+  currentFile: string
   dispatch: Dispatch<Actions>
+}
+
+enum MARKS {
+  PLUS = '+',
+  MINUS = '-',
+  SPACE = ' ',
 }
 
 type DiffEntry = { mark: string; line_num: string; line: string }
 
-function Diff({ currentFile, dispatch }: Path) {
+function Diff({ currentFile, dispatch }: DiffProps) {
   const [data, setData] = useState<DiffEntry[]>([])
 
-  const fetchData = async () => {
+  const fetch = async () => {
     const response = await window.git.getDiff(currentFile)
     if (!response.status && response.payload) setData(response.payload.data)
     dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   useEffect(() => {
-    if (!currentFile) {
-      setData([])
-      return
-    }
-
-    fetchData()
+    fetch()
   }, [currentFile])
 
   return (
     <>
-      <div className='heading bg-darkpurple text-beige d-flex justify-content-between align-items-center border-bottom border-davygray'>
-        <span className='ps-2'>
-          {currentFile ? currentFile : 'Neither file nor commit selected'}
-        </span>
-        {currentFile ? (
-          <span
-            role='button'
-            onClick={() => {
-              dispatch({ type: 'RESET_CURRENT_FILE' })
-            }}
-          >
-            <X size={20} className='me-2' />
-          </span>
-        ) : null}
-      </div>
-
       <pre className='d-flex bg-gunmetal flex-column overflow-auto m-0'>
         {data.map((element, index) => {
           return (
-            <div className='d-flex' key={'diff-line-' + index}>
+            <div className='d-flex' key={`diff-line-${index}`}>
               <code
                 className={clsx('ps-3 pe-3 bg-opacity-50', {
-                  'bg-lineok': element.mark === '+',
-                  'bg-linenok': element.mark === '-',
-                  'bg-linenochange': element.mark === ' ',
+                  'bg-lineok': element.mark === MARKS.PLUS,
+                  'bg-linenok': element.mark === MARKS.MINUS,
+                  'bg-linenochange': element.mark === MARKS.SPACE,
                 })}
                 style={{ width: '50px', minWidth: '50px' }}
               >
@@ -68,8 +52,8 @@ function Diff({ currentFile, dispatch }: Path) {
               </code>
               <code
                 className={clsx('flex-fill bg-opacity-50 ps-1', {
-                  'bg-codeok': element.mark === '+',
-                  'bg-codenok': element.mark === '-',
+                  'bg-codeok': element.mark === MARKS.PLUS,
+                  'bg-codenok': element.mark === MARKS.MINUS,
                 })}
               >
                 {element.line}
