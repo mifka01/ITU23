@@ -8,46 +8,20 @@
 import CollapseList from 'components/CollapseList'
 import ListItem from 'components/ListItem'
 import Button from 'components/Button'
-import { ModalProps } from 'components/Modal'
 import { Minus, Plus } from 'lucide-react'
-import {
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  MouseEvent,
-} from 'react'
+import { useEffect, useState, Dispatch, MouseEvent } from 'react'
 
-interface RepositoriesProps {
-  setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
-  setRefreshStage?: Dispatch<SetStateAction<boolean>>
-  setRefreshBranches?: Dispatch<SetStateAction<boolean>>
-  setRefreshStashes?: Dispatch<SetStateAction<boolean>>
-  setShowModal?: Dispatch<SetStateAction<boolean>>
-  setModal?: Dispatch<SetStateAction<ModalProps>>
-}
-
-type RepositoryEntry = {
-  filename: string
-  dirname: string
-  path: string
+type RepositoryEntry = Path & {
   current: boolean
 }
+type Repositories = RepositoryEntry[]
 
-function Repositories({
-  setRefreshLog,
-  setRefreshCommitHistory,
-  setRefreshStage,
-  setRefreshBranches,
-  setRefreshStashes,
-  setShowModal,
-  setModal,
-}: RepositoriesProps) {
-  const [repositories, setRepositories] = useState<
-    RepositoryEntry[] | undefined
-  >(undefined)
+interface RepositoriesProps {
+  dispatch: Dispatch<Actions>
+}
 
+function Repositories({ dispatch }: RepositoriesProps) {
+  const [repositories, setRepositories] = useState<Repositories>([])
   const handleAdd = async () => {
     const response = await window.app.open()
     if (!response.status) fetchRepositories()
@@ -64,89 +38,72 @@ function Repositories({
     const response = await window.app.setCWD(path)
     if (!response.status) {
       fetchRepositories()
-      setRefreshStage?.(true)
-      setRefreshBranches?.(true)
-      setRefreshStashes?.(true)
-      setRefreshCommitHistory?.(true)
     }
   }
 
   const fetchRepositories = async () => {
     const response = await window.app.repositories()
-    if (!response.status && response.payload)
+    if (!response.status && response.payload) {
       setRepositories(response.payload.repositories)
-    setRefreshLog?.(true)
+      dispatch({
+        type: 'REPOSITORIES_SET',
+      })
+
+      if (response.payload.repositories.length == 0) {
+        dispatch({
+          type: 'SET_MODAL',
+          payload: {
+            children: <span>First you have to add a repository</span>,
+            buttons: [
+              {
+                text: 'Open',
+                onClick: async () => {
+                  handleAdd()
+                },
+              },
+            ],
+          },
+        })
+      }
+    }
   }
+
   useEffect(() => {
     fetchRepositories()
   }, [])
-
-  useEffect(() => {
-    setRefreshStage?.(true)
-    setRefreshBranches?.(true)
-    setRefreshStashes?.(true)
-    setRefreshCommitHistory?.(true)
-    if (repositories?.length == 0) {
-      if (setModal && setShowModal) {
-        setModal({
-          children: <span>First you have to add a repository</span>,
-          buttons: [
-            {
-              text: 'Open',
-              onClick: async () => {
-                handleAdd()
-                setShowModal(false)
-              },
-            },
-          ],
-        })
-        setShowModal(true)
-      }
-    }
-  }, [repositories])
 
   return (
     <CollapseList
       heading={'Repositories'}
       buttons={[{ text: Plus, onClick: handleAdd }]}
       className='border-top border-bottom border-davygray'
-      items={
-        repositories
-          ? repositories.map((repository: RepositoryEntry) => (
-              <ListItem
-                key={repository.path}
-                start={
-                  <span
-                    data-path={repository.path}
-                    onClick={handleChange}
-                    role={'button'}
-                  >
-                    {repository.filename}
-                    <small className='text-davygray ms-2'>
-                      {repository.dirname}
-                    </small>
-                  </span>
-                }
-                hovered={
-                  !repository.current && (
-                    <Button
-                      data-path={repository.path}
-                      className='text-white border-0'
-                      onClick={handleDelete}
-                    >
-                      <Minus size={15} />
-                    </Button>
-                  )
-                }
-                end={
-                  repository.current && (
-                    <span className='text-ecru'>CURRENT</span>
-                  )
-                }
-              />
-            ))
-          : []
-      }
+      items={repositories.map((repository) => (
+        <ListItem
+          key={repository.path}
+          start={
+            <span
+              data-path={repository.path}
+              onClick={handleChange}
+              role={'button'}
+            >
+              {repository.basename}
+              <small className='text-davygray ms-2'>{repository.dirname}</small>
+            </span>
+          }
+          hovered={
+            !repository.current && (
+              <Button
+                data-path={repository.path}
+                className='text-white border-0'
+                onClick={handleDelete}
+              >
+                <Minus size={15} />
+              </Button>
+            )
+          }
+          end={repository.current && <span className='text-ecru'>CURRENT</span>}
+        />
+      ))}
     />
   )
 }

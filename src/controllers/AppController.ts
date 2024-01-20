@@ -15,7 +15,7 @@ import { app } from '../models/App'
 import path from 'node:path'
 
 type RepositoryEntry = {
-  filename: string
+  basename: string
   dirname: string
   path: string
   current: boolean
@@ -85,7 +85,7 @@ export const AppController: IController = {
 
         for (let cur_path of response) {
           const entry: RepositoryEntry = {
-            filename: path.basename(cur_path),
+            basename: path.basename(cur_path),
             dirname: path.dirname(cur_path),
             path: cur_path,
             current: cur_path == current,

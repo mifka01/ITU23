@@ -65,12 +65,15 @@ export const MenuController: IController = {
     async revert(_: IpcMainInvokeEvent) {
       const response = await git.revert()
 
-      if(response !== undefined){
-        log.append('COMMAND',`git revert "${response}"`)
+      if (response !== undefined) {
+        log.append('COMMAND', `git revert "${response}"`)
         return ResponseSuccess()
       }
 
-      log.append('ERROR', 'No existing commits to revert or uncommited changes.')
+      log.append(
+        'ERROR',
+        'No existing commits to revert or uncommited changes.',
+      )
       return ResponseError()
     },
 
@@ -83,10 +86,10 @@ export const MenuController: IController = {
     async fetch(_: IpcMainInvokeEvent) {
       try {
         await git.fetch()
-        log.append('COMMAND','git fetch')
+        log.append('COMMAND', 'git fetch')
         return ResponseSuccess()
-      }catch (error: unknown){
-        log.append('ERROR',String(error))
+      } catch (error: unknown) {
+        log.append('ERROR', String(error))
         return ResponseError()
       }
     },
@@ -101,10 +104,13 @@ export const MenuController: IController = {
     async amend(_: IpcMainInvokeEvent, message: string) {
       try {
         await git.amend(message)
-        log.append('COMMAND',`git commit --amend -m ${message}`)
+        log.append('COMMAND', `git commit --amend -m ${message}`)
         return ResponseSuccess()
-      }catch (error: unknown){
-        log.append('ERROR','Cant rename commit. Only non-pushed commit can be renamed.')
+      } catch (error: unknown) {
+        log.append(
+          'ERROR',
+          'Cant rename commit. Only non-pushed commit can be renamed.',
+        )
         return ResponseError()
       }
     },

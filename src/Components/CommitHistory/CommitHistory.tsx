@@ -7,43 +7,32 @@
 
 import CollapseList from 'components/CollapseList'
 import CommitItem from 'components/CommitItem'
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useEffect, useState, Dispatch } from 'react'
 
 interface CommitHistoryProps {
-  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
-  refreshCommitHistory?: boolean
-  setWindowData?: Dispatch<SetStateAction<WindowData>>
+  refresh: number
+  dispatch: Dispatch<Actions>
 }
 
 type CommitEntry = { message: string; hash: string }
+type CommitHistory = CommitEntry[]
 
-enum WindowDataType {
-  TYPE_FILE = 0,
-  TYPE_COMMIT,
-}
-
-type WindowData = { value: string; type: WindowDataType } | undefined
-
-function CommitHistory({
-  setRefreshCommitHistory,
-  refreshCommitHistory,
-  setWindowData,
-}: CommitHistoryProps) {
-  const [commitHistory, setCommitHistory] = useState<CommitEntry[]>([])
+function CommitHistory({ refresh, dispatch }: CommitHistoryProps) {
+  const [commitHistory, setCommitHistory] = useState<CommitHistory>([])
 
   const fetchCommitHistory = async () => {
     const response = await window.git.commit_history()
-
-    if (!response.status && response.payload)
+    if (!response.status && response.payload) {
       setCommitHistory(response.payload.commit_history)
+      dispatch({
+        type: 'COMMIT_HISTORY_SET',
+      })
+    }
   }
 
   useEffect(() => {
-    if (refreshCommitHistory) {
-      fetchCommitHistory()
-      setRefreshCommitHistory?.(false)
-    }
-  }, [refreshCommitHistory])
+    fetchCommitHistory()
+  }, [refresh])
 
   useEffect(() => {
     window.app.request_refresh(fetchCommitHistory)
@@ -62,9 +51,9 @@ function CommitHistory({
           key={commit.hash}
           message={<small>{commit.message}</small>}
           onClick={() => {
-            setWindowData?.({
-              value: commit.hash,
-              type: WindowDataType.TYPE_COMMIT,
+            dispatch({
+              type: 'SET_CURRENT_COMMIT',
+              payload: commit.hash,
             })
           }}
         />

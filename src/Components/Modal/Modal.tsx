@@ -5,19 +5,20 @@
  * @date December 2023
  */
 
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, Dispatch } from 'react'
 import Button from 'components/Button'
 import './Modal.css'
 
-export interface ModalProps extends PropsWithChildren {
+interface ModalProps extends PropsWithChildren {
   buttons?: {
     text: string
-    onClick: () => void
+    onClick?: () => void
     className?: string
   }[]
+  dispatch: Dispatch<Actions>
 }
 
-export function Modal({ children, buttons }: ModalProps) {
+function Modal({ children, buttons, dispatch }: ModalProps) {
   return (
     <div className='modal d-block backdrop'>
       <div className='modal-dialog modal-dialog-centered '>
@@ -29,9 +30,13 @@ export function Modal({ children, buttons }: ModalProps) {
                 {buttons?.map(({ text, onClick, className }) => (
                   <div className='col text-center'>
                     <Button
-                      className={`border-0 ${className ? className : 'text-beige'
-                        }`}
-                      onClick={onClick}
+                      className={`border-0 ${
+                        className ? className : 'text-beige'
+                      }`}
+                      onClick={() => {
+                        onClick?.()
+                        dispatch({ type: 'CLOSE_MODAL' })
+                      }}
                     >
                       {text}
                     </Button>
@@ -45,3 +50,5 @@ export function Modal({ children, buttons }: ModalProps) {
     </div>
   )
 }
+
+export default Modal

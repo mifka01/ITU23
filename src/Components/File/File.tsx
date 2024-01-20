@@ -18,7 +18,7 @@ interface FileProps {
   onClick?: () => void
   afterAction?: () => void
   staged: boolean
-  fileEntry: { filename: string; dirname: string; path: string }
+  fileEntry: { basename: string; dirname: string; path: string }
   status: string
 }
 
@@ -63,9 +63,10 @@ function File({ afterAction, onClick, staged, fileEntry, status }: FileProps) {
 
   return (
     <ListItem
+      key={fileEntry.path}
       start={
         <span onClick={onClick} role={'button'}>
-          {fileEntry.filename}
+          {fileEntry.basename}
           <small className='text-davygray ms-2'>{fileEntry.path}</small>
         </span>
       }

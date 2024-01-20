@@ -5,26 +5,11 @@
  * @date November 2023
  */
 
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useEffect, useState, Dispatch } from 'react'
 import File from 'components/File'
 import CollapseList from 'components/CollapseList'
 import Commit from 'components/Commit'
 import { Plus, Minus, Undo2, LucideIcon } from 'lucide-react'
-import { ModalProps } from 'components/Modal'
-
-type FileEntry = {
-  filename: string
-  dirname: string
-  path: string
-  status: string
-}
-
-enum WindowDataType {
-  TYPE_FILE = 0,
-  TYPE_COMMIT,
-}
-
-type WindowData = { value: string; type: WindowDataType } | undefined
 
 type Buttons = {
   text: LucideIcon | string
@@ -33,65 +18,50 @@ type Buttons = {
 }[]
 
 interface StageProps {
-  setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
-  setShowModal?: Dispatch<SetStateAction<boolean>>
-  setModal?: Dispatch<SetStateAction<ModalProps>>
-  setRefreshStage?: Dispatch<SetStateAction<boolean>>
-  setShowDiff?: Dispatch<SetStateAction<boolean>>
-  refreshStage?: boolean
-  setWindowData?: Dispatch<SetStateAction<WindowData>>
-  windowData?: WindowData
+  refresh: number
+  dispatch: Dispatch<Actions>
 }
 
-function Stage({
-  setRefreshLog,
-  setRefreshCommitHistory,
-  setShowModal,
-  setModal,
-  setRefreshStage,
-  refreshStage,
-  setWindowData,
-  windowData,
-}: StageProps) {
-  const [notAdded, setNotAdded] = useState<FileEntry[]>([])
-  const [staged, setStaged] = useState<FileEntry[]>([])
+type FileEntry = Path & {
+  status: string
+}
+type Files = FileEntry[]
+type Stage = { not_added: Files; staged: Files }
 
+function Stage({ refresh, dispatch }: StageProps) {
+  const [stage, setStage] = useState<Stage>({ not_added: [], staged: [] })
   const handleStageAll = async () => {
     const response = await window.git.add()
     if (!response.status) fetchStatus()
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handleUnstageAll = async () => {
     const response = await window.git.unstage()
     if (!response.status) fetchStatus()
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handleDiscardAll = async () => {
-    if (setModal && setShowModal) {
-      setModal({
+    dispatch({
+      type: 'SET_MODAL',
+      payload: {
         children: <span>Are you sure you want to discard all changes?</span>,
         buttons: [
           {
             text: 'No',
-            onClick: () => {
-              setShowModal?.(false)
-            },
           },
           {
             text: 'Yes',
             onClick: async () => {
               const response = await window.git.discard_unstaged()
-              if (!response.status) {
-                fetchStatus()
-                setShowModal?.(false)
-              }
+              if (!response.status) fetchStatus()
+              else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
             },
           },
         ],
-      })
-      setShowModal(true)
-    }
+      },
+    })
   }
 
   const notAdded_buttons: Buttons = [
@@ -115,19 +85,15 @@ function Stage({
     const response = await window.git.status()
 
     if (!response.status && response.payload) {
-      setStaged(response.payload.staged)
-      setNotAdded(response.payload.not_added)
+      setStage({
+        staged: response.payload.staged,
+        not_added: response.payload.not_added,
+      })
 
-      if (
-        windowData &&
-        (!response.payload.not_added.some(
-          (entry: FileEntry) => entry.path === windowData.value,
-        ) ||
-          windowData.type == WindowDataType.TYPE_COMMIT)
-      )
-        setWindowData?.(undefined)
-    }
-    setRefreshLog?.(true)
+      dispatch({
+        type: 'STAGE_SET',
+      })
+    } else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   useEffect(() => {
@@ -139,25 +105,21 @@ function Stage({
   }, [])
 
   useEffect(() => {
-    if (refreshStage) {
-      fetchStatus()
-      setRefreshStage?.(false)
-    }
-  }, [refreshStage])
+    fetchStatus()
+  }, [refresh])
 
   return (
     <>
       <Commit
         afterSubmit={() => {
           fetchStatus()
-          setRefreshCommitHistory?.(true)
         }}
       />
       <CollapseList
         heading={'Staged changes'}
         className='border-top border-bottom border-davygray'
         buttons={staged_buttons}
-        items={staged.map((file) => (
+        items={stage.staged.map((file) => (
           <File
             key={file.path}
             afterAction={fetchStatus}
@@ -165,9 +127,9 @@ function Stage({
             fileEntry={file}
             status={file.status}
             onClick={() => {
-              setWindowData?.({
-                value: file.path,
-                type: WindowDataType.TYPE_FILE,
+              dispatch({
+                type: 'SET_CURRENT_FILE',
+                payload: file.path,
               })
             }}
           />
@@ -178,7 +140,7 @@ function Stage({
         heading={'Changes'}
         className='border-top border-bottom border-davygray '
         buttons={notAdded_buttons}
-        items={notAdded.map((file) => (
+        items={stage.not_added.map((file) => (
           <File
             key={file.path}
             afterAction={fetchStatus}
@@ -186,9 +148,9 @@ function Stage({
             fileEntry={file}
             status={file.status}
             onClick={() => {
-              setWindowData?.({
-                value: file.path,
-                type: WindowDataType.TYPE_FILE,
+              dispatch({
+                type: 'SET_CURRENT_FILE',
+                payload: file.path,
               })
             }}
           />

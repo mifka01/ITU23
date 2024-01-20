@@ -6,20 +6,22 @@
  */
 
 import { createPortal } from 'react-dom'
-import { Modal, ModalProps } from 'components/Modal'
+import { Dispatch } from 'react'
+import { default as CModal } from 'components/Modal'
 
-interface PortalProps extends ModalProps {
-  showModal: boolean
+interface PortalProps extends Modal {
+  modal?: Modal
+  dispatch: Dispatch<Actions>
 }
 
-function Portal({ showModal, children, ...props }: PortalProps) {
+function Portal({ modal, ...props }: PortalProps) {
   return (
     <>
-      {showModal &&
+      {modal &&
         createPortal(
-          <Modal key={'modal-0'} {...props}>
-            {children}
-          </Modal>,
+          <CModal buttons={modal.buttons} key={'modal-0'} {...props}>
+            {modal.children}
+          </CModal>,
           document.body,
         )}
     </>

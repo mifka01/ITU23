@@ -88,7 +88,7 @@ export function createJson(path: string, data: string): void {
     try {
       writeFileSync(path, data, 'utf-8')
     } catch (e) {
-      alert('Failed to save the file !')
+      console.log(e)
     }
   }
 }
@@ -104,6 +104,23 @@ export function writeJson(path: string, data: string): void {
   const json: any[] = JSON.parse(ogData.toString())
   json.push(data)
   writeFileSync(path, JSON.stringify(removeDuplicates(json), null, 2))
+}
+
+/**
+ * Reads data from an existing JSON file at the specified path.
+ * Creates the file if doest not exist
+ * @param path The path of the JSON file to read from.
+ */
+export function readJson(path: string): string {
+  if (!existsSync(path)) {
+    try {
+      return readFileSync(path, 'utf8')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  createJson(path, '[]')
+  return '[]'
 }
 
 /**

@@ -28,6 +28,8 @@ process.env.VITE_PUBLIC = app.isPackaged
 
 let win: BrowserWindow | null
 
+let handlers_registered = false
+
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
@@ -42,14 +44,18 @@ function createWindow() {
 
   Menu.setApplicationMenu(generateMenu(win))
 
-  createIPCHandlers(AppController)
-  createIPCHandlers(MenuController)
-  createIPCHandlers(LogController)
-  createIPCHandlers(StageController)
-  createIPCHandlers(BranchController)
-  createIPCHandlers(DiffController)
-  createIPCHandlers(CommitHistoryController)
-  createIPCHandlers(StashController)
+  if (!handlers_registered) {
+    handlers_registered = true
+
+    createIPCHandlers(AppController)
+    createIPCHandlers(MenuController)
+    createIPCHandlers(LogController)
+    createIPCHandlers(StageController)
+    createIPCHandlers(BranchController)
+    createIPCHandlers(DiffController)
+    createIPCHandlers(CommitHistoryController)
+    createIPCHandlers(StashController)
+  }
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
@@ -60,6 +66,20 @@ function createWindow() {
 
   // create repositories json
   createJson(REPOSITORIES_FILE, '[]')
+}
+
+if (!app.requestSingleInstanceLock()) {
+  if (process.platform !== 'darwin') {
+    app.quit()
+    win = null
+  }
+} else {
+  app.on('second-instance', () => {
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

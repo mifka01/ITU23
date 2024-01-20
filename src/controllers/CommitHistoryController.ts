@@ -122,8 +122,10 @@ export const CommitHistoryController: IController = {
 
         log.append('COMMAND', `git log -n 1 ${hash}`)
         return ResponseSuccess({
-          commit_detail: entries,
-          changed_files: changedFilesArray,
+          data: {
+            commit_detail: entries,
+            changed_files: changedFilesArray,
+          },
         })
       } catch (error: unknown) {
         log.append('ERROR', String(error))

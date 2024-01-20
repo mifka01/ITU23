@@ -13,38 +13,28 @@ import {
   GitCompareArrows,
   RotateCw,
 } from 'lucide-react'
-import { ChangeEvent, Dispatch, SetStateAction } from 'react'
-import { ModalProps } from 'components/Modal'
+import { ChangeEvent, Dispatch } from 'react'
 import { useRef } from 'react'
 
 interface Props {
-  setRefreshLog?: Dispatch<SetStateAction<boolean>>
-  setShowModal?: Dispatch<SetStateAction<boolean>>
-  setModal?: Dispatch<SetStateAction<ModalProps>>
-  setRefreshBranches?: Dispatch<SetStateAction<boolean>>
-  setRefreshCommitHistory?: Dispatch<SetStateAction<boolean>>
+  dispatch: Dispatch<Actions>
 }
-function Menu({
-  setRefreshLog,
-  setShowModal,
-  setModal,
-  setRefreshBranches,
-  setRefreshCommitHistory: setRefreshCommitHistory,
-}: Props) {
+function Menu({ dispatch }: Props) {
   const commitMessage = useRef<string>('')
 
   const handlePush = async () => {
     await window.git.push()
-    setRefreshLog?.(true)
+    dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
   const handlePull = async () => {
     await window.git.pull()
-    setRefreshLog?.(true)
+    dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handleRevert = async () => {
-    if (setModal && setShowModal) {
-      setModal({
+    dispatch({
+      type: 'SET_MODAL',
+      payload: {
         children: (
           <>
             <span>Do you really wanna revert last commit ?</span>
@@ -53,31 +43,24 @@ function Menu({
         buttons: [
           {
             text: 'Leave',
-            onClick: () => {
-              setShowModal?.(false)
-            },
           },
           {
             text: 'Revert',
             onClick: async () => {
               await window.git.revert()
-              setRefreshLog?.(true)
-              setShowModal?.(false)
-              setRefreshCommitHistory?.(true)
+              dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
             },
           },
         ],
-      })
-      setShowModal(true)
-    }
+      },
+    })
+    dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
   }
 
   const handleFetch = async () => {
     const response = await window.git.fetch()
-    if (!response.status) {
-      setRefreshBranches?.(true)
-    }
-    setRefreshLog?.(true)
+    if (!response.status) dispatch({ type: 'REFRESH_BRANCHES' })
+    else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
   const handleCommitMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -86,8 +69,9 @@ function Menu({
   }
 
   const handleAmend = async () => {
-    if (setModal && setShowModal) {
-      setModal({
+    dispatch({
+      type: 'SET_MODAL',
+      payload: {
         children: (
           <>
             <span>Change last commit message</span>
@@ -98,6 +82,7 @@ function Menu({
               type='text'
               name='commit_name'
               style={{ resize: 'none' }}
+              autoFocus
               className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
               placeholder='New commit message'
               defaultValue={commitMessage.current}
@@ -108,23 +93,17 @@ function Menu({
         buttons: [
           {
             text: 'Leave',
-            onClick: () => {
-              setShowModal?.(false)
-            },
           },
           {
             text: 'Rename',
             onClick: async () => {
               await window.git.amend(commitMessage.current)
-              setRefreshLog?.(true)
-              setShowModal?.(false)
-              setRefreshCommitHistory?.(true)
+              dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
             },
           },
         ],
-      })
-      setShowModal(true)
-    }
+      },
+    })
   }
 
   const buttons = [
@@ -138,8 +117,7 @@ function Menu({
       Icon: ArrowDownToLine,
       text: 'pull',
       onClick: handlePull,
-      tooltip:
-        'Takes all remote changes on this branch and pulls them.',
+      tooltip: 'Takes all remote changes on this branch and pulls them.',
     },
     {
       Icon: Undo2,
@@ -151,8 +129,7 @@ function Menu({
       Icon: GitCompareArrows,
       text: 'fetch',
       onClick: handleFetch,
-      tooltip:
-        'Same as PULL, but for all local branches.',
+      tooltip: 'Same as PULL, but for all local branches.',
     },
     {
       Icon: RotateCw,
