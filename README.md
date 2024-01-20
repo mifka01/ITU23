@@ -1,4 +1,5 @@
 # ITU23
+**WIP**⚠️
 
 Tento projekt je součástí předmětu ITU a jedná se o aplikaci pro grafické uživatelské rozhraní pro Git využívající Electron, TypeScript a React.
 
