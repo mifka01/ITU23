@@ -1,5 +1,4 @@
 import { ReactNode } from 'react'
-export {}
 
 enum PreviewDataType {
   TYPE_FILE = 0,
@@ -15,15 +14,6 @@ declare global {
 
   type PreviewData = { value: string; type: PreviewDataType } | undefined
 
-  interface Modal {
-    buttons?: {
-      text: string
-      onClick?: () => void
-      className?: string
-    }[]
-    children?: ReactNode
-  }
-
   type Actions =
     | { type: 'REPOSITORIES_SET' }
     | { type: 'BRANCHES_SET' }
@@ -37,6 +27,4 @@ declare global {
     | { type: 'REFRESH_COMMIT_HISTORY' }
     | { type: 'REFRESH_BRANCHES' }
     | { type: 'REFRESH_LOG_MESSAGES' }
-    | { type: 'SET_MODAL'; payload: Modal }
-    | { type: 'CLOSE_MODAL' }
 }

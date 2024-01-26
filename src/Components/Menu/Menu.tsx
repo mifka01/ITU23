@@ -2,10 +2,13 @@
  * @file components/Menu.tsx
  * @brief Menu component
  * @author Michal Zapletal (xzaple41)
+ * @author Radim Mifka (xmifka00)
  * @date October 2023
  */
 
 import MenuButton from 'components/MenuButton'
+import Portal from 'components/Portal'
+
 import {
   ArrowUpFromLine,
   ArrowDownToLine,
@@ -14,13 +17,21 @@ import {
   RotateCw,
 } from 'lucide-react'
 import { ChangeEvent, Dispatch } from 'react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 interface Props {
   dispatch: Dispatch<Actions>
 }
+
+enum ModalType {
+  NONE = 0,
+  REVERT,
+  AMEND,
+}
+
 function Menu({ dispatch }: Props) {
   const commitMessage = useRef<string>('')
+  const [modal, setModal] = useState({ show: false, type: ModalType.NONE })
 
   const handlePush = async () => {
     await window.git.push()
@@ -32,29 +43,11 @@ function Menu({ dispatch }: Props) {
   }
 
   const handleRevert = async () => {
-    dispatch({
-      type: 'SET_MODAL',
-      payload: {
-        children: (
-          <>
-            <span>Do you really wanna revert last commit ?</span>
-          </>
-        ),
-        buttons: [
-          {
-            text: 'Leave',
-          },
-          {
-            text: 'Revert',
-            onClick: async () => {
-              await window.git.revert()
-              dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
-            },
-          },
-        ],
-      },
-    })
-    dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
+    setModal({ show: true, type: ModalType.REVERT })
+  }
+
+  const handleAmend = async () => {
+    setModal({ show: true, type: ModalType.AMEND })
   }
 
   const handleFetch = async () => {
@@ -66,44 +59,6 @@ function Menu({ dispatch }: Props) {
   const handleCommitMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     commitMessage.current = value
-  }
-
-  const handleAmend = async () => {
-    dispatch({
-      type: 'SET_MODAL',
-      payload: {
-        children: (
-          <>
-            <span>Change last commit message</span>
-            <br />
-            <span className={'text-danger small'}>WARNING: </span>
-            <span className='small'>Includes all staged changes.</span>
-            <input
-              type='text'
-              name='commit_name'
-              style={{ resize: 'none' }}
-              autoFocus
-              className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
-              placeholder='New commit message'
-              defaultValue={commitMessage.current}
-              onChange={handleCommitMessageChange}
-            />
-          </>
-        ),
-        buttons: [
-          {
-            text: 'Leave',
-          },
-          {
-            text: 'Rename',
-            onClick: async () => {
-              await window.git.amend(commitMessage.current)
-              dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
-            },
-          },
-        ],
-      },
-    })
   }
 
   const buttons = [
@@ -140,8 +95,73 @@ function Menu({ dispatch }: Props) {
     },
   ]
 
+  let modalChildren
+  let modalButtons
+  switch (modal.type) {
+    case ModalType.REVERT:
+      modalChildren = <span>Do you really wanna revert last commit ?</span>
+      modalButtons = [
+        {
+          text: 'Leave',
+          onClick: () => {
+            setModal({ show: false, type: ModalType.NONE })
+          },
+        },
+        {
+          text: 'Revert',
+          onClick: async () => {
+            await window.git.revert()
+            dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
+            setModal({ show: false, type: ModalType.NONE })
+          },
+        },
+      ]
+      break
+    case ModalType.AMEND:
+      modalChildren = (
+        <>
+          <span>Change last commit message</span>
+          <br />
+          <span className={'text-danger small'}>WARNING: </span>
+          <span className='small'>Includes all staged changes.</span>
+          <input
+            type='text'
+            name='commit_name'
+            style={{ resize: 'none' }}
+            autoFocus
+            className='form-control bg-gunmetal border border-davygray text-beige shadow-none mt-3'
+            placeholder='New commit message'
+            defaultValue={commitMessage.current}
+            onChange={handleCommitMessageChange}
+          />
+        </>
+      )
+
+      modalButtons = [
+        {
+          text: 'Leave',
+          onClick: () => {
+            setModal({ show: false, type: ModalType.NONE })
+          },
+        },
+        {
+          text: 'Rename',
+          onClick: async () => {
+            await window.git.amend(commitMessage.current)
+            dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
+            setModal({ show: false, type: ModalType.NONE })
+          },
+        },
+      ]
+      break
+  }
+
   return (
     <>
+      <Portal show={modal.show} buttons={modalButtons}>
+        {modalChildren}
+      </Portal>
+
       <ul className='list-group list-group-horizontal rounded-0 px-3 bg-darkpurple'>
         {buttons.map((button, index) => (
           <li

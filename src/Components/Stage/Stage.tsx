@@ -10,6 +10,7 @@ import File from 'components/File'
 import CollapseList from 'components/CollapseList'
 import Commit from 'components/Commit'
 import { Plus, Minus, Undo2, LucideIcon } from 'lucide-react'
+import Portal from 'components/Portal'
 
 type Buttons = {
   text: LucideIcon | string
@@ -30,6 +31,8 @@ type Stage = { not_added: Files; staged: Files }
 
 function Stage({ refresh, dispatch }: StageProps) {
   const [stage, setStage] = useState<Stage>({ not_added: [], staged: [] })
+  const [showModal, setShowModal] = useState(false)
+
   const handleStageAll = async () => {
     const response = await window.git.add()
     if (!response.status) fetchStatus()
@@ -43,25 +46,7 @@ function Stage({ refresh, dispatch }: StageProps) {
   }
 
   const handleDiscardAll = async () => {
-    dispatch({
-      type: 'SET_MODAL',
-      payload: {
-        children: <span>Are you sure you want to discard all changes?</span>,
-        buttons: [
-          {
-            text: 'No',
-          },
-          {
-            text: 'Yes',
-            onClick: async () => {
-              const response = await window.git.discard_unstaged()
-              if (!response.status) fetchStatus()
-              else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
-            },
-          },
-        ],
-      },
-    })
+    setShowModal(true)
   }
 
   const notAdded_buttons: Buttons = [
@@ -108,8 +93,30 @@ function Stage({ refresh, dispatch }: StageProps) {
     fetchStatus()
   }, [refresh])
 
+  let modalChildren = <span>Are you sure you want to discard all changes?</span>
+  let modalButtons = [
+    {
+      text: 'No',
+      onClick: () => {
+        setShowModal(false)
+      },
+    },
+    {
+      text: 'Yes',
+      onClick: async () => {
+        const response = await window.git.discard_unstaged()
+        if (!response.status) fetchStatus()
+        else dispatch({ type: 'REFRESH_LOG_MESSAGES' })
+        setShowModal(false)
+      },
+    },
+  ]
+
   return (
     <>
+      <Portal show={showModal} buttons={modalButtons}>
+        {modalChildren}
+      </Portal>
       <Commit
         afterSubmit={() => {
           fetchStatus()

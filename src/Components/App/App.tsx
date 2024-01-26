@@ -10,7 +10,6 @@ import Log from 'components/Log'
 import Stage from 'components/Stage'
 import Branches from 'components/Branches'
 import Repositories from 'components/Repositories'
-import Portal from 'components/Portal'
 import Preview from 'components/Preview'
 import CommitHistory from '@/Components/CommitHistory'
 import Stashes from 'components/Stashes'
@@ -31,9 +30,6 @@ function App() {
             <Stage refresh={state.refreshStage} dispatch={dispatch} />
             <Branches dispatch={dispatch} refresh={state.refreshBranches} />
             <Repositories dispatch={dispatch} />
-            <div className='clipping-container'>
-              <Portal modal={state.modal} dispatch={dispatch} />
-            </div>
           </div>
           <div className='w-50 d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
