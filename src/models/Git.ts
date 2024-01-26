@@ -317,18 +317,9 @@ export class Git {
    * Applies a revert of last commit.
    * @author Michal Zapletal (xzaple41)
    * @returns A promise that contains last commit name.
-   * @returns A promise with undefined if there are no commits.
    */
   async revert() {
-    let result = await this.git.log(['-1'])
-    let status = await git.status()
-    if (result.latest !== undefined && status.modified.length === 0) {
-      let hash = result.latest?.hash ? result.latest.hash : ''
-      this.git.revert(hash)
-      return result.latest?.message
-    }
-
-    return undefined
+    return this.git.revert('HEAD')
   }
 
   /**
@@ -345,16 +336,9 @@ export class Git {
    * @author Michal Zapletal (xzaple41)
    * @param message - new commit message.
    * @returns A promise that contains CommitResult.
-   * @returns On failure returns no value. Throws error.
    */
   async amend(message: string) {
-    let result = await this.git.status()
-    if (result.ahead > 0)
-      return this.git.commit(message, { '--amend': null }, (err, summary) => {
-        void err
-        void summary
-      })
-    throw Error
+    return this.git.commit(message, { '--amend': null })
   }
 
   /**
