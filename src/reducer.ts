@@ -1,6 +1,5 @@
 type State = {
   previewData: PreviewData
-  modal: Modal | undefined
   refreshBranches: number
   refreshCommitHistory: number
   refreshStashes: number
@@ -10,7 +9,6 @@ type State = {
 
 export const initialState: State = {
   previewData: undefined,
-  modal: undefined,
   refreshBranches: 0,
   refreshCommitHistory: 0,
   refreshStashes: 0,
@@ -46,7 +44,7 @@ export function reducer(state: State, action: Actions): State {
     case 'STASHES_SET':
       return {
         ...state,
-        refreshMessages: state.refreshMessages + 1,
+        refreshStage: state.refreshStage + 1,
       }
     case 'STAGE_SET':
       return {
@@ -79,11 +77,6 @@ export function reducer(state: State, action: Actions): State {
       }
     case 'REFRESH_LOG_MESSAGES':
       return { ...state, refreshMessages: state.refreshMessages + 1 }
-    case 'SET_MODAL':
-      return { ...state, modal: action.payload }
-    case 'CLOSE_MODAL':
-      return { ...state, modal: undefined }
-
     default:
       return state
   }
