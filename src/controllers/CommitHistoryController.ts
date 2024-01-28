@@ -14,7 +14,7 @@ import path from 'path'
 
 const HISTORY_MAX_COUNT = 10
 
-type CommitEntry = { message: string; hash: string }
+type CommitEntry = { message: string; hash: string; local: boolean }
 type CommitDetailEntry = {
   message: string
   hash: string
@@ -50,9 +50,17 @@ export const CommitHistoryController: IController = {
         const response = await git.commit_history(HISTORY_MAX_COUNT)
 
         let entries: CommitEntry[] = []
-        response.all.forEach((entry: CommitEntry) => {
-          entries.push({ message: entry.message, hash: entry.hash })
-        })
+        let local = 0
+        response.all.forEach(
+          (entry: { message: string; hash: string; refs: string }) => {
+            if (entry.refs.length) local++
+            entries.push({
+              message: entry.message,
+              hash: entry.hash,
+              local: local != 2,
+            })
+          },
+        )
 
         return ResponseSuccess({ commit_history: entries })
       } catch (error: unknown) {

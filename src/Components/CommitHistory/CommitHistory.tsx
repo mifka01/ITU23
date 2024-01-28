@@ -8,13 +8,14 @@
 import CollapseList from 'components/CollapseList'
 import CommitItem from 'components/CommitItem'
 import { useEffect, useState, Dispatch } from 'react'
+import clsx from 'clsx'
 
 interface CommitHistoryProps {
   refresh: number
   dispatch: Dispatch<Actions>
 }
 
-type CommitEntry = { message: string; hash: string }
+type CommitEntry = { message: string; hash: string; local: boolean }
 type CommitHistory = CommitEntry[]
 
 function CommitHistory({ refresh, dispatch }: CommitHistoryProps) {
@@ -49,7 +50,11 @@ function CommitHistory({ refresh, dispatch }: CommitHistoryProps) {
       items={commitHistory.map((commit: CommitEntry) => (
         <CommitItem
           key={commit.hash}
-          message={<small>{commit.message}</small>}
+          message={
+            <small className={clsx({ 'text-ecru': commit.local })}>
+              {commit.message}
+            </small>
+          }
           onClick={() => {
             dispatch({
               type: 'SET_CURRENT_COMMIT',
