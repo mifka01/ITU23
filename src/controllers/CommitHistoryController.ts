@@ -50,14 +50,16 @@ export const CommitHistoryController: IController = {
         const response = await git.commit_history(HISTORY_MAX_COUNT)
 
         let entries: CommitEntry[] = []
-        let local = 0
+        let local = true
+        let branch = await git.getCurrentBranch()
         response.all.forEach(
           (entry: { message: string; hash: string; refs: string }) => {
-            if (entry.refs.length) local++
+            if (entry.refs.includes(`/${branch}`) && entry.refs.length)
+              local = false
             entries.push({
               message: entry.message,
               hash: entry.hash,
-              local: local != 2,
+              local: local,
             })
           },
         )
