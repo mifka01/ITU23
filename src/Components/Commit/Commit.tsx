@@ -15,23 +15,23 @@ interface CommitProps {
 }
 
 function Commit({ className, afterSubmit }: CommitProps) {
-  const [formData, setFormData] = useState({ message: '' })
+  const [message, setMessage] = useState('')
+  const [valid, setValid] = useState(true)
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = event.target
-    setFormData((prevFormData: typeof formData) => ({
-      ...prevFormData,
-      [name]: value,
-    }))
+    const { value } = event.target
+    if (value != '') setValid(true)
+    setMessage(value)
   }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (formData.message == '') console.log('blank')
+    if (message == '') setValid(false)
     else {
-      const response = await window.git.commit(formData.message)
+      setValid(true)
+      const response = await window.git.commit(message)
       if (!response.status) {
-        setFormData({ message: '' })
+        setMessage('')
         afterSubmit?.()
       }
     }
@@ -49,10 +49,13 @@ function Commit({ className, afterSubmit }: CommitProps) {
         <div className='flex-fill'>
           <textarea
             style={{ resize: 'none' }}
-            className=' form-control bg-gunmetal border border-davygray text-beige shadow-none'
+            className={clsx(
+              'form-control bg-gunmetal border border-danger text-beige shadow-none',
+              { 'border-davygray': valid },
+            )}
             placeholder='Commit message...'
             name='message'
-            value={formData.message}
+            value={message}
             onChange={handleChange}
           ></textarea>
         </div>

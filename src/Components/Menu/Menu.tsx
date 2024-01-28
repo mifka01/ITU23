@@ -35,10 +35,12 @@ function Menu({ dispatch }: Props) {
 
   const handlePush = async () => {
     await window.git.push()
+    dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
     dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
   const handlePull = async () => {
     await window.git.pull()
+    dispatch({ type: 'REFRESH_COMMIT_HISTORY' })
     dispatch({ type: 'REFRESH_LOG_MESSAGES' })
   }
 
