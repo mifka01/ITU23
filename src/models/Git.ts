@@ -98,8 +98,8 @@ export class Git {
    */
   async pull(): Promise<PullResult> {
     let branch = await this.getCurrentBranch()
-    // let origin = await this.getOrigins()
-    return this.git.pull((branch = branch))
+    let origin = await this.getOrigins()
+    return this.git.pull(origin[0].name, branch)
   }
 
   /**
@@ -109,8 +109,8 @@ export class Git {
    */
   async push(): Promise<PushResult> {
     let branch = await this.getCurrentBranch()
-    // let origin = await this.getOrigins()
-    return this.git.push((branch = branch))
+    let origin = await this.getOrigins()
+    return this.git.push(origin[0].name, branch)
   }
 
   /**
