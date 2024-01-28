@@ -18,6 +18,7 @@ export const initialState: State = {
 
 // fetch_repos -> branches, stashes
 // fetch_branches -> stage
+// fetch_stashes -> stage
 // fetch_stage -> commitHistory
 //
 
