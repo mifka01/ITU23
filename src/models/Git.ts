@@ -221,7 +221,16 @@ export class Git {
    * @returns A promise that resolves with the diff of the file.
    */
   async getDiff(path: string) {
-    return this.git.diff(['--no-color', '--minimal', 'HEAD', path])
+    let diff = await this.git.diff([
+      '--no-color',
+      '--minimal',
+      'HEAD',
+      '--',
+      path,
+    ])
+    if (diff.length == 0)
+      diff = await this.git.diff(['--no-color', '--minimal', '/dev/null', path])
+    return diff
   }
 
   /**
