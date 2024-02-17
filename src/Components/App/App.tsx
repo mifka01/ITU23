@@ -26,12 +26,12 @@ function App() {
           <Menu dispatch={dispatch} />
         </div>
         <div className='d-flex flex-fill flex-row overflow-y-auto overflow-x-hidden'>
-          <div className='d-flex w-25 flex-column border border-davygray'>
+          <div className='d-flex w-15 flex-column border border-davygray'>
             <Stage refresh={state.refreshStage} dispatch={dispatch} />
             <Branches dispatch={dispatch} refresh={state.refreshBranches} />
             <Repositories dispatch={dispatch} />
           </div>
-          <div className='w-50 d-flex flex-column border-top border-davygray'>
+          <div className='flex-fill d-flex flex-column border-top border-davygray'>
             <div className='d-flex flex-column h-75 bg-gunmetal'>
               <Preview preview={state.previewData} dispatch={dispatch} />
             </div>
@@ -42,7 +42,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='d-flex w-25 flex-column flex-fill border border-davygray border-top-0'>
+          <div className='d-flex w-15 flex-column border border-davygray border-top-0'>
             <CommitHistory
               refresh={state.refreshCommitHistory}
               dispatch={dispatch}

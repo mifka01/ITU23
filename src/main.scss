@@ -14,17 +14,17 @@
 @import '../node_modules/bootstrap/scss/variables';
 
 $custom-colors: (
-  'ecru': #dcc48e,
-  'beige': #eaefd3,
-  'ashgray': #b3c0a4,
-  'davygray': #505168,
-  'darkpurple': #27233a,
-  'gunmetal': #1f1d2b,
-  'codeok': rgba(24, 98, 37, 0.5),
-  'codenok': rgba(124, 0, 0, 0.5),
-  'lineok': rgba(20, 51, 1, 0.5),
-  'linenok': rgba(77, 13, 13, 0.55),
-  'linenochange': rgba(21, 20, 30, 0.5),
+    'ecru': #dcc48e,
+    'beige': #eaefd3,
+    'ashgray': #b3c0a4,
+    'davygray': #505168,
+    'darkpurple': #27233a,
+    'gunmetal': #1f1d2b,
+    'codeok': rgba(24, 98, 37, 0.5),
+    'codenok': rgba(124, 0, 0, 0.5),
+    'lineok': rgba(20, 51, 1, 0.5),
+    'linenok': rgba(77, 13, 13, 0.55),
+    'linenochange': rgba(21, 20, 30, 0.5),
 );
 
 $theme-colors: map_merge($theme-colors, $custom-colors);
@@ -33,32 +33,37 @@ $theme-colors: map_merge($theme-colors, $custom-colors);
 
 // Scrollbar
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
+    width: 9px;
+    height: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: map-get($custom-colors, 'gunmetal');
+    background-color: map-get($custom-colors, 'gunmetal');
 }
+
 ::-webkit-scrollbar-corner {
-  background-color: map-get($custom-colors, 'gunmetal');
+    background-color: map-get($custom-colors, 'gunmetal');
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: map-get($custom-colors, 'davygray');
-  border-radius: 100px;
+    background-color: map-get($custom-colors, 'davygray');
+    border-radius: 100px;
 }
 
 .btn {
-  --bs-btn-font-size: none;
-  vertical-align: initial;
+    --bs-btn-font-size: none;
+    vertical-align: initial;
 }
 
 .form-control::placeholder {
-  color: map-get($custom-colors, 'davygray');
-  opacity: 1;
+    color: map-get($custom-colors, 'davygray');
+    opacity: 1;
 }
 
 .form-control:-ms-input-placeholder {
-  color: map-get($custom-colors, 'davygray');
+    color: map-get($custom-colors, 'davygray');
+}
+
+.w-15 {
+    width: 15%;
 }
