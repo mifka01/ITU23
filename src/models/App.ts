@@ -5,7 +5,7 @@
  * @date December 2023
  */
 
-import { readFileSync } from 'fs'
+import { readFileSync, existsSync } from 'fs'
 import { REPOSITORIES_FILE } from '../shared/constants'
 import { deleteFromJson } from '../electron/utils'
 
@@ -19,6 +19,7 @@ export class App {
   }
 
   get_last_repository(): string {
+    if (!existsSync(REPOSITORIES_FILE)) return ''
     const repos = JSON.parse(readFileSync(REPOSITORIES_FILE, 'utf-8'))
 
     if (repos) return repos[0]
