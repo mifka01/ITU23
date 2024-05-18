@@ -15,6 +15,7 @@ export class App {
    * @returns A Promise that resolves to a string containing the contents of the repositories file.
    */
   async repositories(): Promise<string> {
+    if (!existsSync(REPOSITORIES_FILE)) return ''
     return readFileSync(REPOSITORIES_FILE, 'utf-8')
   }
 
