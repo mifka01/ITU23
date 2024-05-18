@@ -20,7 +20,7 @@ import {
 import { app } from './App'
 
 const options: Partial<SimpleGitOptions> = {
-  baseDir: app.get_last_repository(),
+  baseDir: app.get_last_repository() || process.cwd(),
   binary: 'git',
   maxConcurrentProcesses: 6,
   trimmed: false,
