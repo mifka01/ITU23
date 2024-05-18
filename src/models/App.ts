@@ -23,12 +23,13 @@ export class App {
     if (!existsSync(REPOSITORIES_FILE)) return ''
     const repos = JSON.parse(readFileSync(REPOSITORIES_FILE, 'utf-8'))
 
-    if (!existsSync(repos[0])) {
-      deleteFromJson(REPOSITORIES_FILE, repos[0])
+    if (repos.length > 0) {
+      if (!existsSync(repos[0])) {
+        deleteFromJson(REPOSITORIES_FILE, repos[0])
+        return ''
+      }
+      return repos[0]
     }
-
-    if (repos) return repos[0]
-
     return ''
   }
 
