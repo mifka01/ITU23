@@ -85,7 +85,10 @@ export const AppController: IController = {
         let current = git.getCWD()
 
         for (let cur_path of response) {
-          if (!existsSync(cur_path)) continue
+          if (!existsSync(cur_path)) {
+            await app.delete_repository(REPOSITORIES_FILE, cur_path)
+            continue
+          }
           const entry: RepositoryEntry = {
             basename: path.basename(cur_path),
             dirname: path.dirname(cur_path),
