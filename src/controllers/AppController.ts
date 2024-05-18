@@ -12,6 +12,7 @@ import { REPOSITORIES_FILE } from '../shared/constants'
 import { ResponseSuccess, ResponseError } from '../shared/response'
 import { git } from '../models/Git'
 import { app } from '../models/App'
+import { existsSync } from 'fs'
 import path from 'node:path'
 
 type RepositoryEntry = {
@@ -84,6 +85,7 @@ export const AppController: IController = {
         let current = git.getCWD()
 
         for (let cur_path of response) {
+          if (!existsSync(cur_path)) continue
           const entry: RepositoryEntry = {
             basename: path.basename(cur_path),
             dirname: path.dirname(cur_path),
